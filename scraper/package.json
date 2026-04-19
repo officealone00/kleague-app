@@ -1,0 +1,17 @@
+{
+  "name": "kleague-scraper",
+  "version": "2.0.0",
+  "description": "K리그1 데이터 스크래퍼 (GitHub Actions에서 실행)",
+  "type": "module",
+  "main": "scrape.js",
+  "scripts": {
+    "start": "node scrape.js",
+    "test": "node scrape.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.6.3"
+  }
+}

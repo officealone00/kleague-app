@@ -1,0 +1,18 @@
+{
+  "today": {
+    "date": "20260419",
+    "games": [
+      { "home": "울산", "away": "광주", "homeScore": null, "awayScore": null, "status": "예정", "time": "14:00", "stadium": "울산문수축구경기장" },
+      { "home": "전북", "away": "부천", "homeScore": null, "awayScore": null, "status": "예정", "time": "16:30", "stadium": "전주월드컵경기장" },
+      { "home": "서울", "away": "제주", "homeScore": null, "awayScore": null, "status": "예정", "time": "19:00", "stadium": "서울월드컵경기장" }
+    ]
+  },
+  "yesterday": {
+    "date": "20260418",
+    "games": [
+      { "home": "울산", "away": "서울", "homeScore": 1, "awayScore": 4, "status": "종료", "time": "19:30", "stadium": "울산문수축구경기장" },
+      { "home": "포항", "away": "강원", "homeScore": 2, "awayScore": 1, "status": "종료", "time": "16:30", "stadium": "포항스틸야드" },
+      { "home": "대전", "away": "인천", "homeScore": 3, "awayScore": 0, "status": "종료", "time": "14:00", "stadium": "대전월드컵경기장" }
+    ]
+  }
+}

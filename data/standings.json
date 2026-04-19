@@ -1,0 +1,14 @@
+[
+  { "rank": 1, "team": "전북", "games": 7, "wins": 5, "draws": 1, "losses": 1, "points": 16, "goalsFor": 12, "goalsAgainst": 5, "goalDiff": 7, "last5": "승승무승승", "home": "3-0-1", "away": "2-1-0" },
+  { "rank": 2, "team": "대전", "games": 7, "wins": 4, "draws": 2, "losses": 1, "points": 14, "goalsFor": 10, "goalsAgainst": 5, "goalDiff": 5, "last5": "승승무승승", "home": "3-1-0", "away": "1-1-1" },
+  { "rank": 3, "team": "포항", "games": 7, "wins": 4, "draws": 1, "losses": 2, "points": 13, "goalsFor": 9, "goalsAgainst": 6, "goalDiff": 3, "last5": "승패승승무", "home": "2-0-1", "away": "2-1-1" },
+  { "rank": 4, "team": "서울", "games": 7, "wins": 3, "draws": 3, "losses": 1, "points": 12, "goalsFor": 8, "goalsAgainst": 5, "goalDiff": 3, "last5": "무승무승승", "home": "2-1-0", "away": "1-2-1" },
+  { "rank": 5, "team": "울산", "games": 7, "wins": 3, "draws": 2, "losses": 2, "points": 11, "goalsFor": 9, "goalsAgainst": 7, "goalDiff": 2, "last5": "무승무승패", "home": "2-1-1", "away": "1-1-1" },
+  { "rank": 6, "team": "김천", "games": 7, "wins": 3, "draws": 1, "losses": 3, "points": 10, "goalsFor": 7, "goalsAgainst": 8, "goalDiff": -1, "last5": "승패무승패", "home": "2-0-1", "away": "1-1-2" },
+  { "rank": 7, "team": "부천", "games": 7, "wins": 2, "draws": 3, "losses": 2, "points": 9, "goalsFor": 6, "goalsAgainst": 7, "goalDiff": -1, "last5": "승무무승패", "home": "1-1-1", "away": "1-2-1" },
+  { "rank": 8, "team": "강원", "games": 7, "wins": 2, "draws": 2, "losses": 3, "points": 8, "goalsFor": 7, "goalsAgainst": 9, "goalDiff": -2, "last5": "승패무무패", "home": "1-1-2", "away": "1-1-1" },
+  { "rank": 9, "team": "제주", "games": 7, "wins": 2, "draws": 2, "losses": 3, "points": 8, "goalsFor": 5, "goalsAgainst": 8, "goalDiff": -3, "last5": "무패승패무", "home": "1-1-1", "away": "1-1-2" },
+  { "rank": 10, "team": "광주", "games": 7, "wins": 1, "draws": 3, "losses": 3, "points": 6, "goalsFor": 5, "goalsAgainst": 9, "goalDiff": -4, "last5": "무패무무패", "home": "1-2-1", "away": "0-1-2" },
+  { "rank": 11, "team": "안양", "games": 7, "wins": 1, "draws": 2, "losses": 4, "points": 5, "goalsFor": 6, "goalsAgainst": 10, "goalDiff": -4, "last5": "승패패무패", "home": "1-1-2", "away": "0-1-2" },
+  { "rank": 12, "team": "인천", "games": 7, "wins": 1, "draws": 1, "losses": 5, "points": 4, "goalsFor": 4, "goalsAgainst": 9, "goalDiff": -5, "last5": "패승패패패", "home": "0-1-2", "away": "1-0-3" }
+]

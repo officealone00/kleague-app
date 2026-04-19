@@ -1,0 +1,17 @@
+[
+  { "rank": 1, "name": "모따", "team": "전북", "games": 7, "goals": 6, "assists": 1, "shoots": 22, "attackPoint": 7, "position": "FW" },
+  { "rank": 2, "name": "디오고", "team": "대전", "games": 7, "goals": 5, "assists": 2, "shoots": 18, "attackPoint": 7, "position": "FW" },
+  { "rank": 3, "name": "아일톤", "team": "안양", "games": 7, "goals": 4, "assists": 0, "shoots": 15, "attackPoint": 4, "position": "FW" },
+  { "rank": 4, "name": "조영욱", "team": "서울", "games": 7, "goals": 4, "assists": 2, "shoots": 14, "attackPoint": 6, "position": "FW" },
+  { "rank": 5, "name": "무고사", "team": "인천", "games": 7, "goals": 4, "assists": 1, "shoots": 13, "attackPoint": 5, "position": "FW" },
+  { "rank": 6, "name": "엄원상", "team": "대전", "games": 7, "goals": 3, "assists": 3, "shoots": 12, "attackPoint": 6, "position": "MF" },
+  { "rank": 7, "name": "제르소", "team": "포항", "games": 7, "goals": 3, "assists": 1, "shoots": 11, "attackPoint": 4, "position": "FW" },
+  { "rank": 8, "name": "야고", "team": "울산", "games": 7, "goals": 3, "assists": 1, "shoots": 10, "attackPoint": 4, "position": "FW" },
+  { "rank": 9, "name": "이동경", "team": "울산", "games": 6, "goals": 2, "assists": 4, "shoots": 9, "attackPoint": 6, "position": "MF" },
+  { "rank": 10, "name": "허율", "team": "울산", "games": 7, "goals": 2, "assists": 2, "shoots": 8, "attackPoint": 4, "position": "FW" },
+  { "rank": 11, "name": "클림라", "team": "서울", "games": 7, "goals": 2, "assists": 1, "shoots": 11, "attackPoint": 3, "position": "FW" },
+  { "rank": 12, "name": "티아고", "team": "전북", "games": 7, "goals": 2, "assists": 1, "shoots": 9, "attackPoint": 3, "position": "FW" },
+  { "rank": 13, "name": "세라핌", "team": "대구", "games": 7, "goals": 2, "assists": 0, "shoots": 7, "attackPoint": 2, "position": "FW" },
+  { "rank": 14, "name": "고재현", "team": "김천", "games": 7, "goals": 2, "assists": 1, "shoots": 6, "attackPoint": 3, "position": "FW" },
+  { "rank": 15, "name": "정승현", "team": "울산", "games": 7, "goals": 2, "assists": 0, "shoots": 5, "attackPoint": 2, "position": "DF" }
+]

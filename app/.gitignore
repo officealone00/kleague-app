@@ -1,0 +1,11 @@
+# 앱인토스 빌드 아티팩트
+.granite/
+dist/
+*.ait
+
+# Node
+node_modules/
+
+# Env
+.env
+.env.local
