@@ -1,8 +1,14 @@
 {
-  "updatedAt": "2026-04-19T10:00:00.000Z",
-  "updatedAtKST": "2026. 4. 19. 오후 7:00:00",
+  "updatedAt": "2026-04-19T14:56:28.185Z",
+  "updatedAtKST": "2026. 4. 19. PM 11:56:28",
   "season": 2026,
-  "success": 4,
+  "success": 0,
   "total": 4,
+  "errors": [
+    "standings",
+    "goals",
+    "assists",
+    "games"
+  ],
   "league": "K리그1"
 }
