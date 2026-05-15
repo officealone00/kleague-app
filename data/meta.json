@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-05-15T13:03:57.279Z",
-  "updatedAtKST": "2026. 5. 16. AM 7:03:57",
+  "updatedAt": "2026-05-15T13:09:37.873Z",
+  "updatedAtKST": "2026. 5. 16. AM 7:09:37",
   "season": 2026,
   "leagueId": 1,
   "version": "2.0",
   "success": 4,
   "total": 4,
   "errors": [],
-  "scheduleEndpoint": null
+  "scheduleEndpoint": "getScheduleList.do (8개월)"
 }
