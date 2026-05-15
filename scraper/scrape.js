@@ -214,121 +214,84 @@ async function scrapePlayerRank(recordType) {
 async function scrapeSchedule() {
   console.log('🗓️  일정 크롤링 시작...');
 
-  const headers = { ...COMMON_HEADERS, 'Content-Type': 'application/json; charset=utf-8' };
+  // ✅ 2026.5.15 DevTools Payload로 확정된 정답
+  //   URL: POST /getScheduleList.do
+  //   body: { leagueId: "1", teamId: "", year: "2026", month: "05", ticketYn: "" }
+  //   ※ 모든 값이 string. month는 두 자리 zero-pad. 한 번에 한 달치만 줌.
+  //   ※ 그래서 시즌 전체를 받으려면 월별로 루프 돌아야 함.
 
-  // 시도할 엔드포인트들. ✅ getScheduleList.do는 DevTools로 확정.
-  // body 형식은 확실하지 않아서 4가지 패턴 순서대로 시도.
+  const buildHeaders = () => ({
+    ...COMMON_HEADERS,
+    'Content-Type': 'application/json; charset=utf-8',
+    Referer: `${BASE}/schedule.do?leagueId=${LEAGUE_ID}`,
+  });
 
-  const candidates = [
-    // ✅ 2026.5.15 DevTools에서 확정된 엔드포인트
-    {
-      name: 'getScheduleList.do (JSON body)',
-      url: `${BASE}/getScheduleList.do`,
+  const fetchMonth = async (yearStr, monthStr) => {
+    const body = JSON.stringify({
+      leagueId: String(LEAGUE_ID),
+      teamId: '',
+      year: yearStr,
+      month: monthStr,
+      ticketYn: '',
+    });
+    const res = await fetch(`${BASE}/getScheduleList.do`, {
       method: 'POST',
-      headers: { ...COMMON_HEADERS, 'Content-Type': 'application/json; charset=utf-8', Referer: `${BASE}/schedule.do?leagueId=${LEAGUE_ID}` },
-      body: JSON.stringify({ leagueId: LEAGUE_ID, year: SEASON }),
-    },
-    {
-      name: 'getScheduleList.do (form-urlencoded)',
-      url: `${BASE}/getScheduleList.do`,
-      method: 'POST',
-      headers: { ...COMMON_HEADERS, 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', Referer: `${BASE}/schedule.do?leagueId=${LEAGUE_ID}` },
-      body: `leagueId=${LEAGUE_ID}&year=${SEASON}`,
-    },
-    {
-      name: 'getScheduleList.do (no body)',
-      url: `${BASE}/getScheduleList.do?leagueId=${LEAGUE_ID}&year=${SEASON}`,
-      method: 'POST',
-      headers: { ...COMMON_HEADERS, Referer: `${BASE}/schedule.do?leagueId=${LEAGUE_ID}` },
-    },
-    {
-      name: 'getScheduleList.do (with month)',
-      url: `${BASE}/getScheduleList.do`,
-      method: 'POST',
-      headers: { ...COMMON_HEADERS, 'Content-Type': 'application/json; charset=utf-8', Referer: `${BASE}/schedule.do?leagueId=${LEAGUE_ID}` },
-      body: JSON.stringify({ leagueId: LEAGUE_ID, year: SEASON, month: '' }),
-    },
-  ];
+      headers: buildHeaders(),
+      body,
+    });
+    if (!res.ok) {
+      console.log(`    ${yearStr}.${monthStr}: HTTP ${res.status}`);
+      return [];
+    }
+    const json = await res.json().catch(() => null);
+    if (!json) {
+      console.log(`    ${yearStr}.${monthStr}: JSON 파싱 실패`);
+      return [];
+    }
+    // 응답 구조 유연 파싱
+    const arr =
+      json?.data?.scheduleList ||
+      json?.data?.gameList ||
+      json?.data?.list ||
+      (Array.isArray(json?.data) ? json.data : null) ||
+      [];
+    return Array.isArray(arr) ? arr : [];
+  };
 
-  let rawList = null;
-  let usedEndpoint = null;
-
-  for (const c of candidates) {
-    try {
-      console.log(`  → 시도: ${c.name}`);
-      const res = await fetch(c.url, {
-        method: c.method,
-        headers: c.headers || headers,
-        body: c.body,
-      });
-      if (!res.ok) {
-        console.log(`    HTTP ${res.status}`);
-        continue;
-      }
-      const text = await res.text();
-      // 응답이 비어있으면 다음 후보 시도
-      if (!text || text.trim() === '') {
-        console.log('    빈 응답');
-        continue;
-      }
-      const json = (() => {
-        try { return JSON.parse(text); } catch { return null; }
-      })();
-      if (!json) {
-        console.log(`    JSON 파싱 실패 (앞 100자: ${text.slice(0, 100)})`);
-        continue;
-      }
-      // 응답 구조 유연 파싱 (getScheduleList.do 응답 키 후보 확장)
-      const arr =
-        json?.data?.scheduleList ||
-        json?.data?.gameList ||
-        json?.data?.kickoffEvents ||
-        json?.data?.events ||
-        json?.data?.list ||
-        json?.data?.schedule ||
-        (Array.isArray(json?.data) ? json.data : null) ||
-        json?.scheduleList ||
-        json?.gameList ||
-        json?.kickoffEvents ||
-        json?.events ||
-        (Array.isArray(json) ? json : null);
-      if (Array.isArray(arr) && arr.length > 0) {
-        rawList = arr;
-        usedEndpoint = c.name;
-        console.log(`    ✅ ${arr.length}건 발견`);
-        // 첫 항목 구조를 한 번 출력 (정규화 디버그)
-        console.log(`    샘플 키: ${Object.keys(arr[0]).slice(0, 15).join(', ')}`);
-        break;
-      } else {
-        // 배열이 비었거나 못 찾음 — 진단용 응답 구조 출력
-        const topKeys = Object.keys(json).slice(0, 10);
-        const dataKeys = json?.data ? Object.keys(json.data).slice(0, 10) : null;
-        console.log(`    배열 비어있음. top keys: [${topKeys.join(',')}]${dataKeys ? `, data keys: [${dataKeys.join(',')}]` : ''}`);
-      }
-    } catch (e) {
-      console.log(`    에러: ${e.message}`);
+  // K리그1 시즌: 2~12월. 모든 월 받아서 합침.
+  const yearStr = String(SEASON);
+  const months = ['02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+  let allRaw = [];
+  let monthsWithData = 0;
+  for (const m of months) {
+    const list = await fetchMonth(yearStr, m);
+    if (list.length > 0) {
+      console.log(`  → ${yearStr}.${m}: ${list.length}건`);
+      allRaw = allRaw.concat(list);
+      monthsWithData++;
     }
   }
 
-  if (!rawList) {
-    console.warn('  ⚠️ 모든 일정 엔드포인트 실패 - 빈 배열 반환');
+  if (allRaw.length === 0) {
+    console.warn('  ⚠️ 모든 월에서 데이터 0건 - 빈 배열 반환');
     return { recent: [], upcoming: [], usedEndpoint: null };
   }
 
-  // 정규화: 각 응답마다 필드명이 다를 수 있음
+  // 첫 항목 구조 출력 (디버그)
+  console.log(`  샘플 키: ${Object.keys(allRaw[0]).slice(0, 20).join(', ')}`);
+
+  // 정규화: 응답마다 필드명이 다를 수 있음
   const normalize = (item) => {
     const meetDate =
       item.meetDate || item.matchDate || item.gameDate || item.kickoffDate || '';
     const meetTime =
       item.meetTime || item.matchTime || item.gameTime || item.kickoffTime || '';
 
-    // home/away teamId
     const homeId =
       item.homeTeamId || item.homeId || item.home?.teamId || item.team1Id || null;
     const awayId =
       item.awayTeamId || item.awayId || item.away?.teamId || item.team2Id || null;
 
-    // 팀 이름 (응답에 있으면 그대로, 없으면 매핑)
     const homeName =
       (homeId && TEAM_ID_TO_NAME[homeId]) ||
       item.homeTeamName ||
@@ -342,22 +305,19 @@ async function scrapeSchedule() {
       item.awayName ||
       '?';
 
-    // 점수
     const homeScore =
       item.homeGoal ?? item.homeScore ?? item.home?.score ?? null;
     const awayScore =
       item.awayGoal ?? item.awayScore ?? item.away?.score ?? null;
 
-    // 경기장
     const stadium =
       item.fieldName || item.stadium || item.stadiumName || item.venue || '';
 
-    // 상태: 점수가 있으면 종료, 없으면 예정
     const hasScore =
       homeScore !== null && awayScore !== null && homeScore !== '' && awayScore !== '';
     const status = hasScore ? 'finished' : 'scheduled';
 
-    // 날짜 정규화: 'YYYYMMDD' 또는 'YYYY-MM-DD' 또는 'YYYY.MM.DD' 모두 처리
+    // 날짜 정규화: 'YYYYMMDD' / 'YYYY-MM-DD' / 'YYYY.MM.DD' 모두 처리
     let dateStr = '';
     const dRaw = String(meetDate).trim();
     if (/^\d{8}$/.test(dRaw)) {
@@ -368,7 +328,7 @@ async function scrapeSchedule() {
       dateStr = dRaw;
     }
 
-    // 시간 정규화: '1630' or '16:30'
+    // 시간 정규화: '1630' / '16:30'
     let timeStr = '';
     const tRaw = String(meetTime).trim();
     if (/^\d{4}$/.test(tRaw)) {
@@ -391,27 +351,24 @@ async function scrapeSchedule() {
     };
   };
 
-  const games = rawList
+  const games = allRaw
     .map(normalize)
-    // K1 팀끼리의 경기만
-    .filter(
-      (g) =>
-        (g.homeId && K1_TEAM_IDS.has(g.homeId)) ||
-        (g.awayId && K1_TEAM_IDS.has(g.awayId))
-    )
+    // K1 팀끼리의 경기만 (id 매핑 안 됐을 때도 일단 포함 - 이름만으로도 표시 가능)
+    .filter((g) => g.date)
     // 날짜 정렬
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 
-  // 최근 종료 경기 (지난 10경기)
+  // 최근 종료 경기 10건 (가장 가까운 과거부터 - 최신순)
   const recent = games
     .filter((g) => g.status === 'finished')
     .slice(-10)
     .reverse();
 
-  // 다가오는 경기 (앞으로 10경기)
+  // 다가오는 경기 10건 (가까운 미래부터)
   const upcoming = games.filter((g) => g.status === 'scheduled').slice(0, 10);
 
-  console.log(`  ✅ 최근 ${recent.length}경기, 예정 ${upcoming.length}경기 (엔드포인트: ${usedEndpoint})`);
+  const usedEndpoint = `getScheduleList.do (${monthsWithData}개월)`;
+  console.log(`  ✅ 최근 ${recent.length}경기, 예정 ${upcoming.length}경기 (${usedEndpoint})`);
   return { recent, upcoming, usedEndpoint };
 }
 
