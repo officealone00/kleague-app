@@ -1,349 +1,526 @@
-/**
- * K리그1 데이터 크롤러 v2
- *
- * 데이터 소스: 다음스포츠
- * - 순위: https://sports.daum.net/record/kl/team
- * - 개인 순위: https://sports.daum.net/record/kl/person
- * - 경기: https://sports.daum.net/schedule/kl
- *
- * ✅ 개선사항 (KBO 앱 경험 반영)
- * - 인코딩 대응 (UTF-8 + 폴백 EUC-KR)
- * - 다단계 파싱 (여러 JSON 패턴 시도)
- * - 경기 데이터 구조화 (home/away/homeScore/awayScore)
- * - 크롤러 실패 시 기존 데이터 보존 (덮어쓰지 않음)
- *
- * GitHub Actions로 매시간 실행 → data/*.json 자동 커밋
- */
+// scraper/scrape.js
+// K리그 공식 사이트에서 데이터를 받아 data/*.json에 저장
+//
+// 데이터 소스: https://www.kleague.com
+//   - POST /record/teamRank.do   (팀 순위)
+//   - POST /record/rankSort.do   (선수 기록 - 득점/도움)
+//   - POST /getKickOffEvent.do  (일정 - 여러 엔드포인트 시도)
+//
+// 실행:
+//   cd scraper && npm install && npm start
+//
+// 결과: ../data/standings.json, scorers.json, assists.json, schedule.json, meta.json
+//
+// 2026 시즌 K리그1 12팀 화이트리스트:
+//   서울 K09, 울산 K01, 전북 K05, 포항 K03, 강원 K21, 인천 K18,
+//   제주 K04, 안양 K27, 대전 K10, 김천 K35, 부천 K26, 광주 K22
+//   (대구 K17, 수원FC K29는 K2 강등)
 
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import iconv from 'iconv-lite';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.resolve(__dirname, '../data');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const DATA_DIR = path.resolve(__dirname, '..', 'data');
 
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+const BASE = 'https://www.kleague.com';
+const SEASON = new Date().getFullYear(); // 자동 (2026)
+const LEAGUE_ID = 1; // K리그1
 
-// ─── 인코딩 대응 fetch ───
-async function fetchText(url) {
-  const res = await fetch(url, {
-    headers: {
-      'User-Agent': UA,
-      'Accept': 'text/html,application/xhtml+xml,*/*',
-      'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8',
-      'Referer': 'https://sports.daum.net/',
-    },
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}: ${url}`);
+// ── 2026 K리그1 12팀 화이트리스트 ──
+const K1_TEAM_IDS = new Set([
+  'K01', // 울산
+  'K03', // 포항
+  'K04', // 제주
+  'K05', // 전북
+  'K09', // 서울
+  'K10', // 대전
+  'K18', // 인천 (2026 승격)
+  'K21', // 강원
+  'K22', // 광주
+  'K26', // 부천 (2026 승격)
+  'K27', // 안양
+  'K35', // 김천
+]);
 
-  const contentType = res.headers.get('content-type') || '';
-  const buffer = await res.arrayBuffer();
-
-  // 다음스포츠는 UTF-8, 한국 레거시 사이트는 EUC-KR 대비
-  const isEucKr =
-    /euc-kr/i.test(contentType) ||
-    (!/utf-?8/i.test(contentType) && /\.co\.kr|\.or\.kr/.test(url) && !url.includes('daum.net'));
-
-  if (isEucKr) {
-    return iconv.decode(Buffer.from(buffer), 'euc-kr');
-  }
-  return Buffer.from(buffer).toString('utf-8');
-}
-
-// ─── K리그 팀명 정규화 ───
-const TEAM_NAME_MAP = {
-  '전북 현대 모터스': '전북',
-  '전북 현대': '전북',
-  '전북': '전북',
-  '울산 HD FC': '울산',
-  '울산 HD': '울산',
-  '울산 현대': '울산',
-  '울산': '울산',
-  '포항 스틸러스': '포항',
-  '포항': '포항',
-  'FC 서울': '서울',
-  'FC서울': '서울',
-  '서울': '서울',
-  '대전 하나 시티즌': '대전',
-  '대전 하나시티즌': '대전',
-  '대전 시티즌': '대전',
-  '대전': '대전',
-  '제주 SK FC': '제주',
-  '제주 SK': '제주',
-  '제주 유나이티드': '제주',
-  '제주': '제주',
-  '김천 상무 FC': '김천',
-  '김천 상무': '김천',
-  '김천': '김천',
-  '강원 FC': '강원',
-  '강원': '강원',
-  '광주 FC': '광주',
-  '광주': '광주',
-  '인천 유나이티드 FC': '인천',
-  '인천 유나이티드': '인천',
-  '인천': '인천',
-  'FC 안양': '안양',
-  'FC안양': '안양',
-  '안양': '안양',
-  '부천 FC 1995': '부천',
-  '부천 FC': '부천',
-  '부천': '부천',
+// teamId → 짧은 팀명 매핑 (K리그 전체)
+const TEAM_ID_TO_NAME = {
+  K01: '울산',
+  K02: '수원',
+  K03: '포항',
+  K04: '제주',
+  K05: '전북',
+  K06: '부산',
+  K07: '전남',
+  K08: '성남',
+  K09: '서울',
+  K10: '대전',
+  K17: '대구',
+  K18: '인천',
+  K20: '경남',
+  K21: '강원',
+  K22: '광주',
+  K26: '부천',
+  K27: '안양',
+  K29: '수원FC',
+  K31: '서울E',
+  K32: '안산',
+  K34: '충남아산',
+  K35: '김천',
+  K36: '김포',
+  K37: '충북청주',
+  K38: '천안',
+  K39: '화성',
+  K40: '파주',
+  K41: '김해',
+  K42: '용인',
 };
 
-function normalizeTeam(name) {
-  if (!name) return name;
-  const trimmed = String(name).trim().replace(/\s+/g, ' ');
-  if (TEAM_NAME_MAP[trimmed]) return TEAM_NAME_MAP[trimmed];
-  for (const [key, val] of Object.entries(TEAM_NAME_MAP)) {
-    if (trimmed.includes(key) || key.includes(trimmed)) return val;
+const COMMON_HEADERS = {
+  'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36',
+  Accept: 'application/json, text/javascript, */*; q=0.01',
+  'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8',
+  'X-Requested-With': 'XMLHttpRequest',
+  Referer: `${BASE}/record/team.do`,
+  Origin: BASE,
+};
+
+// ─── 공통: 재시도 + 타임아웃 ──────────────
+async function fetchWithRetry(url, options, retries = 3) {
+  let lastErr;
+  for (let i = 0; i < retries; i++) {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 15000);
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      clearTimeout(timer);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res;
+    } catch (e) {
+      lastErr = e;
+      console.warn(`  시도 ${i + 1} 실패: ${e.message}`);
+      if (i < retries - 1) {
+        await new Promise((r) => setTimeout(r, 1000 * (i + 1)));
+      }
+    }
   }
-  return trimmed.split(' ')[0];
+  throw lastErr;
 }
 
-// ─── 기존 파일 보존 유틸 ───
-function safeWriteJson(filename, data) {
-  const filePath = path.join(DATA_DIR, filename);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
-  console.log(`  📄 data/${filename} 저장 완료`);
-}
-
-function keepExisting(filename, reason) {
-  const filePath = path.join(DATA_DIR, filename);
-  if (fs.existsSync(filePath)) {
-    console.warn(`  ⚠️  ${filename} 크롤링 실패 (${reason}) - 기존 데이터 유지`);
-  } else {
-    console.warn(`  ❌ ${filename} 크롤링 실패 (${reason}) - 기존 데이터도 없음`);
-  }
-}
-
-// ─── 순위표 ───
+// ─── 1. 팀 순위 ──────────────
 async function scrapeStandings() {
-  try {
-    const html = await fetchText('https://sports.daum.net/record/kl/team');
-
-    const patterns = [
-      /__RAW_DATA__\s*=\s*(\[[\s\S]*?\])\s*[;<]/,
-      /teamRankList["\s:]+(\[[\s\S]*?\])/,
-      /"rankList"\s*:\s*(\[[\s\S]*?\])\s*[,}]/,
-    ];
-
-    let data = null;
-    for (const pat of patterns) {
-      const m = html.match(pat);
-      if (m) {
-        try {
-          data = JSON.parse(m[1]);
-          if (Array.isArray(data) && data.length > 0) break;
-        } catch {}
-      }
+  console.log('📊 팀 순위 크롤링 시작...');
+  const params = new URLSearchParams({
+    leagueId: String(LEAGUE_ID),
+    year: String(SEASON),
+    stadium: 'all',
+    recordType: 'rank',
+  });
+  const res = await fetchWithRetry(
+    `${BASE}/record/teamRank.do?${params.toString()}`,
+    {
+      method: 'POST',
+      headers: COMMON_HEADERS,
     }
+  );
+  const json = await res.json();
+  const list = json?.data?.teamRank;
+  if (!Array.isArray(list) || list.length === 0) {
+    throw new Error('teamRank 응답이 비어있거나 형식이 다름');
+  }
 
-    if (!data || !Array.isArray(data) || !data.length) {
-      throw new Error('JSON not found');
-    }
-
-    return data.map((item, i) => ({
-      rank: Number(item.rank || i + 1),
-      team: normalizeTeam(item.teamName || item.name),
-      games: Number(item.gameCount || item.games || 0),
-      wins: Number(item.winCount || item.wins || 0),
-      draws: Number(item.drawCount || item.draws || 0),
-      losses: Number(item.loseCount || item.losses || 0),
-      points: Number(item.point || item.points || 0),
-      goalsFor: Number(item.goalFor || item.goals || 0),
-      goalsAgainst: Number(item.goalAgainst || 0),
-      goalDiff: Number(item.goalDiff || 0),
-      last5: item.recentResult || '-',
-      home: item.homeRecord || '-',
-      away: item.awayRecord || '-',
+  const standings = list
+    .filter((row) => K1_TEAM_IDS.has(row.teamId))
+    .sort((a, b) => a.rank - b.rank)
+    .map((row) => ({
+      rank: row.rank,
+      team: TEAM_ID_TO_NAME[row.teamId] || row.teamName?.replace(/\s/g, '') || '?',
+      teamId: row.teamId,
+      games: row.gameCount ?? 0,
+      wins: row.winCnt ?? 0,
+      draws: row.tieCnt ?? 0,
+      losses: row.lossCnt ?? 0,
+      points: row.gainPoint ?? 0,
+      goalsFor: row.gainGoal ?? 0,
+      goalsAgainst: row.lossGoal ?? 0,
+      goalDiff: row.gapCnt ?? 0,
+      last5: [row.game01, row.game02, row.game03, row.game04, row.game05]
+        .filter((g) => g)
+        .map((g) => (g === 'W' ? '승' : g === 'L' ? '패' : g === 'D' ? '무' : g))
+        .join(''),
     }));
-  } catch (e) {
-    console.warn('[standings]', e.message);
-    return null;
+
+  if (standings.length === 0) {
+    throw new Error('K리그1 팀이 화이트리스트와 매칭 안 됨');
   }
+  if (standings.length < 10) {
+    console.warn(`  ⚠️ 팀이 ${standings.length}개만 매칭됨 (예상 12개)`);
+  }
+  console.log(`  ✅ ${standings.length}팀 (1위: ${standings[0].team} ${standings[0].points}점)`);
+  return standings;
 }
 
-// ─── 득점왕/도움왕 ───
-async function scrapePlayerRanking(type = 'goal') {
-  try {
-    const url = `https://sports.daum.net/record/kl/person?rankType=${type}`;
-    const html = await fetchText(url);
+// ─── 2. 선수 기록 (득점/도움 공통) ──────────────
+async function scrapePlayerRank(recordType) {
+  console.log(`⚽ 선수 기록 크롤링: ${recordType}...`);
+  const body = JSON.stringify({
+    year: SEASON,
+    leagueId: LEAGUE_ID,
+    recordType,
+  });
+  const res = await fetchWithRetry(`${BASE}/record/rankSort.do`, {
+    method: 'POST',
+    headers: { ...COMMON_HEADERS, 'Content-Type': 'application/json; charset=utf-8' },
+    body,
+  });
+  const json = await res.json();
+  const list = json?.data?.list;
+  if (!Array.isArray(list)) {
+    throw new Error(`rankSort(${recordType}) 응답 list 없음`);
+  }
 
-    const patterns = [
-      /__RAW_DATA__\s*=\s*(\[[\s\S]*?\])\s*[;<]/,
-      /personRankList["\s:]+(\[[\s\S]*?\])/,
-      /"rankList"\s*:\s*(\[[\s\S]*?\])\s*[,}]/,
-    ];
+  const filtered = list.filter((p) => K1_TEAM_IDS.has(p.teamId));
+  const players = filtered.map((p, idx) => ({
+    rank: idx + 1,
+    name: p.name,
+    team: TEAM_ID_TO_NAME[p.teamId] || p.teamName?.replace(/\s/g, '') || '?',
+    teamId: p.teamId,
+    playerId: p.playerId,
+    goals: p.goalQty ?? 0,
+    assists: p.assistQty ?? 0,
+    attackPoints: p.apQty ?? 0,
+    games: p.gameQty ?? 0,
+    shots: p.stQty ?? 0,
+    perGame: typeof p.qtyPerGame === 'number' ? Math.round(p.qtyPerGame * 100) / 100 : 0,
+  }));
 
-    let data = null;
-    for (const pat of patterns) {
-      const m = html.match(pat);
-      if (m) {
-        try {
-          data = JSON.parse(m[1]);
-          if (Array.isArray(data) && data.length > 0) break;
-        } catch {}
+  const key = recordType === 'GOAL' ? 'goals' : 'assists';
+  const nonZero = players.filter((p) => p[key] > 0);
+
+  console.log(
+    `  ✅ ${nonZero.length}명 (1위: ${nonZero[0]?.name || '?'}(${nonZero[0]?.team || '?'}) ${
+      nonZero[0]?.[key] || 0
+    })`
+  );
+  return nonZero;
+}
+
+// ─── 3. 일정 (전회 결과 + 다음 일정) ──────────────
+// K리그 사이트는 schedule.do 페이지에서 AJAX로 일정을 받아옴.
+// 알려진 엔드포인트가 자주 바뀌므로 여러 경로를 순서대로 시도하고
+// 응답 구조도 유연하게 파싱한다.
+async function scrapeSchedule() {
+  console.log('🗓️  일정 크롤링 시작...');
+
+  const headers = { ...COMMON_HEADERS, 'Content-Type': 'application/json; charset=utf-8' };
+
+  // 시도할 엔드포인트들. ✅ getScheduleList.do는 DevTools로 확정.
+  // body 형식은 확실하지 않아서 4가지 패턴 순서대로 시도.
+
+  const candidates = [
+    // ✅ 2026.5.15 DevTools에서 확정된 엔드포인트
+    {
+      name: 'getScheduleList.do (JSON body)',
+      url: `${BASE}/getScheduleList.do`,
+      method: 'POST',
+      headers: { ...COMMON_HEADERS, 'Content-Type': 'application/json; charset=utf-8', Referer: `${BASE}/schedule.do?leagueId=${LEAGUE_ID}` },
+      body: JSON.stringify({ leagueId: LEAGUE_ID, year: SEASON }),
+    },
+    {
+      name: 'getScheduleList.do (form-urlencoded)',
+      url: `${BASE}/getScheduleList.do`,
+      method: 'POST',
+      headers: { ...COMMON_HEADERS, 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', Referer: `${BASE}/schedule.do?leagueId=${LEAGUE_ID}` },
+      body: `leagueId=${LEAGUE_ID}&year=${SEASON}`,
+    },
+    {
+      name: 'getScheduleList.do (no body)',
+      url: `${BASE}/getScheduleList.do?leagueId=${LEAGUE_ID}&year=${SEASON}`,
+      method: 'POST',
+      headers: { ...COMMON_HEADERS, Referer: `${BASE}/schedule.do?leagueId=${LEAGUE_ID}` },
+    },
+    {
+      name: 'getScheduleList.do (with month)',
+      url: `${BASE}/getScheduleList.do`,
+      method: 'POST',
+      headers: { ...COMMON_HEADERS, 'Content-Type': 'application/json; charset=utf-8', Referer: `${BASE}/schedule.do?leagueId=${LEAGUE_ID}` },
+      body: JSON.stringify({ leagueId: LEAGUE_ID, year: SEASON, month: '' }),
+    },
+  ];
+
+  let rawList = null;
+  let usedEndpoint = null;
+
+  for (const c of candidates) {
+    try {
+      console.log(`  → 시도: ${c.name}`);
+      const res = await fetch(c.url, {
+        method: c.method,
+        headers: c.headers || headers,
+        body: c.body,
+      });
+      if (!res.ok) {
+        console.log(`    HTTP ${res.status}`);
+        continue;
       }
+      const text = await res.text();
+      // 응답이 비어있으면 다음 후보 시도
+      if (!text || text.trim() === '') {
+        console.log('    빈 응답');
+        continue;
+      }
+      const json = (() => {
+        try { return JSON.parse(text); } catch { return null; }
+      })();
+      if (!json) {
+        console.log(`    JSON 파싱 실패 (앞 100자: ${text.slice(0, 100)})`);
+        continue;
+      }
+      // 응답 구조 유연 파싱 (getScheduleList.do 응답 키 후보 확장)
+      const arr =
+        json?.data?.scheduleList ||
+        json?.data?.gameList ||
+        json?.data?.kickoffEvents ||
+        json?.data?.events ||
+        json?.data?.list ||
+        json?.data?.schedule ||
+        (Array.isArray(json?.data) ? json.data : null) ||
+        json?.scheduleList ||
+        json?.gameList ||
+        json?.kickoffEvents ||
+        json?.events ||
+        (Array.isArray(json) ? json : null);
+      if (Array.isArray(arr) && arr.length > 0) {
+        rawList = arr;
+        usedEndpoint = c.name;
+        console.log(`    ✅ ${arr.length}건 발견`);
+        // 첫 항목 구조를 한 번 출력 (정규화 디버그)
+        console.log(`    샘플 키: ${Object.keys(arr[0]).slice(0, 15).join(', ')}`);
+        break;
+      } else {
+        // 배열이 비었거나 못 찾음 — 진단용 응답 구조 출력
+        const topKeys = Object.keys(json).slice(0, 10);
+        const dataKeys = json?.data ? Object.keys(json.data).slice(0, 10) : null;
+        console.log(`    배열 비어있음. top keys: [${topKeys.join(',')}]${dataKeys ? `, data keys: [${dataKeys.join(',')}]` : ''}`);
+      }
+    } catch (e) {
+      console.log(`    에러: ${e.message}`);
+    }
+  }
+
+  if (!rawList) {
+    console.warn('  ⚠️ 모든 일정 엔드포인트 실패 - 빈 배열 반환');
+    return { recent: [], upcoming: [], usedEndpoint: null };
+  }
+
+  // 정규화: 각 응답마다 필드명이 다를 수 있음
+  const normalize = (item) => {
+    const meetDate =
+      item.meetDate || item.matchDate || item.gameDate || item.kickoffDate || '';
+    const meetTime =
+      item.meetTime || item.matchTime || item.gameTime || item.kickoffTime || '';
+
+    // home/away teamId
+    const homeId =
+      item.homeTeamId || item.homeId || item.home?.teamId || item.team1Id || null;
+    const awayId =
+      item.awayTeamId || item.awayId || item.away?.teamId || item.team2Id || null;
+
+    // 팀 이름 (응답에 있으면 그대로, 없으면 매핑)
+    const homeName =
+      (homeId && TEAM_ID_TO_NAME[homeId]) ||
+      item.homeTeamName ||
+      item.home?.teamName ||
+      item.homeName ||
+      '?';
+    const awayName =
+      (awayId && TEAM_ID_TO_NAME[awayId]) ||
+      item.awayTeamName ||
+      item.away?.teamName ||
+      item.awayName ||
+      '?';
+
+    // 점수
+    const homeScore =
+      item.homeGoal ?? item.homeScore ?? item.home?.score ?? null;
+    const awayScore =
+      item.awayGoal ?? item.awayScore ?? item.away?.score ?? null;
+
+    // 경기장
+    const stadium =
+      item.fieldName || item.stadium || item.stadiumName || item.venue || '';
+
+    // 상태: 점수가 있으면 종료, 없으면 예정
+    const hasScore =
+      homeScore !== null && awayScore !== null && homeScore !== '' && awayScore !== '';
+    const status = hasScore ? 'finished' : 'scheduled';
+
+    // 날짜 정규화: 'YYYYMMDD' 또는 'YYYY-MM-DD' 또는 'YYYY.MM.DD' 모두 처리
+    let dateStr = '';
+    const dRaw = String(meetDate).trim();
+    if (/^\d{8}$/.test(dRaw)) {
+      dateStr = `${dRaw.slice(0, 4)}.${dRaw.slice(4, 6)}.${dRaw.slice(6, 8)}`;
+    } else if (/^\d{4}[-.]\d{2}[-.]\d{2}$/.test(dRaw)) {
+      dateStr = dRaw.replace(/-/g, '.');
+    } else {
+      dateStr = dRaw;
     }
 
-    if (!data || !Array.isArray(data)) return null;
-
-    return data.slice(0, 30).map((item, i) => ({
-      rank: Number(item.rank || i + 1),
-      name: item.personName || item.name || '',
-      team: normalizeTeam(item.teamName || ''),
-      games: Number(item.gameCount || 0),
-      goals: Number(item.goalCount || item.goals || 0),
-      assists: Number(item.assistCount || item.assists || 0),
-      shoots: Number(item.shootCount || 0),
-      attackPoint: Number(item.attackPoint || 0),
-      position: item.position || '',
-    }));
-  } catch (e) {
-    console.warn(`[player ${type}]`, e.message);
-    return null;
-  }
-}
-
-// ─── 경기 ───
-function fmtDate(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}${m}${day}`;
-}
-
-async function scrapeGamesByDate(dateStr) {
-  try {
-    const url = `https://sports.daum.net/schedule/kl?date=${dateStr}`;
-    const html = await fetchText(url);
-
-    const patterns = [
-      /__RAW_DATA__\s*=\s*(\[[\s\S]*?\])\s*[;<]/,
-      /scheduleList["\s:]+(\[[\s\S]*?\])/,
-      /"gameList"\s*:\s*(\[[\s\S]*?\])\s*[,}]/,
-    ];
-
-    let data = null;
-    for (const pat of patterns) {
-      const m = html.match(pat);
-      if (m) {
-        try {
-          data = JSON.parse(m[1]);
-          if (Array.isArray(data) && data.length > 0) break;
-        } catch {}
-      }
+    // 시간 정규화: '1630' or '16:30'
+    let timeStr = '';
+    const tRaw = String(meetTime).trim();
+    if (/^\d{4}$/.test(tRaw)) {
+      timeStr = `${tRaw.slice(0, 2)}:${tRaw.slice(2, 4)}`;
+    } else {
+      timeStr = tRaw;
     }
 
-    if (!data || !Array.isArray(data)) return [];
-
-    return data.map(g => ({
-      home: normalizeTeam(g.homeTeamName || g.home?.name),
-      away: normalizeTeam(g.awayTeamName || g.away?.name),
-      homeScore: g.homeScore ?? g.home?.score ?? null,
-      awayScore: g.awayScore ?? g.away?.score ?? null,
-      status: g.stateName || g.status || '예정',
-      time: g.gameTime || g.startTime || '',
-      stadium: g.stadium || g.venueName || '',
-    })).filter(g => g.home && g.away);
-  } catch (e) {
-    console.warn(`[games ${dateStr}]`, e.message);
-    return [];
-  }
-}
-
-async function scrapeGames() {
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
-
-  const [todayGames, yestGames] = await Promise.all([
-    scrapeGamesByDate(fmtDate(today)),
-    scrapeGamesByDate(fmtDate(yesterday)),
-  ]);
-
-  return {
-    today: { date: fmtDate(today), games: todayGames },
-    yesterday: { date: fmtDate(yesterday), games: yestGames },
+    return {
+      date: dateStr,
+      time: timeStr,
+      homeId,
+      awayId,
+      home: homeName,
+      away: awayName,
+      homeScore: hasScore ? Number(homeScore) : null,
+      awayScore: hasScore ? Number(awayScore) : null,
+      stadium,
+      status,
+    };
   };
+
+  const games = rawList
+    .map(normalize)
+    // K1 팀끼리의 경기만
+    .filter(
+      (g) =>
+        (g.homeId && K1_TEAM_IDS.has(g.homeId)) ||
+        (g.awayId && K1_TEAM_IDS.has(g.awayId))
+    )
+    // 날짜 정렬
+    .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+
+  // 최근 종료 경기 (지난 10경기)
+  const recent = games
+    .filter((g) => g.status === 'finished')
+    .slice(-10)
+    .reverse();
+
+  // 다가오는 경기 (앞으로 10경기)
+  const upcoming = games.filter((g) => g.status === 'scheduled').slice(0, 10);
+
+  console.log(`  ✅ 최근 ${recent.length}경기, 예정 ${upcoming.length}경기 (엔드포인트: ${usedEndpoint})`);
+  return { recent, upcoming, usedEndpoint };
 }
 
-// ─── 메인 ───
+// ─── 메인 ──────────────
 async function main() {
-  console.log('⚽ K리그1 데이터 크롤링 시작');
-  console.log(`⏰ ${new Date().toISOString()}\n`);
+  console.log(`\n=== K리그${LEAGUE_ID} 크롤러 v2.0 (${SEASON}시즌) ===\n`);
 
-  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-
-  const results = { success: 0, total: 4 };
+  const results = {};
   const errors = [];
 
-  // 1) 순위
-  const standings = await scrapeStandings();
-  if (standings && standings.length) {
-    safeWriteJson('standings.json', standings);
-    console.log(`✅ 순위: ${standings.length}개 팀`);
-    results.success++;
-  } else {
-    keepExisting('standings.json', 'crawler failed');
-    errors.push('standings');
+  try {
+    results.standings = await scrapeStandings();
+  } catch (e) {
+    errors.push({ task: 'standings', error: e.message });
+    console.error('  ❌ standings 실패:', e.message);
   }
 
-  // 2) 득점왕
-  const goals = await scrapePlayerRanking('goal');
-  if (goals && goals.length) {
-    safeWriteJson('goals.json', goals);
-    console.log(`✅ 득점왕: ${goals.length}명`);
-    results.success++;
-  } else {
-    keepExisting('goals.json', 'crawler failed');
-    errors.push('goals');
+  try {
+    results.scorers = await scrapePlayerRank('GOAL');
+  } catch (e) {
+    errors.push({ task: 'scorers', error: e.message });
+    console.error('  ❌ scorers 실패:', e.message);
   }
 
-  // 3) 도움왕
-  const assists = await scrapePlayerRanking('assist');
-  if (assists && assists.length) {
-    safeWriteJson('assists.json', assists);
-    console.log(`✅ 도움왕: ${assists.length}명`);
-    results.success++;
-  } else {
-    keepExisting('assists.json', 'crawler failed');
-    errors.push('assists');
+  try {
+    results.assists = await scrapePlayerRank('ASSIST');
+  } catch (e) {
+    errors.push({ task: 'assists', error: e.message });
+    console.error('  ❌ assists 실패:', e.message);
   }
 
-  // 4) 경기
-  const games = await scrapeGames();
-  const gc = games.today.games.length + games.yesterday.games.length;
-  if (gc > 0) {
-    safeWriteJson('games.json', games);
-    console.log(`✅ 경기: 오늘 ${games.today.games.length}건, 어제 ${games.yesterday.games.length}건`);
-    results.success++;
-  } else {
-    keepExisting('games.json', 'no games found');
-    errors.push('games');
+  try {
+    const sched = await scrapeSchedule();
+    results.schedule = sched;
+  } catch (e) {
+    errors.push({ task: 'schedule', error: e.message });
+    console.error('  ❌ schedule 실패:', e.message);
+    results.schedule = { recent: [], upcoming: [], usedEndpoint: null };
   }
 
-  // 메타
-  const now = new Date();
+  // ─── 파일 저장 ─────
+  console.log('\n💾 파일 저장 중...');
+  await fs.mkdir(DATA_DIR, { recursive: true });
+
+  if (results.standings) {
+    await fs.writeFile(
+      path.join(DATA_DIR, 'standings.json'),
+      JSON.stringify(results.standings, null, 2),
+      'utf8'
+    );
+  }
+  if (results.scorers) {
+    await fs.writeFile(
+      path.join(DATA_DIR, 'scorers.json'),
+      JSON.stringify(results.scorers, null, 2),
+      'utf8'
+    );
+  }
+  if (results.assists) {
+    await fs.writeFile(
+      path.join(DATA_DIR, 'assists.json'),
+      JSON.stringify(results.assists, null, 2),
+      'utf8'
+    );
+  }
+  if (results.schedule) {
+    // schedule.json 에는 recent/upcoming만 저장 (usedEndpoint는 meta로 빠짐)
+    const { usedEndpoint, ...schedToSave } = results.schedule;
+    await fs.writeFile(
+      path.join(DATA_DIR, 'schedule.json'),
+      JSON.stringify(schedToSave, null, 2),
+      'utf8'
+    );
+  }
+
+  const nowUTC = new Date();
+  const nowKST = new Date(nowUTC.getTime() + 9 * 60 * 60 * 1000);
+  const totalTasks = 4;
   const meta = {
-    updatedAt: now.toISOString(),
-    updatedAtKST: now.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
-    season: now.getFullYear(),
-    success: results.success,
-    total: results.total,
+    updatedAt: nowUTC.toISOString(),
+    updatedAtKST: nowKST.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+    season: SEASON,
+    leagueId: LEAGUE_ID,
+    version: '2.0',
+    success: totalTasks - errors.length,
+    total: totalTasks,
     errors,
-    league: 'K리그1',
+    scheduleEndpoint: results.schedule?.usedEndpoint || null,
   };
-  safeWriteJson('meta.json', meta);
+  await fs.writeFile(
+    path.join(DATA_DIR, 'meta.json'),
+    JSON.stringify(meta, null, 2),
+    'utf8'
+  );
 
-  console.log(`\n${results.success === results.total ? '✅' : '⚠️'} 완료: ${results.success}/${results.total} 성공`);
-  if (errors.length) {
-    console.warn('실패 항목:', errors.join(', '));
+  console.log('\n=== 완료 ===');
+  console.log(`성공: ${meta.success}/${totalTasks}`);
+  if (errors.length > 0) {
+    console.log('실패:', errors);
+    // standings/scorers/assists 중 하나라도 실패하면 1로 종료
+    // schedule만 실패하면 0으로 종료 (앱은 그래도 동작)
+    const criticalFail = errors.some((e) =>
+      ['standings', 'scorers', 'assists'].includes(e.task)
+    );
+    if (criticalFail) process.exit(1);
   }
 }
 
-main().catch(err => {
-  console.error('💥 치명적 에러:', err);
+main().catch((e) => {
+  console.error('💥 치명적 에러:', e);
   process.exit(1);
 });

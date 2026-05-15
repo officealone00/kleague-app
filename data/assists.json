@@ -1,17 +1,7 @@
 [
-  { "rank": 1, "name": "이동경", "team": "울산", "games": 6, "goals": 2, "assists": 4, "shoots": 9, "attackPoint": 6, "position": "MF" },
-  { "rank": 2, "name": "엄원상", "team": "대전", "games": 7, "goals": 3, "assists": 3, "shoots": 12, "attackPoint": 6, "position": "MF" },
-  { "rank": 3, "name": "마사", "team": "대전", "games": 7, "goals": 1, "assists": 3, "shoots": 5, "attackPoint": 4, "position": "MF" },
-  { "rank": 4, "name": "김승섭", "team": "전북", "games": 7, "goals": 1, "assists": 3, "shoots": 7, "attackPoint": 4, "position": "MF" },
-  { "rank": 5, "name": "이승우", "team": "전북", "games": 7, "goals": 1, "assists": 3, "shoots": 8, "attackPoint": 4, "position": "MF" },
-  { "rank": 6, "name": "조영욱", "team": "서울", "games": 7, "goals": 4, "assists": 2, "shoots": 14, "attackPoint": 6, "position": "FW" },
-  { "rank": 7, "name": "디오고", "team": "대전", "games": 7, "goals": 5, "assists": 2, "shoots": 18, "attackPoint": 7, "position": "FW" },
-  { "rank": 8, "name": "루이스", "team": "포항", "games": 7, "goals": 1, "assists": 2, "shoots": 6, "attackPoint": 3, "position": "MF" },
-  { "rank": 9, "name": "하파엘", "team": "강원", "games": 7, "goals": 1, "assists": 2, "shoots": 7, "attackPoint": 3, "position": "FW" },
-  { "rank": 10, "name": "정우영", "team": "울산", "games": 7, "goals": 0, "assists": 2, "shoots": 3, "attackPoint": 2, "position": "MF" },
-  { "rank": 11, "name": "이재성", "team": "김천", "games": 7, "goals": 1, "assists": 2, "shoots": 5, "attackPoint": 3, "position": "MF" },
-  { "rank": 12, "name": "이동준", "team": "전북", "games": 7, "goals": 1, "assists": 2, "shoots": 6, "attackPoint": 3, "position": "MF" },
-  { "rank": 13, "name": "박용우", "team": "울산", "games": 7, "goals": 0, "assists": 2, "shoots": 2, "attackPoint": 2, "position": "MF" },
-  { "rank": 14, "name": "고무열", "team": "포항", "games": 7, "goals": 1, "assists": 2, "shoots": 5, "attackPoint": 3, "position": "MF" },
-  { "rank": 15, "name": "안재준", "team": "부천", "games": 7, "goals": 1, "assists": 2, "shoots": 4, "attackPoint": 3, "position": "MF" }
+  { "rank": 1, "name": "마테우스", "team": "안양", "teamId": "K27", "goals": 1, "assists": 3, "attackPoints": 4, "games": 14, "perGame": 0.21 },
+  { "rank": 2, "name": "이동경",   "team": "울산", "teamId": "K01", "goals": 2, "assists": 3, "attackPoints": 5, "games": 13, "perGame": 0.23 },
+  { "rank": 3, "name": "이정택",   "team": "김천", "teamId": "K35", "goals": 0, "assists": 3, "attackPoints": 3, "games": 14, "perGame": 0.21 },
+  { "rank": 4, "name": "송민규",   "team": "서울", "teamId": "K09", "goals": 3, "assists": 3, "attackPoints": 6, "games": 14, "perGame": 0.21 },
+  { "rank": 5, "name": "이규성",   "team": "울산", "teamId": "K01", "goals": 0, "assists": 3, "attackPoints": 3, "games": 13, "perGame": 0.23 }
 ]

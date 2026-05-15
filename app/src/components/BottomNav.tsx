@@ -1,11 +1,11 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Trophy, Target, Zap, Calendar } from 'lucide-react';
+import { Trophy, Target, Send, Calendar } from 'lucide-react';
 
 const navItems = [
-  { path: '/', label: '순위', icon: Trophy },
-  { path: '/goals', label: '득점왕', icon: Zap },
-  { path: '/assists', label: '도움왕', icon: Target },
-  { path: '/games', label: '경기', icon: Calendar },
+  { path: '/',         label: '순위', icon: Trophy },
+  { path: '/scorers',  label: '득점', icon: Target },
+  { path: '/assists',  label: '도움', icon: Send },
+  { path: '/schedule', label: '일정', icon: Calendar },
 ];
 
 export default function BottomNav() {
@@ -23,7 +23,7 @@ export default function BottomNav() {
             className={`bottom-nav-item ${isActive ? 'active' : ''}`}
             onClick={() => navigate(item.path)}
           >
-            <Icon size={22} color={isActive ? '#0C308E' : '#B0B8C1'} strokeWidth={isActive ? 2.4 : 1.8} />
+            <Icon size={22} color={isActive ? '#3182F6' : '#B0B8C1'} strokeWidth={isActive ? 2.4 : 1.8} />
             <span>{item.label}</span>
           </button>
         );

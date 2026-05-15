@@ -6,23 +6,24 @@ interface Props {
 }
 
 /**
- * 팀 로고 (이모지 기반 원형 배지)
- * 실제 팀 로고는 저작권 문제로 사용 불가 → 팀 컬러 + 이모지로 표현
+ * 팀 로고
+ * 현재는 이모지로만 표시. 향후 K리그 공식 엠블럼 추가 가능.
  */
-export default function TeamLogo({ team, size = 32 }: Props) {
+export default function TeamLogo({ team, size = 28 }: Props) {
   const info = getTeam(team);
   return (
-    <div
-      className="flex items-center justify-center rounded-full flex-shrink-0"
+    <span
       style={{
+        fontSize: size * 0.9,
+        lineHeight: 1,
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         width: size,
         height: size,
-        backgroundColor: info.bgLight,
-        border: `1.5px solid ${info.color}`,
-        fontSize: size * 0.5,
       }}
     >
       {info.emoji}
-    </div>
+    </span>
   );
 }

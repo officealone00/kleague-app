@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
 // ─── 광고 ID 설정 ──────────────────────
-const IS_AD_PRODUCTION = false; // 실제 ID 발급 후 true로 변경
+// ✅ 2026.04.25 발급 완료
+const IS_AD_PRODUCTION = true;
 const TEST_REWARDED_ID = 'ait-ad-test-rewarded-id';
-// TODO: 앱인토스 콘솔에서 리워드 광고 ID 발급 후 교체
-const PROD_REWARDED_ID = 'ait.v2.live.YOUR_REWARDED_ID_HERE';
+const PROD_REWARDED_ID = 'ait.v2.live.908a6acef5604b1f';
 const AD_ID = IS_AD_PRODUCTION ? PROD_REWARDED_ID : TEST_REWARDED_ID;
 
 // 개발 모드 감지 (로컬 브라우저에서 빠른 테스트용)
@@ -18,11 +18,11 @@ interface Props {
 }
 
 /**
- * 리워드 광고
- * - 유저가 자발적으로 광고 시청
- * - 끝까지 보면 onReward() 콜백 발동 → 리포트 해금
- * - 중도 이탈 시 onClose()만 호출 → 보상 X
- * - 로컬 개발 환경: 3초 후 자동 해금 (테스트 편의)
+ * 리워드 광고 (앱인토스 IntegratedAd v2)
+ * - 보상형도 loadFullScreenAd / showFullScreenAd 사용 (전면형과 동일 API)
+ * - 'userEarnedReward' 이벤트 발생 시 onReward() → 리포트 해금
+ * - 'dismissed' 이벤트 시 onClose() (보상 못 받은 경우 부모에서 unlockedRef로 분기)
+ * - 로컬 개발 환경(localhost): 3초 카운트다운 후 자동 해금 (테스트 편의)
  */
 export default function RewardedAd({ onReward, onClose }: Props) {
   const [status, setStatus] = useState<'loading' | 'ready' | 'playing' | 'error'>('loading');
@@ -30,8 +30,8 @@ export default function RewardedAd({ onReward, onClose }: Props) {
 
   useEffect(() => {
     const cleanups: Array<() => void> = [];
+    let isShown = false;
 
-    // ─── 로컬 개발: 3초 카운트다운 후 해금 ───
     if (IS_DEV) {
       setStatus('playing');
       const interval = setInterval(() => {
@@ -49,15 +49,14 @@ export default function RewardedAd({ onReward, onClose }: Props) {
       return () => cleanups.forEach((fn) => fn());
     }
 
-    // ─── 토스 앱: 실제 SDK 호출 ───
     (async () => {
       try {
-        const { loadRewardedAd, showRewardedAd } = await import(
-          '@apps-in-toss/web-framework'
-        );
+        const mod: any = await import('@apps-in-toss/web-framework');
+        const loadFullScreenAd = mod?.loadFullScreenAd;
+        const showFullScreenAd = mod?.showFullScreenAd;
 
-        if (!loadRewardedAd || !showRewardedAd) {
-          console.warn('[RewardedAd] SDK not supported');
+        if (typeof loadFullScreenAd !== 'function' || typeof showFullScreenAd !== 'function') {
+          console.warn('[RewardedAd] SDK 미지원');
           setStatus('error');
           setTimeout(() => {
             onReward();
@@ -66,20 +65,35 @@ export default function RewardedAd({ onReward, onClose }: Props) {
           return;
         }
 
-        const rm1 = loadRewardedAd({
+        const rm1 = loadFullScreenAd({
           options: { adGroupId: AD_ID },
           onEvent: (event: any) => {
+            console.log('[RewardedAd] load event:', event?.type, event);
             if (event?.type !== 'loaded') return;
-            setStatus('ready');
+            if (isShown) return;
+            isShown = true;
 
-            const rm2 = showRewardedAd({
+            setStatus('ready');
+            const rm2 = showFullScreenAd({
               options: { adGroupId: AD_ID },
               onEvent: (ev: any) => {
-                setStatus('playing');
-                if (ev?.type === 'rewarded' || ev?.type === 'reward_earned') {
+                console.log('[RewardedAd] show event:', ev?.type, ev);
+
+                if (ev?.type === 'show' || ev?.type === 'impression') {
+                  setStatus('playing');
+                }
+
+                if (ev?.type === 'userEarnedReward') {
                   onReward();
                 }
+
                 if (ev?.type === 'dismissed' || ev?.type === 'closed') {
+                  onClose();
+                }
+
+                if (ev?.type === 'failedToShow') {
+                  console.warn('[RewardedAd] failedToShow:', ev);
+                  setStatus('error');
                   onClose();
                 }
               },
@@ -111,9 +125,8 @@ export default function RewardedAd({ onReward, onClose }: Props) {
       }
     })();
 
-    // 10초 안전 타임아웃
     const timeout = setTimeout(() => {
-      if (status === 'loading') {
+      if (!isShown) {
         console.warn('[RewardedAd] timeout');
         onReward();
         onClose();
@@ -154,7 +167,7 @@ export default function RewardedAd({ onReward, onClose }: Props) {
         }}
       >
         <div style={{ fontSize: 48, marginBottom: 12 }}>
-          {status === 'error' ? '⚠️' : '📊'}
+          {status === 'error' ? '⚠️' : '⚽'}
         </div>
         <p style={{ fontSize: 16, fontWeight: 700, color: '#191F28', marginBottom: 8 }}>
           {IS_DEV && '[개발 모드] 광고 시뮬레이션'}
@@ -166,7 +179,7 @@ export default function RewardedAd({ onReward, onClose }: Props) {
         <p style={{ fontSize: 13, color: '#8B95A1', lineHeight: 1.5 }}>
           {IS_DEV && countdown > 0 && (
             <>
-              <span style={{ fontSize: 32, fontWeight: 800, color: '#0C308E' }}>
+              <span style={{ fontSize: 32, fontWeight: 800, color: '#3182F6' }}>
                 {countdown}
               </span>
               <br />

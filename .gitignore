@@ -1,32 +1,14 @@
-# Dependencies
-node_modules/
-*/node_modules/
-
-# Build outputs
-dist/
-*/dist/
-build/
-*/build/
-
-# 앱인토스 빌드 아티팩트
-*.ait
-.granite/
-*/.granite/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-*.log
-
-# Editor / OS
+node_modules
+*.local
 .DS_Store
-.idea/
-.vscode/
-*.swp
-
-# Environment
 .env
 .env.local
-.env.*.local
+*.log
+
+# 빌드 산출물
+app/dist
+app/.granite
+app/*.ait
+
+# 크롤러 작업 디렉터리
+scraper/node_modules

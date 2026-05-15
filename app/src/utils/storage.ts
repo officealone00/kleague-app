@@ -5,7 +5,6 @@
 const KEYS = {
   favoriteTeam: 'kleague-favorite-team',
   hasOnboarded: 'kleague-has-onboarded',
-  interstitialCount: 'kleague-interstitial-count',
 };
 
 export function getFavoriteTeam(): string | null {
@@ -34,28 +33,5 @@ export function hasOnboarded(): boolean {
 export function markOnboarded(): void {
   try {
     localStorage.setItem(KEYS.hasOnboarded, '1');
-  } catch {}
-}
-
-// ─── 전면광고 카운터 (N번에 1회 표시) ───
-export function getInterstitialCount(): number {
-  try {
-    return parseInt(localStorage.getItem(KEYS.interstitialCount) || '0', 10);
-  } catch {
-    return 0;
-  }
-}
-
-export function incrementInterstitialCount(): number {
-  const n = getInterstitialCount() + 1;
-  try {
-    localStorage.setItem(KEYS.interstitialCount, String(n));
-  } catch {}
-  return n;
-}
-
-export function resetInterstitialCount(): void {
-  try {
-    localStorage.setItem(KEYS.interstitialCount, '0');
   } catch {}
 }

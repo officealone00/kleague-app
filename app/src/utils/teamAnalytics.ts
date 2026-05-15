@@ -1,314 +1,314 @@
 /**
- * K리그 팀 리포트 생성기
- *
- * 이 모듈은 순위 + 선수 + 경기 데이터를 조합해
- * 응원팀의 의미있는 인사이트를 뽑아냅니다.
- * 리워드 광고 시청 후에만 공개됩니다.
+ * K리그 팀 분석 리포트 생성 로직
+ * - standings: 팀 순위/승점/득실/최근5경기
+ * - scorers: 득점 순위
+ * - assists: 도움 순위
+ * 위 3개 데이터를 조합해 즐겨찾기 팀의 분석 리포트를 만듭니다.
  */
 
-import type { TeamStanding, Player, GamesData } from './api';
+import type { TeamStanding, PlayerRecord } from './api';
+
+// ─── 리포트 타입 정의 ──────────────────────────────
 
 export interface TeamReport {
-  team: string;
-  insight: string;
-  form: {
-    trend: 'up' | 'down' | 'steady';
-    trendLabel: string;
-    momentum: number; // 0-100
-    momentumLabel: string;
-    last10Record: string;
-    streakType: 'win' | 'lose';
-    streakCount: number;
-    homeWinRate: number;
-    awayWinRate: number;
-  };
-  outlook: {
-    currentRank: number;
-    gapToTop1: number;
-    gapToTop4: number;
-    gapToPostseason: number; // 파이널A 6위까지의 차이
-    postseasonProbability: 'high' | 'medium' | 'low';
-    projection: string;
-  };
-  topPlayers: {
-    topBatter: { name: string; stat: string; value: string } | null;  // 최다 득점
-    topHR: { name: string; stat: string; value: string } | null;     // 최다 공격P
-    topPitcher: { name: string; stat: string; value: string } | null; // 최다 도움
-    topSO: { name: string; stat: string; value: string } | null;     // 최다 슈팅
-  };
-  recentGames: Array<{
-    date: string;
-    opponent: string;
-    isHome: boolean;
-    teamScore: number;
-    opponentScore: number;
-    result: 'win' | 'lose' | 'draw' | 'pending';
-  }>;
+  insight: string; // 한 줄 핵심 인사이트
+  form: TeamForm;
+  outlook: TeamOutlook;
+  topPlayers: TopPlayers;
+  comparison: LeagueComparison;
 }
 
-/**
- * 팀 리포트 생성 (메인 함수)
- */
+export interface TeamForm {
+  rank: number;
+  points: number;
+  games: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  winRate: number;             // 0~1
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDiff: number;
+  trend: 'up' | 'down' | 'steady';
+  trendLabel: string;
+  momentum: number;            // 0~100
+  momentumLabel: string;
+  last5Record: string;         // 예: '3승1무1패'
+  recentForm: string;          // 예: '승무승패승' (가장 최근이 우측)
+  streakType: 'win' | 'lose' | 'draw' | 'mixed';
+  streakCount: number;
+}
+
+export interface TeamOutlook {
+  pointsBehindLeader: number;
+  pointsAheadRelegation: number;
+  remainingGames: number;
+  championProb: 'high' | 'medium' | 'low';
+  acl1Prob: 'high' | 'medium' | 'low';   // 챔피언스리그 진출권 (1~3위 가정)
+  relegationProb: 'high' | 'medium' | 'low';
+}
+
+export interface TopPlayers {
+  topScorer: { name: string; goals: number; rank: number } | null;
+  topAssister: { name: string; assists: number; rank: number } | null;
+  topAttackPoint: { name: string; goals: number; assists: number; total: number } | null;
+}
+
+export interface LeagueComparison {
+  pointsVsAvg: number;       // 리그 평균 대비 +/- 승점
+  goalsForVsAvg: number;     // 리그 평균 대비 +/- 득점
+  goalsAgainstVsAvg: number; // 리그 평균 대비 +/- 실점 (음수면 좋음)
+  attackRank: number;        // 득점 기준 순위
+  defenseRank: number;       // 실점 기준 순위 (1=최저실점)
+}
+
+// ─── 메인 함수 ──────────────────────────────
+
 export function generateTeamReport(
-  team: string,
+  favoriteTeam: string,
   standings: TeamStanding[],
-  goals: Player[] | null,
-  assists: Player[] | null,
-  games: GamesData | null
-): TeamReport {
-  const stats = standings.find((s) => s.team === team);
-  if (!stats) {
-    return emptyReport(team);
-  }
+  scorers: PlayerRecord[] | null,
+  assists: PlayerRecord[] | null
+): TeamReport | null {
+  const myTeam = standings.find((s) => s.team === favoriteTeam);
+  if (!myTeam) return null;
 
-  // 팀 폼 분석
-  const form = analyzeForm(stats);
-  
-  // 순위 전망
-  const outlook = analyzeOutlook(stats, standings);
-  
-  // TOP 선수
-  const topPlayers = findTopPlayers(team, goals, assists);
-  
-  // 최근 경기
-  const recentGames = extractRecentGames(team, games);
-  
-  // 핵심 인사이트 (한 줄 요약)
-  const insight = generateInsight(stats, form, outlook);
+  const form = analyzeForm(myTeam);
+  const outlook = analyzeOutlook(myTeam, standings);
+  const topPlayers = findTopPlayers(favoriteTeam, scorers, assists);
+  const comparison = compareToLeague(myTeam, standings);
+  const insight = generateInsight(myTeam, form, outlook, comparison);
 
-  return {
-    team,
-    insight,
-    form,
-    outlook,
-    topPlayers,
-    recentGames,
-  };
+  return { insight, form, outlook, topPlayers, comparison };
 }
 
-// ─── 팀 폼 분석 ───
-function analyzeForm(stats: TeamStanding): TeamReport['form'] {
-  const last5 = stats.last5 || '';
-  const wins = (last5.match(/승/g) || []).length;
-  const draws = (last5.match(/무/g) || []).length;
-  const losses = (last5.match(/패/g) || []).length;
-  
-  // 모멘텀: 승=3점, 무=1점, 패=0점 → 최대 15점을 100 스케일로
-  const momentum = Math.min(100, Math.round((wins * 3 + draws * 1) / 15 * 100));
+// ─── 1. 팀 폼 분석 ──────────────────────────────
 
+function analyzeForm(team: TeamStanding): TeamForm {
+  const winRate = team.games > 0 ? team.wins / team.games : 0;
+
+  // 최근 5경기 분석
+  const last5 = (team.last5 || '').split('');
+  const wins5 = last5.filter((c) => c === '승').length;
+  const draws5 = last5.filter((c) => c === '무').length;
+  const losses5 = last5.filter((c) => c === '패').length;
+  const last5Record = `${wins5}승${draws5}무${losses5}패`;
+
+  // 모멘텀 점수 (0~100): 최근 5경기 기반
+  // 승=20점, 무=10점, 패=0점
+  const momentum = wins5 * 20 + draws5 * 10;
+  const momentumLabel =
+    momentum >= 80 ? '최고조' :
+    momentum >= 60 ? '좋음' :
+    momentum >= 40 ? '보통' :
+    momentum >= 20 ? '부진' : '최악';
+
+  // 트렌드: 최근 5경기 vs 시즌 평균 승률
+  const recent5WinRate = last5.length > 0 ? wins5 / last5.length : winRate;
   let trend: 'up' | 'down' | 'steady' = 'steady';
-  let trendLabel = '꾸준함';
-  if (wins >= 3) { trend = 'up'; trendLabel = '상승세 🔥'; }
-  else if (losses >= 3) { trend = 'down'; trendLabel = '하락세 😰'; }
+  let trendLabel = '꾸준한 페이스';
+  if (recent5WinRate > winRate + 0.15) {
+    trend = 'up';
+    trendLabel = '상승세';
+  } else if (recent5WinRate < winRate - 0.15) {
+    trend = 'down';
+    trendLabel = '하락세';
+  }
 
-  let momentumLabel = '보통';
-  if (momentum >= 80) momentumLabel = '매우 좋음';
-  else if (momentum >= 60) momentumLabel = '좋음';
-  else if (momentum >= 40) momentumLabel = '보통';
-  else if (momentum >= 20) momentumLabel = '주의';
-  else momentumLabel = '위험';
-
-  // 홈/원정 승률
-  const homeWinRate = parseRecord(stats.home);
-  const awayWinRate = parseRecord(stats.away);
-
-  // 연승/연패
-  const lastChar = last5[last5.length - 1] || '';
-  let streakType: 'win' | 'lose' = 'win';
+  // 연승/연패 (가장 최근부터 같은 결과 카운트)
+  let streakType: 'win' | 'lose' | 'draw' | 'mixed' = 'mixed';
   let streakCount = 0;
-  if (lastChar === '승') {
-    streakType = 'win';
-    for (let i = last5.length - 1; i >= 0 && last5[i] === '승'; i--) streakCount++;
-  } else if (lastChar === '패') {
-    streakType = 'lose';
-    for (let i = last5.length - 1; i >= 0 && last5[i] === '패'; i--) streakCount++;
+  if (last5.length > 0) {
+    const latest = last5[last5.length - 1];
+    streakType = latest === '승' ? 'win' : latest === '패' ? 'lose' : 'draw';
+    streakCount = 1;
+    for (let i = last5.length - 2; i >= 0; i--) {
+      if (last5[i] === latest) streakCount++;
+      else break;
+    }
   }
 
   return {
+    rank: team.rank,
+    points: team.points,
+    games: team.games,
+    wins: team.wins,
+    draws: team.draws,
+    losses: team.losses,
+    winRate,
+    goalsFor: team.goalsFor,
+    goalsAgainst: team.goalsAgainst,
+    goalDiff: team.goalDiff,
     trend,
     trendLabel,
     momentum,
     momentumLabel,
-    last10Record: `${wins}승${draws}무${losses}패`,
+    last5Record,
+    recentForm: team.last5 || '',
     streakType,
-    streakCount: Math.max(1, streakCount),
-    homeWinRate,
-    awayWinRate,
+    streakCount,
   };
 }
 
-// "3-1-0" → 승률 계산
-function parseRecord(record: string): number {
-  if (!record || record === '-') return 0;
-  const parts = record.split('-').map(Number);
-  if (parts.length !== 3) return 0;
-  const [w, d, l] = parts;
-  const total = w + d + l;
-  if (total === 0) return 0;
-  return w / total;
-}
+// ─── 2. 순위 전망 ──────────────────────────────
 
-// ─── 순위 전망 ───
-function analyzeOutlook(stats: TeamStanding, standings: TeamStanding[]): TeamReport['outlook'] {
-  const currentRank = stats.rank;
-  const top1 = standings[0];
-  const top4 = standings[3];
-  const top6 = standings[5]; // 파이널A 컷
+function analyzeOutlook(
+  team: TeamStanding,
+  standings: TeamStanding[]
+): TeamOutlook {
+  const sorted = [...standings].sort((a, b) => a.rank - b.rank);
+  const leader = sorted[0];
+  // K리그1은 12팀, 보통 11~12위가 강등권 (정확한 룰은 시즌마다 다르지만 보수적으로 12위 기준)
+  const lastIdx = sorted.length - 1;
+  const relegation = sorted[lastIdx];
 
-  const gapToTop1 = currentRank === 1 ? 0 : (top1?.points || 0) - stats.points;
-  const gapToTop4 = currentRank <= 4 ? 0 : (top4?.points || 0) - stats.points;
-  const gapToPostseason = currentRank <= 6 ? 0 : (top6?.points || 0) - stats.points;
+  const pointsBehindLeader = Math.max(0, leader.points - team.points);
+  const pointsAheadRelegation = Math.max(0, team.points - relegation.points);
 
-  let postseasonProbability: 'high' | 'medium' | 'low' = 'medium';
-  let projection = '';
+  // K리그1 정규 라운드 33경기 + 파이널 라운드 5경기 = 38경기 (시즌마다 변동 가능)
+  // 보수적으로 38경기 기준
+  const SEASON_GAMES = 38;
+  const remainingGames = Math.max(0, SEASON_GAMES - team.games);
 
-  if (currentRank <= 3) {
-    postseasonProbability = 'high';
-    projection = `우승 경쟁권 (1~${Math.min(6, currentRank + 2)}위 예상)`;
-  } else if (currentRank <= 6) {
-    postseasonProbability = 'high';
-    projection = `파이널A 진출 (${Math.max(1, currentRank - 2)}~${Math.min(6, currentRank + 2)}위 예상)`;
-  } else if (currentRank <= 9) {
-    postseasonProbability = 'medium';
-    projection = `${Math.max(1, currentRank - 2)}~${Math.min(12, currentRank + 2)}위 예상`;
-  } else {
-    postseasonProbability = 'low';
-    projection = `강등권 주의 (${Math.max(1, currentRank - 2)}~12위 예상)`;
-  }
+  // 우승 가능성: 승점 차 + 남은 경기 고려
+  const maxPossiblePoints = team.points + remainingGames * 3;
+  const championProb: 'high' | 'medium' | 'low' =
+    team.rank === 1 ? 'high' :
+    team.rank <= 3 && pointsBehindLeader <= remainingGames * 1.5 ? 'medium' :
+    maxPossiblePoints > leader.points ? 'low' : 'low';
+
+  // ACL 진출권 (1~3위)
+  const acl1Prob: 'high' | 'medium' | 'low' =
+    team.rank <= 3 ? 'high' :
+    team.rank <= 6 ? 'medium' : 'low';
+
+  // 강등 가능성
+  const relegationProb: 'high' | 'medium' | 'low' =
+    team.rank === sorted.length ? 'high' :
+    team.rank >= sorted.length - 1 ? 'medium' :
+    pointsAheadRelegation <= remainingGames * 1.5 ? 'medium' : 'low';
 
   return {
-    currentRank,
-    gapToTop1: Math.max(0, gapToTop1),
-    gapToTop4: Math.max(0, gapToTop4),
-    gapToPostseason: Math.max(0, gapToPostseason),
-    postseasonProbability,
-    projection,
+    pointsBehindLeader,
+    pointsAheadRelegation,
+    remainingGames,
+    championProb,
+    acl1Prob,
+    relegationProb,
   };
 }
 
-// ─── 팀 내 TOP 선수 ───
+// ─── 3. 팀 내 TOP 선수 ──────────────────────────────
+
 function findTopPlayers(
-  team: string,
-  goals: Player[] | null,
-  assists: Player[] | null
-): TeamReport['topPlayers'] {
-  const teamGoals = (goals || []).filter((p) => p.team === team);
-  const teamAssists = (assists || []).filter((p) => p.team === team);
+  favoriteTeam: string,
+  scorers: PlayerRecord[] | null,
+  assists: PlayerRecord[] | null
+): TopPlayers {
+  const teamScorers = (scorers || []).filter((p) => p.team === favoriteTeam);
+  const teamAssisters = (assists || []).filter((p) => p.team === favoriteTeam);
 
-  // 득점 1위
-  const topGoal = teamGoals.sort((a, b) => b.goals - a.goals)[0];
-  const topBatter = topGoal
-    ? { name: topGoal.name, stat: '득점', value: `${topGoal.goals}골` }
-    : null;
-
-  // 공격포인트 1위
-  const topAP = teamGoals.sort((a, b) => b.attackPoint - a.attackPoint)[0];
-  const topHR = topAP
-    ? { name: topAP.name, stat: '공격P', value: `${topAP.attackPoint}P` }
-    : null;
-
-  // 도움 1위
-  const topAssist = teamAssists.sort((a, b) => b.assists - a.assists)[0];
-  const topPitcher = topAssist
-    ? { name: topAssist.name, stat: '도움', value: `${topAssist.assists}개` }
-    : null;
-
-  // 슈팅 1위
-  const topShoots = teamGoals.sort((a, b) => b.shoots - a.shoots)[0];
-  const topSO = topShoots
-    ? { name: topShoots.name, stat: '슈팅', value: `${topShoots.shoots}회` }
-    : null;
-
-  return { topBatter, topHR, topPitcher, topSO };
-}
-
-// ─── 최근 경기 ───
-function extractRecentGames(team: string, games: GamesData | null): TeamReport['recentGames'] {
-  if (!games) return [];
-
-  const all = [
-    ...(games.yesterday?.games || []).map(g => ({ ...g, date: games.yesterday.date })),
-    ...(games.today?.games || []).map(g => ({ ...g, date: games.today.date })),
-  ];
-
-  return all
-    .filter(g => g.home === team || g.away === team)
-    .map(g => {
-      const isHome = g.home === team;
-      const teamScore = isHome ? (g.homeScore ?? 0) : (g.awayScore ?? 0);
-      const opponentScore = isHome ? (g.awayScore ?? 0) : (g.homeScore ?? 0);
-      const opponent = isHome ? g.away : g.home;
-
-      let result: 'win' | 'lose' | 'draw' | 'pending' = 'pending';
-      if (g.homeScore !== null && g.awayScore !== null) {
-        if (teamScore > opponentScore) result = 'win';
-        else if (teamScore < opponentScore) result = 'lose';
-        else result = 'draw';
+  const topScorer = teamScorers.length > 0
+    ? {
+        name: teamScorers[0].name,
+        goals: teamScorers[0].goals,
+        rank: teamScorers[0].rank,
       }
+    : null;
 
-      // 날짜 포맷
-      const dateStr = g.date && g.date.length === 8
-        ? `${g.date.slice(4, 6)}.${g.date.slice(6, 8)}`
-        : '';
+  const topAssister = teamAssisters.length > 0
+    ? {
+        name: teamAssisters[0].name,
+        assists: teamAssisters[0].assists,
+        rank: teamAssisters[0].rank,
+      }
+    : null;
 
-      return { date: dateStr, opponent, isHome, teamScore, opponentScore, result };
-    });
-}
+  // 공격포인트 1위: scorers와 assists를 모두 모아 합산
+  const apMap = new Map<string, { goals: number; assists: number }>();
+  teamScorers.forEach((p) => {
+    apMap.set(p.name, { goals: p.goals, assists: apMap.get(p.name)?.assists ?? p.assists ?? 0 });
+  });
+  teamAssisters.forEach((p) => {
+    const cur = apMap.get(p.name) ?? { goals: 0, assists: 0 };
+    apMap.set(p.name, { goals: cur.goals || p.goals || 0, assists: p.assists });
+  });
 
-// ─── 핵심 인사이트 (한 줄 요약) ───
-function generateInsight(stats: TeamStanding, form: TeamReport['form'], outlook: TeamReport['outlook']): string {
-  if (stats.rank === 1 && form.trend === 'up') {
-    return '🏆 선두에서 상승세! 우승 가도를 달리고 있어요.';
-  }
-  if (stats.rank <= 3 && form.trend === 'up') {
-    return '🔥 우승권에서 상승세! 1위도 노려볼 만해요.';
-  }
-  if (stats.rank <= 6 && form.trend === 'up') {
-    return '💪 기세를 몰아 파이널A 확정을 노려볼 만해요.';
-  }
-  if (stats.rank <= 6 && form.trend === 'down') {
-    return '⚠️ 파이널A 컷에 근접! 분위기 반등이 필요해요.';
-  }
-  if (stats.rank >= 10 && form.trend === 'up') {
-    return '✨ 반등의 기회! 중위권 도약을 노려볼 시점이에요.';
-  }
-  if (stats.rank === 12) {
-    return '🆘 강등권 탈출이 급선무. 다음 경기부터 총력전이 필요해요.';
-  }
-  if (form.streakType === 'win' && form.streakCount >= 3) {
-    return `🔥 ${form.streakCount}연승 행진! 상승세가 이어지고 있어요.`;
-  }
-  if (form.streakType === 'lose' && form.streakCount >= 3) {
-    return `😰 ${form.streakCount}연패 중. 분위기 전환이 절실해요.`;
-  }
-  return `📊 현재 ${stats.rank}위. ${outlook.projection}`;
-}
+  let topAP: { name: string; goals: number; assists: number; total: number } | null = null;
+  apMap.forEach((v, name) => {
+    const total = (v.goals || 0) + (v.assists || 0);
+    if (!topAP || total > topAP.total) {
+      topAP = { name, goals: v.goals || 0, assists: v.assists || 0, total };
+    }
+  });
 
-// ─── 빈 리포트 (데이터 없을 때) ───
-function emptyReport(team: string): TeamReport {
   return {
-    team,
-    insight: '데이터를 불러올 수 없어요',
-    form: {
-      trend: 'steady',
-      trendLabel: '-',
-      momentum: 0,
-      momentumLabel: '-',
-      last10Record: '-',
-      streakType: 'win',
-      streakCount: 0,
-      homeWinRate: 0,
-      awayWinRate: 0,
-    },
-    outlook: {
-      currentRank: 0,
-      gapToTop1: 0,
-      gapToTop4: 0,
-      gapToPostseason: 0,
-      postseasonProbability: 'low',
-      projection: '-',
-    },
-    topPlayers: { topBatter: null, topHR: null, topPitcher: null, topSO: null },
-    recentGames: [],
+    topScorer,
+    topAssister,
+    topAttackPoint: topAP,
   };
+}
+
+// ─── 4. 리그 평균 비교 ──────────────────────────────
+
+function compareToLeague(
+  team: TeamStanding,
+  standings: TeamStanding[]
+): LeagueComparison {
+  const n = standings.length || 1;
+  const avgPoints = standings.reduce((s, t) => s + t.points, 0) / n;
+  const avgGoalsFor = standings.reduce((s, t) => s + t.goalsFor, 0) / n;
+  const avgGoalsAgainst = standings.reduce((s, t) => s + t.goalsAgainst, 0) / n;
+
+  // 득점 순위 (많을수록 1위)
+  const byAttack = [...standings].sort((a, b) => b.goalsFor - a.goalsFor);
+  const attackRank = byAttack.findIndex((t) => t.team === team.team) + 1;
+
+  // 실점 순위 (적을수록 1위 = 수비 좋음)
+  const byDefense = [...standings].sort((a, b) => a.goalsAgainst - b.goalsAgainst);
+  const defenseRank = byDefense.findIndex((t) => t.team === team.team) + 1;
+
+  return {
+    pointsVsAvg: Math.round((team.points - avgPoints) * 10) / 10,
+    goalsForVsAvg: Math.round((team.goalsFor - avgGoalsFor) * 10) / 10,
+    goalsAgainstVsAvg: Math.round((team.goalsAgainst - avgGoalsAgainst) * 10) / 10,
+    attackRank,
+    defenseRank,
+  };
+}
+
+// ─── 5. 핵심 인사이트 한 줄 ──────────────────────────────
+
+function generateInsight(
+  team: TeamStanding,
+  form: TeamForm,
+  outlook: TeamOutlook,
+  comparison: LeagueComparison
+): string {
+  // 우선순위: 1) 우승권 2) 강등권 3) 폼 4) 일반
+  if (outlook.championProb === 'high') {
+    return `🏆 ${team.team}이(가) 리그 선두를 달리고 있어요!`;
+  }
+  if (outlook.championProb === 'medium' && outlook.pointsBehindLeader <= 5) {
+    return `🔥 우승까지 ${outlook.pointsBehindLeader}점 차, 충분히 따라잡을 수 있어요!`;
+  }
+  if (outlook.relegationProb === 'high') {
+    return `⚠️ 강등권에서 분투 중! ${outlook.remainingGames}경기 남았어요.`;
+  }
+  if (form.trend === 'up' && form.streakType === 'win' && form.streakCount >= 3) {
+    return `🔥 ${form.streakCount}연승 중! 상승세를 이어가고 있어요.`;
+  }
+  if (form.trend === 'down' && form.streakType === 'lose' && form.streakCount >= 3) {
+    return `😢 ${form.streakCount}연패 중. 반등이 필요한 시기예요.`;
+  }
+  if (comparison.attackRank <= 3) {
+    return `⚽ 리그 최강의 공격력! 득점 ${comparison.attackRank}위입니다.`;
+  }
+  if (comparison.defenseRank <= 3) {
+    return `🛡️ 리그 최강의 수비! 실점 ${comparison.defenseRank}위(가장 적게 실점)입니다.`;
+  }
+  if (outlook.acl1Prob === 'high') {
+    return `🎯 ACL 진출권에 안착! 시즌 막판까지 안정적인 흐름입니다.`;
+  }
+  return `📊 현재 ${team.rank}위, ${form.points}점. ${form.momentumLabel} 페이스를 이어가고 있어요.`;
 }

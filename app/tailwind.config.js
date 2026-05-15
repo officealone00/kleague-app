@@ -24,18 +24,20 @@ export default {
           orange: '#FF9500',
           yellow: '#FFCC00',
         },
-        // KBO 팀 컬러
-        team: {
-          samsung: '#074CA1',
-          lg: '#C30452',
-          kt: '#000000',
-          ssg: '#CE0E2D',
-          kia: '#EA0029',
-          nc: '#315288',
-          hanhwa: '#FF6600',
-          lotte: '#041E42',
-          doosan: '#131230',
-          kiwoom: '#570514',
+        // K리그1 팀 컬러
+        kleague: {
+          seoul: '#000000',
+          ulsan: '#1F4396',
+          gangwon: '#F58220',
+          jeonbuk: '#006A39',
+          jeju: '#F26522',
+          pohang: '#E60026',
+          daejeon: '#691F74',
+          daegu: '#1F66B4',
+          gwangju: '#E60012',
+          gimcheon: '#9E1B32',
+          suwonfc: '#7E2A36',
+          anyang: '#522F8B',
         },
       },
       fontFamily: {

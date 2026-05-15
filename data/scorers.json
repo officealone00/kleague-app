@@ -1,0 +1,7 @@
+[
+  { "rank": 1, "name": "무고사",   "team": "인천", "teamId": "K18", "goals": 7, "assists": 1, "attackPoints": 8, "games": 14, "perGame": 0.50 },
+  { "rank": 2, "name": "이호재",   "team": "포항", "teamId": "K03", "goals": 7, "assists": 0, "attackPoints": 7, "games": 14, "perGame": 0.50 },
+  { "rank": 3, "name": "야고",     "team": "울산", "teamId": "K01", "goals": 6, "assists": 1, "attackPoints": 7, "games": 13, "perGame": 0.46 },
+  { "rank": 4, "name": "야부달라", "team": "강원", "teamId": "K21", "goals": 6, "assists": 0, "attackPoints": 6, "games": 14, "perGame": 0.43 },
+  { "rank": 5, "name": "말컹",     "team": "울산", "teamId": "K01", "goals": 5, "assists": 3, "attackPoints": 8, "games": 12, "perGame": 0.42 }
+]

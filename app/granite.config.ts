@@ -4,9 +4,8 @@ export default defineConfig({
   appName: 'kleague-ranking',
   brand: {
     displayName: 'K리그 순위',
-    primaryColor: '#0C308E',
-    // TODO: 앱인토스 콘솔에서 업로드한 아이콘 URL로 교체
-    icon: 'https://static.toss.im/appsintoss/placeholder.png',
+    primaryColor: '#3182F6',
+    icon: 'https://static.toss.im/appsintoss/24163/935bf86f-9551-4b26-a814-b3eefb46a8aa.png',
   },
   web: {
     host: 'localhost',

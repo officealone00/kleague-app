@@ -1,11 +1,9 @@
-name: Scrape K-League Data
+name: Scrape K League Data
 
 on:
   schedule:
-    # 매시간 정각 (UTC) → KST는 +9시간
-    # K리그 경기는 주말 집중이라 매시간으로 충분
-    - cron: '0 * * * *'
-  workflow_dispatch:  # 수동 실행 버튼
+    - cron: '0 16 * * *'   # UTC 16:00 = KST 01:00 (매일 새벽 1시)
+  workflow_dispatch:        # 콘솔에서 수동 실행 가능
   push:
     paths:
       - 'scraper/**'
@@ -24,22 +22,41 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: scraper/package-lock.json
 
       - name: Install deps
-        run: cd scraper && npm install --no-package-lock
+        working-directory: scraper
+        run: npm ci || npm install
 
       - name: Run scraper
-        run: cd scraper && node scrape.js
-        continue-on-error: true
+        working-directory: scraper
+        run: npm start
 
-      - name: Commit & push data
+      - name: Commit updated data
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/
-          if git diff --staged --quiet; then
-            echo "변경사항 없음"
+          if git diff --cached --quiet; then
+            echo "no data change"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "🤖 자동 업데이트 ($(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M KST'))"
+            TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M UTC")
+            git commit -m "chore(data): K리그 data update ${TIMESTAMP}"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # 데이터 변경 시 jsdelivr CDN 캐시 자동 비우기
+      # → 사용자가 토스 앱 열면 항상 최신 데이터 자동 반영
+      - name: Purge jsdelivr cache
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          sleep 15
+          for f in standings scorers assists schedule meta; do
+            echo "Purging $f.json ..."
+            curl -fsS "https://purge.jsdelivr.net/gh/officealone00/kleague-app@main/data/$f.json" || true
+            echo ""
+          done

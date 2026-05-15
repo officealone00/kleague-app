@@ -1,0 +1,9 @@
+{
+  "recent": [],
+  "upcoming": [
+    { "date": "2026.05.16", "time": "16:30", "homeId": "K10", "awayId": "K09", "home": "대전", "away": "서울", "homeScore": null, "awayScore": null, "stadium": "대전 월드컵", "status": "scheduled" },
+    { "date": "2026.05.16", "time": "19:00", "homeId": "K18", "awayId": "K22", "home": "인천", "away": "광주", "homeScore": null, "awayScore": null, "stadium": "인천 전용", "status": "scheduled" },
+    { "date": "2026.05.17", "time": "16:30", "homeId": "K04", "awayId": "K27", "home": "제주", "away": "안양", "homeScore": null, "awayScore": null, "stadium": "제주 월드컵", "status": "scheduled" },
+    { "date": "2026.05.17", "time": "16:40", "homeId": "K05", "awayId": "K35", "home": "전북", "away": "김천", "homeScore": null, "awayScore": null, "stadium": "전주 월드컵", "status": "scheduled" }
+  ]
+}

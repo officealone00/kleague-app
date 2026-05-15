@@ -1,128 +1,104 @@
-# ⚽ K리그 순위 앱
+# K리그 순위 (앱인토스 미니앱) — v2.0
 
-> 앱인토스용 K리그1 실시간 순위 · 득점왕 · 도움왕 · 경기 결과 앱
+K리그1 **팀 순위 · 득점 · 도움 · 경기 일정**을 매일 자동 갱신해서 보여주는 앱인토스 미니앱.
 
-## 📱 앱 소개
+## v2.0 변경 요약 (2026.5.15)
 
-K리그1 2026 시즌의 모든 데이터를 한 곳에서 확인할 수 있는 미니앱.
+### 데이터 (스크래퍼)
+- **2026 K리그1 12팀 화이트리스트 갱신**
+  - 추가: 인천 유나이티드(K18), 부천 FC 1995(K26) — 2025 K2 우승/2위 승격
+  - 제외: 대구(K17), 수원FC(K29) — 강등
+- **일정(Schedule) 스크래퍼 신설** — `getKickOffEvent.do` 등 4개 엔드포인트 순차 시도 + 응답 구조 유연 파싱. 실패해도 standings/scorers/assists는 정상 갱신.
+- 옛 cheerio 기반 HTML 파서 폐기 (페이지가 client-side rendering이라 빈 결과만 나옴) → 순수 fetch + JSON only
 
-### 주요 기능
+### 앱 (UI)
+- **일정 탭 추가** — 다음 경기/전회 결과 (네이버 일정 카드 스타일)
+- **전면광고 완전 제거** — `InterstitialAd.tsx`, `GlobalClickTracker`, `interstitialCount` 전부 삭제
+- **광고 정책 정리**
+  - 배너 광고: 각 페이지 하단에 1개씩만
+  - 리워드 광고: `TeamReportPage` (상세 분석 리포트) 진입 시 1회만
+- 시드 데이터(`fallback.ts`)도 2026.5.14 네이버 카드 기준 실데이터로 교체
 
-- 🏆 **실시간 순위**: K리그1 12개 팀의 승점, 득실, 최근 5경기
-- ⚽ **득점왕 TOP 30**: 선수별 득점 순위
-- 🎯 **도움왕 TOP 30**: 선수별 도움 순위
-- 📅 **경기 일정/결과**: 오늘 & 어제 경기 한눈에
-- ⭐ **응원팀 기능**: 즐겨찾기 팀 설정 + 상세 분석 리포트
-
-### 심사 통과 포인트 (KBO 앱 경험 반영)
-
-- ✅ MemoryRouter (뒤로가기 버튼 중복 방지)
-- ✅ 최초화면 뒤로가기 = 앱 종료
-- ✅ API 재시도 + 폴백 (3단계 안전망)
-- ✅ 실제 광고 ID 적용
-- ✅ 크롤러 인코딩 대응 (iconv-lite)
-- ✅ 크롤러 실패 시 기존 데이터 보존
-- ✅ `.granite/` gitignore 처리
-
-## 🏗️ 구조
+## 폴더 구조
 
 ```
 kleague-app/
-├── .github/workflows/
-│   └── scrape-kleague.yml     # 매시간 데이터 크롤링
+├── app/                      # React + Vite + 앱인토스 SDK
+│   ├── src/
+│   │   ├── App.tsx           # 라우터 + 뒤로가기 (전면광고 제거됨)
+│   │   ├── pages/
+│   │   │   ├── StandingsPage.tsx   # 순위 (배너 1개 하단)
+│   │   │   ├── ScorersPage.tsx     # 득점
+│   │   │   ├── AssistsPage.tsx     # 도움
+│   │   │   ├── SchedulePage.tsx    # 🆕 일정 (다음경기/전회결과)
+│   │   │   └── TeamReportPage.tsx  # 상세 리포트 (리워드 광고)
+│   │   ├── components/
+│   │   │   ├── BottomNav.tsx       # 🆕 4탭 (순위/득점/도움/일정)
+│   │   │   ├── PlayerListPage.tsx  # 득점/도움 공통
+│   │   │   ├── BannerAd.tsx
+│   │   │   ├── RewardedAd.tsx      # TeamReport 전용
+│   │   │   ├── FavoriteTeamModal.tsx
+│   │   │   ├── TeamLogo.tsx
+│   │   │   └── TeamBadge.tsx
+│   │   ├── data/teams.ts           # 🔄 인천·부천 추가
+│   │   └── utils/
+│   │       ├── api.ts              # 🆕 api.schedule() 추가
+│   │       ├── fallback.ts         # 🔄 2026.5.14 실데이터 시드
+│   │       └── storage.ts          # 🔄 interstitial 카운터 제거
+│   ├── granite.config.ts
+│   └── package.json
+├── data/                     # 크롤러가 채우는 JSON (jsdelivr로 앱이 fetch)
+│   ├── standings.json
+│   ├── scorers.json
+│   ├── assists.json
+│   ├── schedule.json         # 🆕
+│   └── meta.json
 ├── scraper/
-│   ├── scrape.js              # 데이터 크롤러 v2 (인코딩 대응)
-│   └── package.json           # iconv-lite 의존성
-├── data/                      # 크롤링된 JSON 데이터
-│   ├── standings.json         # 팀 순위 (12팀)
-│   ├── goals.json             # 득점왕 Top 30
-│   ├── assists.json           # 도움왕 Top 30
-│   ├── games.json             # 오늘/어제 경기
-│   └── meta.json              # 업데이트 시각
-├── docs/                      # GitHub Pages
-│   ├── terms.html             # 서비스 이용약관
-│   └── privacy.html           # 개인정보처리방침
-└── app/                       # 앱인토스 프론트엔드
-    ├── granite.config.ts      # 앱인토스 설정
-    ├── package.json
-    └── src/
-        ├── App.tsx            # MemoryRouter + 뒤로가기 처리
-        ├── pages/             # 4개 페이지
-        ├── components/        # 공통 컴포넌트 (광고 등)
-        ├── data/teams.ts      # K리그 12팀 정보
-        └── utils/             # API, 폴백, 분석 로직
+│   ├── scrape.js             # 🔄 v2.0 (인천·부천 + 일정 엔드포인트 시도)
+│   └── package.json          # cheerio 의존 제거
+└── .github/workflows/
+    └── scrape-kleague.yml    # 매일 KST 01:00 자동 실행
 ```
 
-## 🚀 배포 가이드
+## 로컬 실행
 
-### 1. GitHub Repo 만들기
-
+### 앱 (UI 미리보기)
 ```bash
-# officealone00 계정에서 kleague-app repo 생성
-# (Public, README 없이)
-
-cd C:\Users\Lee\kleague-app
-git init
-git add .
-git commit -m "Initial K리그 앱"
-git branch -M main
-git remote add origin https://github.com/officealone00/kleague-app.git
-git push -u origin main
+cd app
+npm install
+npm run dev
 ```
 
-### 2. GitHub Pages 활성화
+`http://localhost:5173` 접속.
 
-Repo → Settings → Pages
-- Source: `main` branch, `/docs` folder
-- `https://officealone00.github.io/kleague-app/terms.html` 접속 확인
-
-### 3. GitHub Actions 활성화
-
-자동으로 매시간 크롤링 실행됨. 첫 실행은 `Actions` 탭에서 수동 실행 가능.
-
-### 4. 크롤러 테스트 (선택)
-
+### 스크래퍼 (테스트)
 ```bash
 cd scraper
 npm install
-node scrape.js
+npm start
 ```
 
-### 5. 앱인토스 콘솔 등록
+성공하면 `../data/*.json` 갱신됨. 일정 엔드포인트는 K리그 사이트 변경에 따라 시도 결과가 다를 수 있으니 로그 확인 권장.
 
-1. https://apps-in-toss.toss.im 접속
-2. 새 앱 생성: "K리그 순위"
-3. 광고 ID 3종 발급 (배너/전면/리워드)
-4. 광고 ID를 코드에 반영:
-   - `app/src/components/BannerAd.tsx`
-   - `app/src/components/InterstitialAd.tsx`
-   - `app/src/components/RewardedAd.tsx`
-5. 빌드: `cd app && npm install && npm run build`
-6. `deploymentId` 복사 → 콘솔 "앱 출시" → 버전 등록
+## 출시 체크리스트 (앱인토스 심사)
 
-## ⚠️ KBO 앱에서 배운 교훈 (이미 반영됨)
+- [x] `IS_AD_PRODUCTION = true` (BannerAd, RewardedAd)
+- [x] 실제 광고 ID 적용 (배너: `ait.v2.live.340b27317f094704`)
+- [x] 전면광고 완전 제거 (요청사항)
+- [x] 리워드 광고는 상세 리포트에만 (요청사항)
+- [x] 자체 뒤로가기 시 `navigationBar`에 `withBackButton: false` 필요한지 점검
+- [x] `MemoryRouter` 적용
+- [x] API 실패 시 폴백 데이터 + 친절한 에러 UI
+- [x] 번들에 초기 JSON 포함 (`utils/fallback.ts`)
+- [ ] `granite.config.ts`: K리그 전용 아이콘 URL 교체
+- [ ] 콘솔 영문 앱명 'K League Standings'로 정정 (이전 'Kleagueranking')
 
-### 1. 크롤러 인코딩
-- 한국 공공사이트는 EUC-KR인 경우 많음
-- `iconv-lite`로 자동 감지 처리
+## 일정 스크래퍼 동작 안 할 때
 
-### 2. jsdelivr CDN 캐시
-- 데이터 업데이트 후 CDN이 오래된 버전 제공하기도 함
-- 해결: `https://purge.jsdelivr.net/gh/{user}/{repo}@main/data/{file}.json` 열기
+K리그 공식 사이트의 일정 API 경로가 바뀌었을 가능성이 있어요. 그때는:
 
-### 3. `.granite/` 빌드 캐시
-- 앱인토스 빌드 시 생성되는 `.granite/` 폴더는 커밋하지 않음
-- `.gitignore`에 미리 포함됨
+1. GitHub Actions 로그에서 `→ 시도: ...` 출력 확인
+2. 4개 후보 모두 실패라면 → 브라우저 DevTools(F12) → Network 탭 열고 `https://www.kleague.com/schedule.do?leagueId=1` 직접 접속해서 실제 호출되는 XHR/Fetch URL 찾기
+3. 그 경로를 `scraper/scrape.js`의 `candidates` 배열에 추가
 
-### 4. api.ts CONFIG
-- `githubUser`, `repo` 값이 실제 GitHub 정보와 일치해야 함
-- 현재 값: `officealone00/kleague-app`
-
-### 5. 크롤러 실패 시 동작
-- 다음스포츠 API 변경에 대비
-- 크롤링 실패 시 기존 `data/*.json`을 덮어쓰지 않음 (시드 데이터 보존)
-
-## 📝 라이선스 / 데이터 출처
-
-- 데이터: 다음스포츠 (sports.daum.net)
-- 이 앱은 개인 학습/취미 목적으로 만든 비공식 서비스입니다
+standings/scorers/assists는 영향 없이 갱신됨.
