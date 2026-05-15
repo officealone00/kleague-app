@@ -1,14 +1,11 @@
 {
-  "updatedAt": "2026-05-15T12:59:37.371Z",
-  "updatedAtKST": "2026. 5. 15. PM 9:59:37",
+  "updatedAt": "2026-05-15T13:03:32.162Z",
+  "updatedAtKST": "2026. 5. 16. AM 7:03:32",
   "season": 2026,
-  "success": 0,
+  "leagueId": 1,
+  "version": "2.0",
+  "success": 4,
   "total": 4,
-  "errors": [
-    "standings",
-    "goals",
-    "assists",
-    "games"
-  ],
-  "league": "K리그1"
+  "errors": [],
+  "scheduleEndpoint": null
 }
