@@ -281,16 +281,20 @@ async function scrapeSchedule() {
   console.log(`  샘플 키: ${Object.keys(allRaw[0]).slice(0, 20).join(', ')}`);
 
   // 정규화: 응답마다 필드명이 다를 수 있음
+  // ✅ 2026.5.15 실제 응답 키 확인됨:
+  //   gameDate, gameTime, homeTeam, awayTeam, homeTeamName, awayTeamName,
+  //   fieldName, homeGoal, awayGoal, endYn, codeName, gameStatus
   const normalize = (item) => {
     const meetDate =
-      item.meetDate || item.matchDate || item.gameDate || item.kickoffDate || '';
+      item.gameDate || item.meetDate || item.matchDate || item.kickoffDate || '';
     const meetTime =
-      item.meetTime || item.matchTime || item.gameTime || item.kickoffTime || '';
+      item.gameTime || item.meetTime || item.matchTime || item.kickoffTime || '';
 
+    // home/away teamId — 실제 응답은 homeTeam (K01 같은 코드)
     const homeId =
-      item.homeTeamId || item.homeId || item.home?.teamId || item.team1Id || null;
+      item.homeTeam || item.homeTeamId || item.homeId || item.home?.teamId || null;
     const awayId =
-      item.awayTeamId || item.awayId || item.away?.teamId || item.team2Id || null;
+      item.awayTeam || item.awayTeamId || item.awayId || item.away?.teamId || null;
 
     const homeName =
       (homeId && TEAM_ID_TO_NAME[homeId]) ||
@@ -313,9 +317,19 @@ async function scrapeSchedule() {
     const stadium =
       item.fieldName || item.stadium || item.stadiumName || item.venue || '';
 
-    const hasScore =
-      homeScore !== null && awayScore !== null && homeScore !== '' && awayScore !== '';
-    const status = hasScore ? 'finished' : 'scheduled';
+    // ✅ 상태 판단: endYn 우선 사용 (Y=종료, N=예정)
+    // endYn 없을 때만 점수 유무로 폴백
+    const endYn = String(item.endYn || '').toUpperCase();
+    let status;
+    if (endYn === 'Y') {
+      status = 'finished';
+    } else if (endYn === 'N') {
+      status = 'scheduled';
+    } else {
+      const hasScore =
+        homeScore !== null && awayScore !== null && homeScore !== '' && awayScore !== '';
+      status = hasScore ? 'finished' : 'scheduled';
+    }
 
     // 날짜 정규화: 'YYYYMMDD' / 'YYYY-MM-DD' / 'YYYY.MM.DD' 모두 처리
     let dateStr = '';
@@ -337,6 +351,9 @@ async function scrapeSchedule() {
       timeStr = tRaw;
     }
 
+    // 종료 경기만 실제 점수 표시 (예정 경기의 0:0은 표시 안 함)
+    const showScore = status === 'finished';
+
     return {
       date: dateStr,
       time: timeStr,
@@ -344,28 +361,43 @@ async function scrapeSchedule() {
       awayId,
       home: homeName,
       away: awayName,
-      homeScore: hasScore ? Number(homeScore) : null,
-      awayScore: hasScore ? Number(awayScore) : null,
+      homeScore: showScore && homeScore !== null && homeScore !== '' ? Number(homeScore) : null,
+      awayScore: showScore && awayScore !== null && awayScore !== '' ? Number(awayScore) : null,
       stadium,
       status,
     };
   };
 
+  // 오늘 날짜 (KST 기준)
+  const nowKST = new Date(Date.now() + 9 * 60 * 60 * 1000);
+  const todayStr = nowKST.toISOString().slice(0, 10).replace(/-/g, '.');
+
   const games = allRaw
     .map(normalize)
-    // K1 팀끼리의 경기만 (id 매핑 안 됐을 때도 일단 포함 - 이름만으로도 표시 가능)
     .filter((g) => g.date)
-    // 날짜 정렬
+    // 날짜 정렬 (오름차순)
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 
-  // 최근 종료 경기 10건 (가장 가까운 과거부터 - 최신순)
+  // 추가 안전장치: 오늘 이후 경기는 무조건 "scheduled"로 보정
+  // (endYn이 잘못 들어와도 미래 경기가 finished로 새는 걸 방지)
+  for (const g of games) {
+    if (g.date > todayStr && g.status === 'finished') {
+      g.status = 'scheduled';
+      g.homeScore = null;
+      g.awayScore = null;
+    }
+  }
+
+  // 최근 종료 경기 10건 (오늘 이전, 최신순)
   const recent = games
     .filter((g) => g.status === 'finished')
     .slice(-10)
     .reverse();
 
-  // 다가오는 경기 10건 (가까운 미래부터)
-  const upcoming = games.filter((g) => g.status === 'scheduled').slice(0, 10);
+  // 다가오는 경기 10건 (오늘 이후, 가까운 미래부터)
+  const upcoming = games
+    .filter((g) => g.status === 'scheduled' && g.date >= todayStr)
+    .slice(0, 10);
 
   const usedEndpoint = `getScheduleList.do (${monthsWithData}개월)`;
   console.log(`  ✅ 최근 ${recent.length}경기, 예정 ${upcoming.length}경기 (${usedEndpoint})`);
