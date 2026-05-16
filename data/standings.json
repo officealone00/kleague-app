@@ -3,15 +3,15 @@
     "rank": 1,
     "team": "서울",
     "teamId": "K09",
-    "games": 14,
-    "wins": 9,
+    "games": 15,
+    "wins": 10,
     "draws": 2,
     "losses": 3,
-    "points": 29,
-    "goalsFor": 25,
-    "goalsAgainst": 11,
-    "goalDiff": 14,
-    "last5": "승패무패승"
+    "points": 32,
+    "goalsFor": 27,
+    "goalsAgainst": 12,
+    "goalDiff": 15,
+    "last5": "승승패무패"
   },
   {
     "rank": 2,
@@ -57,6 +57,20 @@
   },
   {
     "rank": 5,
+    "team": "인천",
+    "teamId": "K18",
+    "games": 15,
+    "wins": 6,
+    "draws": 3,
+    "losses": 6,
+    "points": 21,
+    "goalsFor": 21,
+    "goalsAgainst": 17,
+    "goalDiff": 4,
+    "last5": "승패승무패"
+  },
+  {
+    "rank": 6,
     "team": "강원",
     "teamId": "K21",
     "games": 14,
@@ -68,20 +82,6 @@
     "goalsAgainst": 10,
     "goalDiff": 7,
     "last5": "승무무승패"
-  },
-  {
-    "rank": 6,
-    "team": "인천",
-    "teamId": "K18",
-    "games": 14,
-    "wins": 5,
-    "draws": 3,
-    "losses": 6,
-    "points": 18,
-    "goalsFor": 17,
-    "goalsAgainst": 17,
-    "goalDiff": 0,
-    "last5": "패승무패승"
   },
   {
     "rank": 7,
@@ -115,15 +115,15 @@
     "rank": 9,
     "team": "대전",
     "teamId": "K10",
-    "games": 14,
+    "games": 15,
     "wins": 4,
     "draws": 4,
-    "losses": 6,
+    "losses": 7,
     "points": 16,
-    "goalsFor": 16,
-    "goalsAgainst": 14,
-    "goalDiff": 2,
-    "last5": "패패무승승"
+    "goalsFor": 17,
+    "goalsAgainst": 16,
+    "goalDiff": 1,
+    "last5": "패패패무승"
   },
   {
     "rank": 10,
@@ -157,14 +157,14 @@
     "rank": 12,
     "team": "광주",
     "teamId": "K22",
-    "games": 14,
+    "games": 15,
     "wins": 1,
     "draws": 4,
-    "losses": 9,
+    "losses": 10,
     "points": 7,
     "goalsFor": 7,
-    "goalsAgainst": 33,
-    "goalDiff": -26,
-    "last5": "패무패패패"
+    "goalsAgainst": 37,
+    "goalDiff": -30,
+    "last5": "패패무패패"
   }
 ]
