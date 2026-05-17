@@ -21,8 +21,8 @@
     "goals": 7,
     "assists": 0,
     "attackPoints": 7,
-    "games": 14,
-    "shots": 20,
+    "games": 15,
+    "shots": 23,
     "perGame": 0
   },
   {
@@ -34,7 +34,7 @@
     "goals": 6,
     "assists": 0,
     "attackPoints": 6,
-    "games": 11,
+    "games": 12,
     "shots": 32,
     "perGame": 0
   },
@@ -47,8 +47,8 @@
     "goals": 6,
     "assists": 0,
     "attackPoints": 6,
-    "games": 14,
-    "shots": 16,
+    "games": 15,
+    "shots": 19,
     "perGame": 0
   },
   {
@@ -60,8 +60,8 @@
     "goals": 5,
     "assists": 2,
     "attackPoints": 7,
-    "games": 8,
-    "shots": 29,
+    "games": 9,
+    "shots": 31,
     "perGame": 0
   },
   {
@@ -99,8 +99,8 @@
     "goals": 5,
     "assists": 3,
     "attackPoints": 8,
-    "games": 13,
-    "shots": 36,
+    "games": 14,
+    "shots": 37,
     "perGame": 0
   },
   {
@@ -110,9 +110,9 @@
     "teamId": "K21",
     "playerId": "20160098",
     "goals": 5,
-    "assists": 2,
-    "attackPoints": 7,
-    "games": 14,
+    "assists": 3,
+    "attackPoints": 8,
+    "games": 15,
     "shots": 31,
     "perGame": 0
   },
@@ -144,6 +144,19 @@
   },
   {
     "rank": 12,
+    "name": "마테우스",
+    "team": "안양",
+    "teamId": "K27",
+    "playerId": "20240078",
+    "goals": 4,
+    "assists": 3,
+    "attackPoints": 7,
+    "games": 13,
+    "shots": 25,
+    "perGame": 0
+  },
+  {
+    "rank": 13,
     "name": "고재현",
     "team": "김천",
     "teamId": "K35",
@@ -151,12 +164,12 @@
     "goals": 4,
     "assists": 1,
     "attackPoints": 5,
-    "games": 13,
+    "games": 14,
     "shots": 21,
     "perGame": 0
   },
   {
-    "rank": 13,
+    "rank": 14,
     "name": "갈레고",
     "team": "부천",
     "teamId": "K26",
@@ -164,12 +177,25 @@
     "goals": 4,
     "assists": 2,
     "attackPoints": 6,
-    "games": 13,
-    "shots": 28,
+    "games": 14,
+    "shots": 31,
     "perGame": 0
   },
   {
-    "rank": 14,
+    "rank": 15,
+    "name": "티아고",
+    "team": "전북",
+    "teamId": "K05",
+    "playerId": "20220244",
+    "goals": 4,
+    "assists": 1,
+    "attackPoints": 5,
+    "games": 15,
+    "shots": 20,
+    "perGame": 0
+  },
+  {
+    "rank": 16,
     "name": "이승모",
     "team": "서울",
     "teamId": "K09",
@@ -182,7 +208,7 @@
     "perGame": 0
   },
   {
-    "rank": 15,
+    "rank": 17,
     "name": "신창무",
     "team": "광주",
     "teamId": "K22",
@@ -195,7 +221,7 @@
     "perGame": 0
   },
   {
-    "rank": 16,
+    "rank": 18,
     "name": "후이즈",
     "team": "서울",
     "teamId": "K09",
@@ -208,7 +234,7 @@
     "perGame": 0
   },
   {
-    "rank": 17,
+    "rank": 19,
     "name": "디오고",
     "team": "대전",
     "teamId": "K10",
@@ -221,20 +247,7 @@
     "perGame": 0
   },
   {
-    "rank": 18,
-    "name": "마테우스",
-    "team": "안양",
-    "teamId": "K27",
-    "playerId": "20240078",
-    "goals": 3,
-    "assists": 3,
-    "attackPoints": 6,
-    "games": 12,
-    "shots": 21,
-    "perGame": 0
-  },
-  {
-    "rank": 19,
+    "rank": 20,
     "name": "최건주",
     "team": "안양",
     "teamId": "K27",
@@ -242,21 +255,8 @@
     "goals": 3,
     "assists": 0,
     "attackPoints": 3,
-    "games": 13,
-    "shots": 14,
-    "perGame": 0
-  },
-  {
-    "rank": 20,
-    "name": "티아고",
-    "team": "전북",
-    "teamId": "K05",
-    "playerId": "20220244",
-    "goals": 3,
-    "assists": 1,
-    "attackPoints": 4,
     "games": 14,
-    "shots": 19,
+    "shots": 14,
     "perGame": 0
   },
   {
@@ -268,8 +268,8 @@
     "goals": 3,
     "assists": 1,
     "attackPoints": 4,
-    "games": 14,
-    "shots": 26,
+    "games": 15,
+    "shots": 28,
     "perGame": 0
   },
   {
@@ -281,8 +281,8 @@
     "goals": 3,
     "assists": 1,
     "attackPoints": 4,
-    "games": 14,
-    "shots": 20,
+    "games": 15,
+    "shots": 21,
     "perGame": 0
   },
   {
@@ -294,8 +294,8 @@
     "goals": 3,
     "assists": 2,
     "attackPoints": 5,
-    "games": 14,
-    "shots": 21,
+    "games": 15,
+    "shots": 22,
     "perGame": 0
   },
   {
@@ -320,8 +320,8 @@
     "goals": 2,
     "assists": 1,
     "attackPoints": 3,
-    "games": 6,
-    "shots": 3,
+    "games": 7,
+    "shots": 4,
     "perGame": 0
   },
   {
@@ -359,8 +359,8 @@
     "goals": 2,
     "assists": 0,
     "attackPoints": 2,
-    "games": 8,
-    "shots": 12,
+    "games": 9,
+    "shots": 13,
     "perGame": 0
   },
   {
@@ -372,7 +372,7 @@
     "goals": 2,
     "assists": 0,
     "attackPoints": 2,
-    "games": 10,
+    "games": 11,
     "shots": 7,
     "perGame": 0
   },
@@ -385,8 +385,8 @@
     "goals": 2,
     "assists": 1,
     "attackPoints": 3,
-    "games": 10,
-    "shots": 6,
+    "games": 11,
+    "shots": 7,
     "perGame": 0
   }
 ]
