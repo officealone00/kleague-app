@@ -15,20 +15,34 @@
   },
   {
     "rank": 2,
-    "team": "전북",
-    "teamId": "K05",
+    "team": "강원",
+    "teamId": "K21",
     "games": 16,
     "wins": 7,
     "draws": 6,
     "losses": 3,
     "points": 27,
     "goalsFor": 21,
-    "goalsAgainst": 12,
-    "goalDiff": 9,
-    "last5": "승무무승승"
+    "goalsAgainst": 11,
+    "goalDiff": 10,
+    "last5": "승승승무무"
   },
   {
     "rank": 3,
+    "team": "전북",
+    "teamId": "K05",
+    "games": 16,
+    "wins": 7,
+    "draws": 5,
+    "losses": 4,
+    "points": 26,
+    "goalsFor": 22,
+    "goalsAgainst": 14,
+    "goalDiff": 8,
+    "last5": "패승무무승"
+  },
+  {
+    "rank": 4,
     "team": "울산",
     "teamId": "K01",
     "games": 15,
@@ -42,20 +56,6 @@
     "last5": "패승승승패"
   },
   {
-    "rank": 4,
-    "team": "강원",
-    "teamId": "K21",
-    "games": 16,
-    "wins": 6,
-    "draws": 7,
-    "losses": 3,
-    "points": 25,
-    "goalsFor": 19,
-    "goalsAgainst": 10,
-    "goalDiff": 9,
-    "last5": "승승무무승"
-  },
-  {
     "rank": 5,
     "team": "포항",
     "teamId": "K03",
@@ -64,10 +64,10 @@
     "draws": 4,
     "losses": 5,
     "points": 25,
-    "goalsFor": 13,
-    "goalsAgainst": 12,
+    "goalsFor": 15,
+    "goalsAgainst": 14,
     "goalDiff": 1,
-    "last5": "패승승무승"
+    "last5": "승패승승무"
   },
   {
     "rank": 6,
@@ -92,10 +92,10 @@
     "draws": 8,
     "losses": 4,
     "points": 20,
-    "goalsFor": 19,
-    "goalsAgainst": 17,
+    "goalsFor": 21,
+    "goalsAgainst": 19,
     "goalDiff": 2,
-    "last5": "승무무무패"
+    "last5": "패승무무무"
   },
   {
     "rank": 8,
@@ -120,10 +120,10 @@
     "draws": 6,
     "losses": 6,
     "points": 18,
-    "goalsFor": 11,
-    "goalsAgainst": 15,
+    "goalsFor": 13,
+    "goalsAgainst": 17,
     "goalDiff": -4,
-    "last5": "승무패패승"
+    "last5": "무승무패패"
   },
   {
     "rank": 10,
@@ -134,10 +134,10 @@
     "draws": 5,
     "losses": 7,
     "points": 17,
-    "goalsFor": 17,
-    "goalsAgainst": 16,
+    "goalsFor": 19,
+    "goalsAgainst": 18,
     "goalDiff": 1,
-    "last5": "패패패무승"
+    "last5": "무패패패무"
   },
   {
     "rank": 11,
