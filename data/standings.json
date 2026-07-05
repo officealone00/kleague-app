@@ -4,14 +4,14 @@
     "team": "서울",
     "teamId": "K09",
     "games": 16,
-    "wins": 10,
-    "draws": 3,
+    "wins": 11,
+    "draws": 2,
     "losses": 3,
-    "points": 33,
-    "goalsFor": 27,
+    "points": 35,
+    "goalsFor": 28,
     "goalsAgainst": 12,
-    "goalDiff": 15,
-    "last5": "승승패무패"
+    "goalDiff": 16,
+    "last5": "승승승패무"
   },
   {
     "rank": 2,
@@ -22,10 +22,10 @@
     "draws": 3,
     "losses": 5,
     "points": 27,
-    "goalsFor": 22,
-    "goalsAgainst": 20,
+    "goalsFor": 23,
+    "goalsAgainst": 21,
     "goalDiff": 2,
-    "last5": "패승승승패"
+    "last5": "무패승승승"
   },
   {
     "rank": 3,
@@ -75,13 +75,13 @@
     "teamId": "K18",
     "games": 16,
     "wins": 6,
-    "draws": 4,
-    "losses": 6,
-    "points": 22,
+    "draws": 3,
+    "losses": 7,
+    "points": 21,
     "goalsFor": 21,
-    "goalsAgainst": 17,
-    "goalDiff": 4,
-    "last5": "승패승무패"
+    "goalsAgainst": 18,
+    "goalDiff": 3,
+    "last5": "패승패승무"
   },
   {
     "rank": 7,
@@ -106,10 +106,10 @@
     "draws": 4,
     "losses": 7,
     "points": 19,
-    "goalsFor": 13,
-    "goalsAgainst": 16,
+    "goalsFor": 14,
+    "goalsAgainst": 17,
     "goalDiff": -3,
-    "last5": "패패승승패"
+    "last5": "무패패승승"
   },
   {
     "rank": 9,
@@ -148,10 +148,10 @@
     "draws": 9,
     "losses": 5,
     "points": 15,
-    "goalsFor": 15,
-    "goalsAgainst": 21,
+    "goalsFor": 16,
+    "goalsAgainst": 22,
     "goalDiff": -6,
-    "last5": "패무패패승"
+    "last5": "무패무패패"
   },
   {
     "rank": 12,
@@ -162,9 +162,9 @@
     "draws": 5,
     "losses": 10,
     "points": 8,
-    "goalsFor": 7,
-    "goalsAgainst": 37,
+    "goalsFor": 8,
+    "goalsAgainst": 38,
     "goalDiff": -30,
-    "last5": "패패무패패"
+    "last5": "무패패무패"
   }
 ]
