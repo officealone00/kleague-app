@@ -34,8 +34,8 @@
     "goals": 6,
     "assists": 0,
     "attackPoints": 6,
-    "games": 12,
-    "shots": 32,
+    "games": 13,
+    "shots": 35,
     "perGame": 0
   },
   {
@@ -151,25 +151,12 @@
     "goals": 4,
     "assists": 0,
     "attackPoints": 4,
-    "games": 12,
+    "games": 13,
     "shots": 13,
     "perGame": 0
   },
   {
     "rank": 13,
-    "name": "고재현",
-    "team": "김천",
-    "teamId": "K35",
-    "playerId": "20180123",
-    "goals": 4,
-    "assists": 1,
-    "attackPoints": 5,
-    "games": 14,
-    "shots": 21,
-    "perGame": 0
-  },
-  {
-    "rank": 14,
     "name": "티아고",
     "team": "전북",
     "teamId": "K05",
@@ -182,7 +169,7 @@
     "perGame": 0
   },
   {
-    "rank": 15,
+    "rank": 14,
     "name": "이승모",
     "team": "서울",
     "teamId": "K09",
@@ -192,6 +179,19 @@
     "attackPoints": 5,
     "games": 15,
     "shots": 17,
+    "perGame": 0
+  },
+  {
+    "rank": 15,
+    "name": "고재현",
+    "team": "김천",
+    "teamId": "K35",
+    "playerId": "20180123",
+    "goals": 4,
+    "assists": 1,
+    "attackPoints": 5,
+    "games": 15,
+    "shots": 21,
     "perGame": 0
   },
   {
@@ -242,7 +242,7 @@
     "goals": 3,
     "assists": 1,
     "attackPoints": 4,
-    "games": 9,
+    "games": 10,
     "shots": 13,
     "perGame": 0
   },
@@ -300,19 +300,6 @@
   },
   {
     "rank": 24,
-    "name": "이건희",
-    "team": "김천",
-    "teamId": "K35",
-    "playerId": "20200164",
-    "goals": 3,
-    "assists": 2,
-    "attackPoints": 5,
-    "games": 15,
-    "shots": 22,
-    "perGame": 0
-  },
-  {
-    "rank": 25,
     "name": "송민규",
     "team": "서울",
     "teamId": "K09",
@@ -322,6 +309,19 @@
     "attackPoints": 6,
     "games": 15,
     "shots": 17,
+    "perGame": 0
+  },
+  {
+    "rank": 25,
+    "name": "이건희",
+    "team": "김천",
+    "teamId": "K35",
+    "playerId": "20200164",
+    "goals": 3,
+    "assists": 2,
+    "attackPoints": 5,
+    "games": 16,
+    "shots": 22,
     "perGame": 0
   },
   {
@@ -378,15 +378,15 @@
   },
   {
     "rank": 30,
-    "name": "김주찬",
-    "team": "김천",
-    "teamId": "K35",
-    "playerId": "20230103",
+    "name": "완델손",
+    "team": "포항",
+    "teamId": "K03",
+    "playerId": "20150253",
     "goals": 2,
-    "assists": 0,
-    "attackPoints": 2,
-    "games": 9,
-    "shots": 13,
+    "assists": 1,
+    "attackPoints": 3,
+    "games": 10,
+    "shots": 6,
     "perGame": 0
   }
 ]
