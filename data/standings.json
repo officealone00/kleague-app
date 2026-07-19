@@ -3,15 +3,15 @@
     "rank": 1,
     "team": "서울",
     "teamId": "K09",
-    "games": 17,
-    "wins": 11,
+    "games": 18,
+    "wins": 12,
     "draws": 3,
     "losses": 3,
-    "points": 36,
-    "goalsFor": 28,
-    "goalsAgainst": 12,
-    "goalDiff": 16,
-    "last5": "무승승승패"
+    "points": 39,
+    "goalsFor": 31,
+    "goalsAgainst": 13,
+    "goalDiff": 18,
+    "last5": "승무승승승"
   },
   {
     "rank": 2,
@@ -71,6 +71,20 @@
   },
   {
     "rank": 6,
+    "team": "안양",
+    "teamId": "K27",
+    "games": 18,
+    "wins": 5,
+    "draws": 9,
+    "losses": 4,
+    "points": 24,
+    "goalsFor": 23,
+    "goalsAgainst": 20,
+    "goalDiff": 3,
+    "last5": "무승패승무"
+  },
+  {
+    "rank": 7,
     "team": "인천",
     "teamId": "K18",
     "games": 18,
@@ -82,20 +96,6 @@
     "goalsAgainst": 19,
     "goalDiff": 3,
     "last5": "승패패승패"
-  },
-  {
-    "rank": 7,
-    "team": "안양",
-    "teamId": "K27",
-    "games": 17,
-    "wins": 5,
-    "draws": 8,
-    "losses": 4,
-    "points": 23,
-    "goalsFor": 22,
-    "goalsAgainst": 19,
-    "goalDiff": 3,
-    "last5": "승패승무무"
   },
   {
     "rank": 8,
@@ -129,15 +129,15 @@
     "rank": 10,
     "team": "부천",
     "teamId": "K26",
-    "games": 17,
+    "games": 18,
     "wins": 4,
     "draws": 7,
-    "losses": 6,
+    "losses": 7,
     "points": 19,
-    "goalsFor": 14,
-    "goalsAgainst": 18,
-    "goalDiff": -4,
-    "last5": "무무승무패"
+    "goalsFor": 15,
+    "goalsAgainst": 21,
+    "goalDiff": -6,
+    "last5": "패무무승무"
   },
   {
     "rank": 11,
@@ -157,14 +157,14 @@
     "rank": 12,
     "team": "광주",
     "teamId": "K22",
-    "games": 17,
+    "games": 18,
     "wins": 1,
-    "draws": 5,
+    "draws": 6,
     "losses": 11,
-    "points": 8,
-    "goalsFor": 8,
-    "goalsAgainst": 41,
+    "points": 9,
+    "goalsFor": 9,
+    "goalsAgainst": 42,
     "goalDiff": -33,
-    "last5": "패무패패무"
+    "last5": "무패무패패"
   }
 ]
