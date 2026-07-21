@@ -19,13 +19,13 @@
     "teamId": "K21",
     "games": 19,
     "wins": 8,
-    "draws": 7,
-    "losses": 4,
-    "points": 31,
-    "goalsFor": 23,
+    "draws": 8,
+    "losses": 3,
+    "points": 32,
+    "goalsFor": 24,
     "goalsAgainst": 12,
-    "goalDiff": 11,
-    "last5": "승무승승승"
+    "goalDiff": 12,
+    "last5": "무승무승승"
   },
   {
     "rank": 3,
@@ -39,7 +39,7 @@
     "goalsFor": 25,
     "goalsAgainst": 16,
     "goalDiff": 9,
-    "last5": "패승패승무"
+    "last5": "무패승패승"
   },
   {
     "rank": 4,
@@ -47,13 +47,13 @@
     "teamId": "K01",
     "games": 19,
     "wins": 8,
-    "draws": 5,
-    "losses": 6,
-    "points": 29,
-    "goalsFor": 26,
-    "goalsAgainst": 26,
-    "goalDiff": 0,
-    "last5": "무패무패승"
+    "draws": 4,
+    "losses": 7,
+    "points": 28,
+    "goalsFor": 27,
+    "goalsAgainst": 28,
+    "goalDiff": -1,
+    "last5": "패무패무패"
   },
   {
     "rank": 5,
@@ -71,34 +71,20 @@
   },
   {
     "rank": 6,
-    "team": "제주",
-    "teamId": "K04",
-    "games": 19,
-    "wins": 7,
-    "draws": 5,
-    "losses": 7,
-    "points": 26,
-    "goalsFor": 17,
-    "goalsAgainst": 18,
-    "goalDiff": -1,
-    "last5": "승무무패패"
-  },
-  {
-    "rank": 7,
     "team": "인천",
     "teamId": "K18",
     "games": 19,
-    "wins": 7,
-    "draws": 4,
+    "wins": 8,
+    "draws": 3,
     "losses": 8,
-    "points": 25,
-    "goalsFor": 22,
-    "goalsAgainst": 19,
-    "goalDiff": 3,
-    "last5": "승패패승패"
+    "points": 27,
+    "goalsFor": 24,
+    "goalsAgainst": 20,
+    "goalDiff": 4,
+    "last5": "승승패패승"
   },
   {
-    "rank": 8,
+    "rank": 7,
     "team": "안양",
     "teamId": "K27",
     "games": 18,
@@ -112,6 +98,20 @@
     "last5": "무승패승무"
   },
   {
+    "rank": 8,
+    "team": "제주",
+    "teamId": "K04",
+    "games": 19,
+    "wins": 6,
+    "draws": 6,
+    "losses": 7,
+    "points": 24,
+    "goalsFor": 17,
+    "goalsAgainst": 19,
+    "goalDiff": -2,
+    "last5": "무승무무패"
+  },
+  {
     "rank": 9,
     "team": "대전",
     "teamId": "K10",
@@ -123,7 +123,7 @@
     "goalsFor": 21,
     "goalsAgainst": 20,
     "goalDiff": 1,
-    "last5": "무무무패패"
+    "last5": "무무무무패"
   },
   {
     "rank": 10,
