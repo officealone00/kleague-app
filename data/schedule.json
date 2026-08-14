@@ -221,13 +221,13 @@
     {
       "date": "2026.08.22",
       "time": "19:30",
-      "homeId": "K03",
-      "awayId": "K26",
-      "home": "포항",
-      "away": "부천",
+      "homeId": "K26",
+      "awayId": "K03",
+      "home": "부천",
+      "away": "포항",
       "homeScore": null,
       "awayScore": null,
-      "stadium": "포항 스틸야드",
+      "stadium": "부천 종합",
       "status": "scheduled"
     },
     {
