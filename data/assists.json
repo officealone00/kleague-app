@@ -8,8 +8,8 @@
     "goals": 9,
     "assists": 7,
     "attackPoints": 16,
-    "games": 22,
-    "shots": 53,
+    "games": 23,
+    "shots": 55,
     "perGame": 0
   },
   {
@@ -31,11 +31,11 @@
     "team": "서울",
     "teamId": "K09",
     "playerId": "20170229",
-    "goals": 1,
+    "goals": 3,
     "assists": 5,
-    "attackPoints": 6,
-    "games": 21,
-    "shots": 10,
+    "attackPoints": 8,
+    "games": 22,
+    "shots": 12,
     "perGame": 0
   },
   {
@@ -47,8 +47,8 @@
     "goals": 8,
     "assists": 5,
     "attackPoints": 13,
-    "games": 21,
-    "shots": 53,
+    "games": 22,
+    "shots": 55,
     "perGame": 0
   },
   {
@@ -73,8 +73,8 @@
     "goals": 0,
     "assists": 4,
     "attackPoints": 4,
-    "games": 14,
-    "shots": 19,
+    "games": 15,
+    "shots": 23,
     "perGame": 0
   },
   {
@@ -105,6 +105,19 @@
   },
   {
     "rank": 9,
+    "name": "안데르손",
+    "team": "서울",
+    "teamId": "K09",
+    "playerId": "20240179",
+    "goals": 2,
+    "assists": 4,
+    "attackPoints": 6,
+    "games": 19,
+    "shots": 19,
+    "perGame": 0
+  },
+  {
+    "rank": 10,
     "name": "이주용",
     "team": "인천",
     "teamId": "K18",
@@ -117,7 +130,33 @@
     "perGame": 0
   },
   {
-    "rank": 10,
+    "rank": 11,
+    "name": "이동준",
+    "team": "전북",
+    "teamId": "K05",
+    "playerId": "20170121",
+    "goals": 3,
+    "assists": 4,
+    "attackPoints": 7,
+    "games": 23,
+    "shots": 32,
+    "perGame": 0
+  },
+  {
+    "rank": 12,
+    "name": "갈레고",
+    "team": "부천",
+    "teamId": "K26",
+    "playerId": "20220353",
+    "goals": 8,
+    "assists": 4,
+    "attackPoints": 12,
+    "games": 23,
+    "shots": 59,
+    "perGame": 0
+  },
+  {
+    "rank": 13,
     "name": "송민규",
     "team": "서울",
     "teamId": "K09",
@@ -125,12 +164,12 @@
     "goals": 5,
     "assists": 4,
     "attackPoints": 9,
-    "games": 23,
+    "games": 24,
     "shots": 30,
     "perGame": 0
   },
   {
-    "rank": 11,
+    "rank": 14,
     "name": "이규성",
     "team": "울산",
     "teamId": "K01",
@@ -138,12 +177,25 @@
     "goals": 0,
     "assists": 4,
     "attackPoints": 4,
-    "games": 23,
-    "shots": 7,
+    "games": 24,
+    "shots": 8,
     "perGame": 0
   },
   {
-    "rank": 12,
+    "rank": 15,
+    "name": "정승원",
+    "team": "서울",
+    "teamId": "K09",
+    "playerId": "20160099",
+    "goals": 7,
+    "assists": 4,
+    "attackPoints": 11,
+    "games": 24,
+    "shots": 31,
+    "perGame": 0
+  },
+  {
+    "rank": 16,
     "name": "이영재",
     "team": "전북",
     "teamId": "K05",
@@ -156,20 +208,7 @@
     "perGame": 0
   },
   {
-    "rank": 13,
-    "name": "김운",
-    "team": "안양",
-    "teamId": "K27",
-    "playerId": "20240084",
-    "goals": 2,
-    "assists": 3,
-    "attackPoints": 5,
-    "games": 17,
-    "shots": 10,
-    "perGame": 0
-  },
-  {
-    "rank": 14,
+    "rank": 17,
     "name": "엘쿠라노",
     "team": "안양",
     "teamId": "K27",
@@ -182,7 +221,20 @@
     "perGame": 0
   },
   {
-    "rank": 15,
+    "rank": 18,
+    "name": "김운",
+    "team": "안양",
+    "teamId": "K27",
+    "playerId": "20240084",
+    "goals": 2,
+    "assists": 3,
+    "attackPoints": 5,
+    "games": 18,
+    "shots": 10,
+    "perGame": 0
+  },
+  {
+    "rank": 19,
     "name": "서진수",
     "team": "대전",
     "teamId": "K10",
@@ -195,20 +247,7 @@
     "perGame": 0
   },
   {
-    "rank": 16,
-    "name": "안데르손",
-    "team": "서울",
-    "teamId": "K09",
-    "playerId": "20240179",
-    "goals": 1,
-    "assists": 3,
-    "attackPoints": 4,
-    "games": 18,
-    "shots": 16,
-    "perGame": 0
-  },
-  {
-    "rank": 17,
+    "rank": 20,
     "name": "티아깅요",
     "team": "부천",
     "teamId": "K26",
@@ -216,12 +255,12 @@
     "goals": 1,
     "assists": 3,
     "attackPoints": 4,
-    "games": 19,
+    "games": 20,
     "shots": 12,
     "perGame": 0
   },
   {
-    "rank": 18,
+    "rank": 21,
     "name": "박철우",
     "team": "김천",
     "teamId": "K35",
@@ -229,12 +268,12 @@
     "goals": 2,
     "assists": 3,
     "attackPoints": 5,
-    "games": 20,
+    "games": 21,
     "shots": 18,
     "perGame": 0
   },
   {
-    "rank": 19,
+    "rank": 22,
     "name": "네게바",
     "team": "제주",
     "teamId": "K04",
@@ -242,12 +281,12 @@
     "goals": 5,
     "assists": 3,
     "attackPoints": 8,
-    "games": 21,
+    "games": 22,
     "shots": 58,
     "perGame": 0
   },
   {
-    "rank": 20,
+    "rank": 23,
     "name": "이정택",
     "team": "김천",
     "teamId": "K35",
@@ -255,38 +294,38 @@
     "goals": 1,
     "assists": 3,
     "attackPoints": 4,
-    "games": 21,
+    "games": 22,
     "shots": 1,
     "perGame": 0
   },
   {
-    "rank": 21,
-    "name": "이동준",
-    "team": "전북",
-    "teamId": "K05",
-    "playerId": "20170121",
+    "rank": 24,
+    "name": "바베츠",
+    "team": "서울",
+    "teamId": "K09",
+    "playerId": "20260045",
     "goals": 3,
     "assists": 3,
     "attackPoints": 6,
-    "games": 22,
-    "shots": 32,
+    "games": 23,
+    "shots": 22,
     "perGame": 0
   },
   {
-    "rank": 22,
-    "name": "갈레고",
-    "team": "부천",
-    "teamId": "K26",
-    "playerId": "20220353",
-    "goals": 7,
+    "rank": 25,
+    "name": "김진수",
+    "team": "서울",
+    "teamId": "K09",
+    "playerId": "20170185",
+    "goals": 0,
     "assists": 3,
-    "attackPoints": 10,
-    "games": 22,
-    "shots": 58,
+    "attackPoints": 3,
+    "games": 23,
+    "shots": 12,
     "perGame": 0
   },
   {
-    "rank": 23,
+    "rank": 26,
     "name": "아이아스",
     "team": "제주",
     "teamId": "K04",
@@ -294,12 +333,12 @@
     "goals": 1,
     "assists": 2,
     "attackPoints": 3,
-    "games": 3,
-    "shots": 9,
+    "games": 4,
+    "shots": 10,
     "perGame": 0
   },
   {
-    "rank": 24,
+    "rank": 27,
     "name": "에릭",
     "team": "울산",
     "teamId": "K01",
@@ -312,7 +351,7 @@
     "perGame": 0
   },
   {
-    "rank": 25,
+    "rank": 28,
     "name": "강민규",
     "team": "김천",
     "teamId": "K35",
@@ -325,20 +364,7 @@
     "perGame": 0
   },
   {
-    "rank": 26,
-    "name": "이창민",
-    "team": "제주",
-    "teamId": "K04",
-    "playerId": "20140115",
-    "goals": 0,
-    "assists": 2,
-    "attackPoints": 2,
-    "games": 7,
-    "shots": 2,
-    "perGame": 0
-  },
-  {
-    "rank": 27,
+    "rank": 29,
     "name": "몬타뇨",
     "team": "부천",
     "teamId": "K26",
@@ -351,42 +377,16 @@
     "perGame": 0
   },
   {
-    "rank": 28,
-    "name": "황도윤",
-    "team": "서울",
-    "teamId": "K09",
-    "playerId": "20230093",
-    "goals": 1,
-    "assists": 2,
-    "attackPoints": 3,
-    "games": 9,
-    "shots": 2,
-    "perGame": 0
-  },
-  {
-    "rank": 29,
-    "name": "정재민",
-    "team": "김천",
-    "teamId": "K35",
-    "playerId": "20230157",
+    "rank": 30,
+    "name": "이창민",
+    "team": "제주",
+    "teamId": "K04",
+    "playerId": "20140115",
     "goals": 0,
     "assists": 2,
     "attackPoints": 2,
-    "games": 11,
-    "shots": 5,
-    "perGame": 0
-  },
-  {
-    "rank": 30,
-    "name": "말컹",
-    "team": "울산",
-    "teamId": "K01",
-    "playerId": "20170095",
-    "goals": 5,
-    "assists": 2,
-    "attackPoints": 7,
-    "games": 11,
-    "shots": 35,
+    "games": 8,
+    "shots": 3,
     "perGame": 0
   }
 ]
