@@ -31,11 +31,11 @@
     "team": "서울",
     "teamId": "K09",
     "playerId": "20250331",
-    "goals": 9,
+    "goals": 10,
     "assists": 1,
-    "attackPoints": 10,
-    "games": 21,
-    "shots": 38,
+    "attackPoints": 11,
+    "games": 22,
+    "shots": 41,
     "perGame": 0
   },
   {
@@ -86,7 +86,7 @@
     "goals": 8,
     "assists": 4,
     "attackPoints": 12,
-    "games": 23,
+    "games": 24,
     "shots": 59,
     "perGame": 0
   },
@@ -125,8 +125,8 @@
     "goals": 7,
     "assists": 4,
     "attackPoints": 11,
-    "games": 24,
-    "shots": 31,
+    "games": 25,
+    "shots": 32,
     "perGame": 0
   },
   {
@@ -164,8 +164,8 @@
     "goals": 6,
     "assists": 2,
     "attackPoints": 8,
-    "games": 23,
-    "shots": 44,
+    "games": 24,
+    "shots": 46,
     "perGame": 0
   },
   {
@@ -177,8 +177,8 @@
     "goals": 6,
     "assists": 2,
     "attackPoints": 8,
-    "games": 23,
-    "shots": 37,
+    "games": 24,
+    "shots": 39,
     "perGame": 0
   },
   {
@@ -222,19 +222,6 @@
   },
   {
     "rank": 18,
-    "name": "네게바",
-    "team": "제주",
-    "teamId": "K04",
-    "playerId": "20260228",
-    "goals": 5,
-    "assists": 3,
-    "attackPoints": 8,
-    "games": 22,
-    "shots": 58,
-    "perGame": 0
-  },
-  {
-    "rank": 19,
     "name": "주민규",
     "team": "대전",
     "teamId": "K10",
@@ -247,7 +234,7 @@
     "perGame": 0
   },
   {
-    "rank": 20,
+    "rank": 19,
     "name": "최건주",
     "team": "안양",
     "teamId": "K27",
@@ -260,6 +247,19 @@
     "perGame": 0
   },
   {
+    "rank": 20,
+    "name": "네게바",
+    "team": "제주",
+    "teamId": "K04",
+    "playerId": "20260228",
+    "goals": 5,
+    "assists": 3,
+    "attackPoints": 8,
+    "games": 23,
+    "shots": 63,
+    "perGame": 0
+  },
+  {
     "rank": 21,
     "name": "이승모",
     "team": "서울",
@@ -268,8 +268,8 @@
     "goals": 5,
     "assists": 2,
     "attackPoints": 7,
-    "games": 24,
-    "shots": 22,
+    "games": 25,
+    "shots": 24,
     "perGame": 0
   },
   {
@@ -281,8 +281,8 @@
     "goals": 5,
     "assists": 4,
     "attackPoints": 9,
-    "games": 24,
-    "shots": 30,
+    "games": 25,
+    "shots": 34,
     "perGame": 0
   },
   {
@@ -294,7 +294,7 @@
     "goals": 4,
     "assists": 1,
     "attackPoints": 5,
-    "games": 16,
+    "games": 17,
     "shots": 20,
     "perGame": 0
   },
