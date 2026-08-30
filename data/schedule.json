@@ -1,6 +1,54 @@
 {
   "recent": [
     {
+      "date": "2026.08.30",
+      "time": "19:30",
+      "homeId": "K21",
+      "awayId": "K03",
+      "home": "강원",
+      "away": "포항",
+      "homeScore": 0,
+      "awayScore": 0,
+      "stadium": "강릉하이원아레나",
+      "status": "finished"
+    },
+    {
+      "date": "2026.08.30",
+      "time": "19:30",
+      "homeId": "K04",
+      "awayId": "K10",
+      "home": "제주",
+      "away": "대전",
+      "homeScore": 3,
+      "awayScore": 1,
+      "stadium": "제주 월드컵",
+      "status": "finished"
+    },
+    {
+      "date": "2026.08.30",
+      "time": "19:30",
+      "homeId": "K18",
+      "awayId": "K05",
+      "home": "인천",
+      "away": "전북",
+      "homeScore": 1,
+      "awayScore": 1,
+      "stadium": "인천 전용",
+      "status": "finished"
+    },
+    {
+      "date": "2026.08.30",
+      "time": "19:30",
+      "homeId": "K22",
+      "awayId": "K09",
+      "home": "광주",
+      "away": "서울",
+      "homeScore": 2,
+      "awayScore": 5,
+      "stadium": "광주 월드컵",
+      "status": "finished"
+    },
+    {
       "date": "2026.08.29",
       "time": "19:30",
       "homeId": "K26",
@@ -71,105 +119,9 @@
       "awayScore": 2,
       "stadium": "제주 월드컵",
       "status": "finished"
-    },
-    {
-      "date": "2026.08.25",
-      "time": "19:30",
-      "homeId": "K35",
-      "awayId": "K05",
-      "home": "김천",
-      "away": "전북",
-      "homeScore": 0,
-      "awayScore": 0,
-      "stadium": "김천 종합",
-      "status": "finished"
-    },
-    {
-      "date": "2026.08.25",
-      "time": "19:30",
-      "homeId": "K09",
-      "awayId": "K26",
-      "home": "서울",
-      "away": "부천",
-      "homeScore": 1,
-      "awayScore": 0,
-      "stadium": "서울 월드컵",
-      "status": "finished"
-    },
-    {
-      "date": "2026.08.23",
-      "time": "19:30",
-      "homeId": "K22",
-      "awayId": "K18",
-      "home": "광주",
-      "away": "인천",
-      "homeScore": 0,
-      "awayScore": 1,
-      "stadium": "광주 월드컵",
-      "status": "finished"
-    },
-    {
-      "date": "2026.08.23",
-      "time": "19:30",
-      "homeId": "K10",
-      "awayId": "K21",
-      "home": "대전",
-      "away": "강원",
-      "homeScore": 3,
-      "awayScore": 0,
-      "stadium": "대전 월드컵",
-      "status": "finished"
     }
   ],
   "upcoming": [
-    {
-      "date": "2026.08.30",
-      "time": "19:30",
-      "homeId": "K22",
-      "awayId": "K09",
-      "home": "광주",
-      "away": "서울",
-      "homeScore": null,
-      "awayScore": null,
-      "stadium": "광주 월드컵",
-      "status": "scheduled"
-    },
-    {
-      "date": "2026.08.30",
-      "time": "19:30",
-      "homeId": "K18",
-      "awayId": "K05",
-      "home": "인천",
-      "away": "전북",
-      "homeScore": null,
-      "awayScore": null,
-      "stadium": "인천 전용",
-      "status": "scheduled"
-    },
-    {
-      "date": "2026.08.30",
-      "time": "19:30",
-      "homeId": "K04",
-      "awayId": "K10",
-      "home": "제주",
-      "away": "대전",
-      "homeScore": null,
-      "awayScore": null,
-      "stadium": "제주 월드컵",
-      "status": "scheduled"
-    },
-    {
-      "date": "2026.08.30",
-      "time": "19:30",
-      "homeId": "K21",
-      "awayId": "K03",
-      "home": "강원",
-      "away": "포항",
-      "homeScore": null,
-      "awayScore": null,
-      "stadium": "강릉하이원아레나",
-      "status": "scheduled"
-    },
     {
       "date": "2026.09.05",
       "time": "19:00",
@@ -240,6 +192,54 @@
       "homeScore": null,
       "awayScore": null,
       "stadium": "김천 종합",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026.09.08",
+      "time": "19:30",
+      "homeId": "K01",
+      "awayId": "K09",
+      "home": "울산",
+      "away": "서울",
+      "homeScore": null,
+      "awayScore": null,
+      "stadium": "울산 문수",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026.09.08",
+      "time": "19:30",
+      "homeId": "K18",
+      "awayId": "K26",
+      "home": "인천",
+      "away": "부천",
+      "homeScore": null,
+      "awayScore": null,
+      "stadium": "인천 전용",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026.09.09",
+      "time": "19:30",
+      "homeId": "K10",
+      "awayId": "K27",
+      "home": "대전",
+      "away": "안양",
+      "homeScore": null,
+      "awayScore": null,
+      "stadium": "대전 월드컵",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026.09.09",
+      "time": "19:30",
+      "homeId": "K21",
+      "awayId": "K05",
+      "home": "강원",
+      "away": "전북",
+      "homeScore": null,
+      "awayScore": null,
+      "stadium": "강릉하이원아레나",
       "status": "scheduled"
     }
   ]
