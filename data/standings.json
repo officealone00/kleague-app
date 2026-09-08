@@ -3,18 +3,32 @@
     "rank": 1,
     "team": "서울",
     "teamId": "K09",
-    "games": 27,
+    "games": 28,
     "wins": 18,
     "draws": 5,
-    "losses": 4,
+    "losses": 5,
     "points": 59,
     "goalsFor": 53,
-    "goalsAgainst": 21,
-    "goalDiff": 32,
-    "last5": "승승승승승"
+    "goalsAgainst": 22,
+    "goalDiff": 31,
+    "last5": "패승승승승"
   },
   {
     "rank": 2,
+    "team": "울산",
+    "teamId": "K01",
+    "games": 28,
+    "wins": 13,
+    "draws": 5,
+    "losses": 10,
+    "points": 44,
+    "goalsFor": 42,
+    "goalsAgainst": 37,
+    "goalDiff": 5,
+    "last5": "승무승패패"
+  },
+  {
+    "rank": 3,
     "team": "전북",
     "teamId": "K05",
     "games": 27,
@@ -26,20 +40,6 @@
     "goalsAgainst": 23,
     "goalDiff": 11,
     "last5": "승무무승패"
-  },
-  {
-    "rank": 3,
-    "team": "울산",
-    "teamId": "K01",
-    "games": 27,
-    "wins": 12,
-    "draws": 5,
-    "losses": 10,
-    "points": 41,
-    "goalsFor": 41,
-    "goalsAgainst": 37,
-    "goalDiff": 4,
-    "last5": "무승패패패"
   },
   {
     "rank": 4,
@@ -71,6 +71,20 @@
   },
   {
     "rank": 6,
+    "team": "인천",
+    "teamId": "K18",
+    "games": 27,
+    "wins": 10,
+    "draws": 7,
+    "losses": 10,
+    "points": 37,
+    "goalsFor": 34,
+    "goalsAgainst": 30,
+    "goalDiff": 4,
+    "last5": "승패무패승"
+  },
+  {
+    "rank": 7,
     "team": "대전",
     "teamId": "K10",
     "games": 27,
@@ -84,7 +98,7 @@
     "last5": "승패승승패"
   },
   {
-    "rank": 7,
+    "rank": 8,
     "team": "포항",
     "teamId": "K03",
     "games": 27,
@@ -98,7 +112,7 @@
     "last5": "패무승패승"
   },
   {
-    "rank": 8,
+    "rank": 9,
     "team": "안양",
     "teamId": "K27",
     "games": 27,
@@ -112,32 +126,18 @@
     "last5": "패무승패패"
   },
   {
-    "rank": 9,
-    "team": "인천",
-    "teamId": "K18",
-    "games": 26,
-    "wins": 9,
-    "draws": 7,
-    "losses": 10,
-    "points": 34,
-    "goalsFor": 32,
-    "goalsAgainst": 29,
-    "goalDiff": 3,
-    "last5": "패무패승무"
-  },
-  {
     "rank": 10,
     "team": "부천",
     "teamId": "K26",
-    "games": 27,
+    "games": 28,
     "wins": 7,
     "draws": 10,
-    "losses": 10,
+    "losses": 11,
     "points": 31,
-    "goalsFor": 28,
-    "goalsAgainst": 34,
-    "goalDiff": -6,
-    "last5": "패무패승승"
+    "goalsFor": 29,
+    "goalsAgainst": 36,
+    "goalDiff": -7,
+    "last5": "패패무패승"
   },
   {
     "rank": 11,
