@@ -112,7 +112,7 @@
     "goals": 8,
     "assists": 0,
     "attackPoints": 8,
-    "games": 24,
+    "games": 25,
     "shots": 32,
     "perGame": 0
   },
@@ -164,25 +164,12 @@
     "goals": 7,
     "assists": 7,
     "attackPoints": 14,
-    "games": 26,
+    "games": 27,
     "shots": 58,
     "perGame": 0
   },
   {
     "rank": 14,
-    "name": "고재현",
-    "team": "김천",
-    "teamId": "K35",
-    "playerId": "20180123",
-    "goals": 7,
-    "assists": 3,
-    "attackPoints": 10,
-    "games": 27,
-    "shots": 42,
-    "perGame": 0
-  },
-  {
-    "rank": 15,
     "name": "주민규",
     "team": "대전",
     "teamId": "K10",
@@ -192,6 +179,19 @@
     "attackPoints": 8,
     "games": 28,
     "shots": 39,
+    "perGame": 0
+  },
+  {
+    "rank": 15,
+    "name": "고재현",
+    "team": "김천",
+    "teamId": "K35",
+    "playerId": "20180123",
+    "goals": 7,
+    "assists": 3,
+    "attackPoints": 10,
+    "games": 28,
+    "shots": 43,
     "perGame": 0
   },
   {
@@ -313,19 +313,6 @@
   },
   {
     "rank": 25,
-    "name": "이건희",
-    "team": "김천",
-    "teamId": "K35",
-    "playerId": "20200164",
-    "goals": 5,
-    "assists": 2,
-    "attackPoints": 7,
-    "games": 26,
-    "shots": 47,
-    "perGame": 0
-  },
-  {
-    "rank": 26,
     "name": "최건주",
     "team": "안양",
     "teamId": "K27",
@@ -335,6 +322,19 @@
     "attackPoints": 5,
     "games": 27,
     "shots": 21,
+    "perGame": 0
+  },
+  {
+    "rank": 26,
+    "name": "이건희",
+    "team": "김천",
+    "teamId": "K35",
+    "playerId": "20200164",
+    "goals": 5,
+    "assists": 2,
+    "attackPoints": 7,
+    "games": 27,
+    "shots": 47,
     "perGame": 0
   },
   {
