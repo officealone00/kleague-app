@@ -61,13 +61,13 @@
     "teamId": "K21",
     "games": 28,
     "wins": 10,
-    "draws": 11,
-    "losses": 7,
-    "points": 41,
-    "goalsFor": 34,
-    "goalsAgainst": 26,
-    "goalDiff": 8,
-    "last5": "무승무무패"
+    "draws": 12,
+    "losses": 6,
+    "points": 42,
+    "goalsFor": 36,
+    "goalsAgainst": 27,
+    "goalDiff": 9,
+    "last5": "무무승무무"
   },
   {
     "rank": 6,
@@ -115,15 +115,15 @@
     "rank": 9,
     "team": "안양",
     "teamId": "K27",
-    "games": 28,
+    "games": 29,
     "wins": 8,
-    "draws": 10,
+    "draws": 11,
     "losses": 10,
-    "points": 34,
-    "goalsFor": 35,
-    "goalsAgainst": 45,
+    "points": 35,
+    "goalsFor": 36,
+    "goalsAgainst": 46,
     "goalDiff": -10,
-    "last5": "패패무승패"
+    "last5": "무패패무승"
   },
   {
     "rank": 10,
@@ -144,27 +144,27 @@
     "team": "김천",
     "teamId": "K35",
     "games": 29,
-    "wins": 5,
-    "draws": 17,
+    "wins": 4,
+    "draws": 18,
     "losses": 7,
-    "points": 32,
-    "goalsFor": 27,
-    "goalsAgainst": 34,
-    "goalDiff": -7,
-    "last5": "무무패무무"
+    "points": 30,
+    "goalsFor": 28,
+    "goalsAgainst": 36,
+    "goalDiff": -8,
+    "last5": "무무무패무"
   },
   {
     "rank": 12,
     "team": "광주",
     "teamId": "K22",
-    "games": 28,
+    "games": 29,
     "wins": 1,
-    "draws": 10,
+    "draws": 11,
     "losses": 17,
-    "points": 13,
-    "goalsFor": 18,
-    "goalsAgainst": 60,
+    "points": 14,
+    "goalsFor": 19,
+    "goalsAgainst": 61,
     "goalDiff": -42,
-    "last5": "패무패무패"
+    "last5": "무패무패무"
   }
 ]
