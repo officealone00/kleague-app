@@ -86,7 +86,7 @@
     "goals": 3,
     "assists": 5,
     "attackPoints": 8,
-    "games": 22,
+    "games": 23,
     "shots": 35,
     "perGame": 0
   },
@@ -118,19 +118,6 @@
   },
   {
     "rank": 10,
-    "name": "이동준",
-    "team": "전북",
-    "teamId": "K05",
-    "playerId": "20170121",
-    "goals": 3,
-    "assists": 5,
-    "attackPoints": 8,
-    "games": 28,
-    "shots": 36,
-    "perGame": 0
-  },
-  {
-    "rank": 11,
     "name": "마테우스",
     "team": "안양",
     "teamId": "K27",
@@ -140,6 +127,19 @@
     "attackPoints": 17,
     "games": 28,
     "shots": 69,
+    "perGame": 0
+  },
+  {
+    "rank": 11,
+    "name": "이동준",
+    "team": "전북",
+    "teamId": "K05",
+    "playerId": "20170121",
+    "goals": 3,
+    "assists": 5,
+    "attackPoints": 8,
+    "games": 29,
+    "shots": 36,
     "perGame": 0
   },
   {
@@ -177,8 +177,8 @@
     "goals": 0,
     "assists": 4,
     "attackPoints": 4,
-    "games": 21,
-    "shots": 15,
+    "games": 22,
+    "shots": 16,
     "perGame": 0
   },
   {
@@ -294,7 +294,7 @@
     "goals": 2,
     "assists": 3,
     "attackPoints": 5,
-    "games": 21,
+    "games": 22,
     "shots": 15,
     "perGame": 0
   },
@@ -326,19 +326,6 @@
   },
   {
     "rank": 26,
-    "name": "이유현",
-    "team": "강원",
-    "teamId": "K21",
-    "playerId": "20170182",
-    "goals": 2,
-    "assists": 3,
-    "attackPoints": 5,
-    "games": 25,
-    "shots": 34,
-    "perGame": 0
-  },
-  {
-    "rank": 27,
     "name": "이명주",
     "team": "인천",
     "teamId": "K18",
@@ -351,20 +338,20 @@
     "perGame": 0
   },
   {
-    "rank": 28,
-    "name": "네게바",
-    "team": "제주",
-    "teamId": "K04",
-    "playerId": "20260228",
-    "goals": 6,
+    "rank": 27,
+    "name": "이유현",
+    "team": "강원",
+    "teamId": "K21",
+    "playerId": "20170182",
+    "goals": 2,
     "assists": 3,
-    "attackPoints": 9,
+    "attackPoints": 5,
     "games": 26,
-    "shots": 72,
+    "shots": 34,
     "perGame": 0
   },
   {
-    "rank": 29,
+    "rank": 28,
     "name": "박철우",
     "team": "김천",
     "teamId": "K35",
@@ -374,6 +361,19 @@
     "attackPoints": 5,
     "games": 26,
     "shots": 21,
+    "perGame": 0
+  },
+  {
+    "rank": 29,
+    "name": "네게바",
+    "team": "제주",
+    "teamId": "K04",
+    "playerId": "20260228",
+    "goals": 6,
+    "assists": 3,
+    "attackPoints": 9,
+    "games": 27,
+    "shots": 72,
     "perGame": 0
   },
   {
