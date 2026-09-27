@@ -59,15 +59,15 @@
     "rank": 5,
     "team": "강원",
     "teamId": "K21",
-    "games": 29,
+    "games": 30,
     "wins": 10,
-    "draws": 12,
+    "draws": 13,
     "losses": 7,
-    "points": 42,
+    "points": 43,
     "goalsFor": 36,
     "goalsAgainst": 28,
     "goalDiff": 8,
-    "last5": "패무무승무"
+    "last5": "무패무무승"
   },
   {
     "rank": 6,
@@ -99,6 +99,20 @@
   },
   {
     "rank": 8,
+    "team": "인천",
+    "teamId": "K18",
+    "games": 30,
+    "wins": 10,
+    "draws": 9,
+    "losses": 11,
+    "points": 39,
+    "goalsFor": 36,
+    "goalsAgainst": 33,
+    "goalDiff": 3,
+    "last5": "무무패승패"
+  },
+  {
+    "rank": 9,
     "team": "안양",
     "teamId": "K27",
     "games": 30,
@@ -110,20 +124,6 @@
     "goalsAgainst": 47,
     "goalDiff": -9,
     "last5": "승무패패무"
-  },
-  {
-    "rank": 9,
-    "team": "인천",
-    "teamId": "K18",
-    "games": 29,
-    "wins": 10,
-    "draws": 8,
-    "losses": 11,
-    "points": 38,
-    "goalsFor": 36,
-    "goalsAgainst": 33,
-    "goalDiff": 3,
-    "last5": "무패승패무"
   },
   {
     "rank": 10,

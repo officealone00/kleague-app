@@ -21,8 +21,8 @@
     "goals": 8,
     "assists": 8,
     "attackPoints": 16,
-    "games": 27,
-    "shots": 61,
+    "games": 28,
+    "shots": 62,
     "perGame": 0
   },
   {
@@ -86,8 +86,8 @@
     "goals": 3,
     "assists": 5,
     "attackPoints": 8,
-    "games": 23,
-    "shots": 37,
+    "games": 24,
+    "shots": 39,
     "perGame": 0
   },
   {
@@ -235,19 +235,6 @@
   },
   {
     "rank": 19,
-    "name": "이주용",
-    "team": "인천",
-    "teamId": "K18",
-    "playerId": "20140059",
-    "goals": 1,
-    "assists": 4,
-    "attackPoints": 5,
-    "games": 28,
-    "shots": 14,
-    "perGame": 0
-  },
-  {
-    "rank": 20,
     "name": "갈레고",
     "team": "부천",
     "teamId": "K26",
@@ -257,6 +244,19 @@
     "attackPoints": 14,
     "games": 29,
     "shots": 75,
+    "perGame": 0
+  },
+  {
+    "rank": 20,
+    "name": "이주용",
+    "team": "인천",
+    "teamId": "K18",
+    "playerId": "20140059",
+    "goals": 1,
+    "assists": 4,
+    "attackPoints": 5,
+    "games": 29,
+    "shots": 14,
     "perGame": 0
   },
   {
@@ -326,19 +326,6 @@
   },
   {
     "rank": 26,
-    "name": "이유현",
-    "team": "강원",
-    "teamId": "K21",
-    "playerId": "20170182",
-    "goals": 2,
-    "assists": 3,
-    "attackPoints": 5,
-    "games": 26,
-    "shots": 35,
-    "perGame": 0
-  },
-  {
-    "rank": 27,
     "name": "박철우",
     "team": "김천",
     "teamId": "K35",
@@ -351,20 +338,7 @@
     "perGame": 0
   },
   {
-    "rank": 28,
-    "name": "이명주",
-    "team": "인천",
-    "teamId": "K18",
-    "playerId": "20120127",
-    "goals": 1,
-    "assists": 3,
-    "attackPoints": 4,
-    "games": 27,
-    "shots": 14,
-    "perGame": 0
-  },
-  {
-    "rank": 29,
+    "rank": 27,
     "name": "네게바",
     "team": "제주",
     "teamId": "K04",
@@ -377,7 +351,7 @@
     "perGame": 0
   },
   {
-    "rank": 30,
+    "rank": 28,
     "name": "이정택",
     "team": "김천",
     "teamId": "K35",
@@ -387,6 +361,32 @@
     "attackPoints": 4,
     "games": 27,
     "shots": 2,
+    "perGame": 0
+  },
+  {
+    "rank": 29,
+    "name": "이유현",
+    "team": "강원",
+    "teamId": "K21",
+    "playerId": "20170182",
+    "goals": 2,
+    "assists": 3,
+    "attackPoints": 5,
+    "games": 27,
+    "shots": 36,
+    "perGame": 0
+  },
+  {
+    "rank": 30,
+    "name": "이명주",
+    "team": "인천",
+    "teamId": "K18",
+    "playerId": "20120127",
+    "goals": 1,
+    "assists": 3,
+    "attackPoints": 4,
+    "games": 28,
+    "shots": 14,
     "perGame": 0
   }
 ]
