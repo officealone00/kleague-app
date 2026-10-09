@@ -209,19 +209,6 @@
   },
   {
     "rank": 17,
-    "name": "티아깅요",
-    "team": "부천",
-    "teamId": "K26",
-    "playerId": "20250150",
-    "goals": 1,
-    "assists": 4,
-    "attackPoints": 5,
-    "games": 25,
-    "shots": 14,
-    "perGame": 0
-  },
-  {
-    "rank": 18,
     "name": "송민규",
     "team": "서울",
     "teamId": "K09",
@@ -231,6 +218,19 @@
     "attackPoints": 9,
     "games": 25,
     "shots": 34,
+    "perGame": 0
+  },
+  {
+    "rank": 18,
+    "name": "티아깅요",
+    "team": "부천",
+    "teamId": "K26",
+    "playerId": "20250150",
+    "goals": 1,
+    "assists": 4,
+    "attackPoints": 5,
+    "games": 25,
+    "shots": 14,
     "perGame": 0
   },
   {
