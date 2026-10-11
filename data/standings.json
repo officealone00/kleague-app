@@ -17,15 +17,15 @@
     "rank": 2,
     "team": "울산",
     "teamId": "K01",
-    "games": 30,
+    "games": 31,
     "wins": 14,
     "draws": 5,
-    "losses": 11,
+    "losses": 12,
     "points": 47,
-    "goalsFor": 45,
-    "goalsAgainst": 40,
-    "goalDiff": 5,
-    "last5": "패승승무승"
+    "goalsFor": 48,
+    "goalsAgainst": 44,
+    "goalDiff": 4,
+    "last5": "패패승승무"
   },
   {
     "rank": 3,
@@ -157,14 +157,14 @@
     "rank": 12,
     "team": "광주",
     "teamId": "K22",
-    "games": 30,
-    "wins": 1,
+    "games": 31,
+    "wins": 2,
     "draws": 12,
     "losses": 17,
-    "points": 15,
-    "goalsFor": 21,
-    "goalsAgainst": 63,
-    "goalDiff": -42,
-    "last5": "무무패무패"
+    "points": 18,
+    "goalsFor": 25,
+    "goalsAgainst": 66,
+    "goalDiff": -41,
+    "last5": "승무무패무"
   }
 ]
