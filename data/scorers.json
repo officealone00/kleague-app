@@ -5,11 +5,11 @@
     "team": "울산",
     "teamId": "K01",
     "playerId": "20230315",
-    "goals": 15,
+    "goals": 16,
     "assists": 1,
-    "attackPoints": 16,
-    "games": 24,
-    "shots": 69,
+    "attackPoints": 17,
+    "games": 25,
+    "shots": 72,
     "perGame": 0
   },
   {
@@ -58,10 +58,10 @@
     "teamId": "K01",
     "playerId": "20180088",
     "goals": 11,
-    "assists": 11,
-    "attackPoints": 22,
-    "games": 30,
-    "shots": 73,
+    "assists": 12,
+    "attackPoints": 23,
+    "games": 31,
+    "shots": 78,
     "perGame": 0
   },
   {
@@ -73,7 +73,7 @@
     "goals": 10,
     "assists": 4,
     "attackPoints": 14,
-    "games": 30,
+    "games": 31,
     "shots": 76,
     "perGame": 0
   },
