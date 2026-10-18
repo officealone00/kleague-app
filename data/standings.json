@@ -36,8 +36,8 @@
     "draws": 11,
     "losses": 9,
     "points": 47,
-    "goalsFor": 40,
-    "goalsAgainst": 30,
+    "goalsFor": 42,
+    "goalsAgainst": 32,
     "goalDiff": 10,
     "last5": "패무패무승"
   },
@@ -64,8 +64,8 @@
     "draws": 10,
     "losses": 10,
     "points": 46,
-    "goalsFor": 36,
-    "goalsAgainst": 32,
+    "goalsFor": 38,
+    "goalsAgainst": 34,
     "goalDiff": 4,
     "last5": "패승무승무"
   },
@@ -75,12 +75,12 @@
     "teamId": "K10",
     "games": 32,
     "wins": 11,
-    "draws": 10,
-    "losses": 11,
-    "points": 43,
-    "goalsFor": 48,
+    "draws": 11,
+    "losses": 10,
+    "points": 44,
+    "goalsFor": 50,
     "goalsAgainst": 40,
-    "goalDiff": 8,
+    "goalDiff": 10,
     "last5": "승무무승승"
   },
   {
@@ -158,13 +158,13 @@
     "team": "광주",
     "teamId": "K22",
     "games": 32,
-    "wins": 3,
-    "draws": 12,
+    "wins": 2,
+    "draws": 13,
     "losses": 17,
-    "points": 21,
+    "points": 19,
     "goalsFor": 27,
-    "goalsAgainst": 66,
-    "goalDiff": -39,
+    "goalsAgainst": 68,
+    "goalDiff": -41,
     "last5": "승무무패무"
   }
 ]
