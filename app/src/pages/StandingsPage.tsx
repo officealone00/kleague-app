@@ -8,6 +8,7 @@ import { getTeam } from '@/data/teams';
 import BannerAd from '@/components/BannerAd';
 import FavoriteTeamModal from '@/components/FavoriteTeamModal';
 import TeamLogo from '@/components/TeamLogo';
+import SplitRaceCard from '@/components/SplitRaceCard';
 
 export default function StandingsPage() {
   const navigate = useNavigate();
@@ -80,6 +81,13 @@ export default function StandingsPage() {
           </button>
         </div>
       </div>
+
+      {/* 🔥 파이널 A 진출 경쟁 (2026-10-19) */}
+      {!loading && standings.length > 0 && (
+        <div className="px-5 mt-3 mb-3">
+          <SplitRaceCard standings={standings} />
+        </div>
+      )}
 
       {/* 즐겨찾기 카드 */}
       {favorite && (
@@ -201,7 +209,7 @@ export default function StandingsPage() {
         {/* Goal diff hint */}
         {standings.length > 0 && (
           <p className="text-[11px] text-toss-gray-400 mt-2 px-1">
-            승점 = 승리 3점 + 무승부 1점. 동점 시 득실차로 순위 결정.
+            승점 = 승리 3점 + 무승부 1점. 승점이 같으면 다득점 → 득실차 순으로 순위 결정 (2026 대회요강).
           </p>
         )}
 
