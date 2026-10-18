@@ -481,7 +481,7 @@ async function main() {
   const totalTasks = 4;
   const meta = {
     updatedAt: nowUTC.toISOString(),
-    updatedAtKST: nowKST.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+    updatedAtKST: nowUTC.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }), // (2026-10-18) +9h 이중 적용 버그 수정
     season: SEASON,
     leagueId: LEAGUE_ID,
     version: '2.0',
