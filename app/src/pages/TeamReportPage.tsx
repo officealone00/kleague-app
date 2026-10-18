@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, TrendingUp, TrendingDown, Minus, Trophy, Target, Users, Shield, Swords } from 'lucide-react';
+import { TrendingUp, TrendingDown, Minus, Trophy, Target, Users, Shield, Swords } from 'lucide-react';
 import { api, type TeamStanding, type PlayerRecord } from '@/utils/api';
 import { getFavoriteTeam } from '@/utils/storage';
 import { getTeam } from '@/data/teams';
 import { generateTeamReport, type TeamReport } from '@/utils/teamAnalytics';
-import RewardedAd from '@/components/RewardedAd';
+import RewardedAd, { preloadReportAd } from '@/components/RewardedAd';
+import { shareWithTossLink, logEvent, requestReviewOnce } from '@/utils/tossGrowth';
 import BannerAd from '@/components/BannerAd';
 
 export default function TeamReportPage() {
@@ -47,14 +48,21 @@ export default function TeamReportPage() {
   const handleReward = () => {
     unlockedRef.current = true;
     setUnlocked(true);
+    // 대표 전환 이벤트: 콘솔 '핵심 지표'에 report_unlocked 로 등록
+    logEvent('report_unlocked', { team: favorite || '' });
+    // 핵심 행동을 마친 뒤 리뷰 요청 (기기당 1번)
+    setTimeout(() => void requestReviewOnce('kleague-review-asked'), 4000);
   };
 
   const handleAdClose = () => {
+    // 광고를 끝까지 보지 않고 닫아도 화면은 그대로 두고(잠금 상태 유지) 다시 볼 수 있게 한다
     setAdShown(false);
-    if (!unlockedRef.current) {
-      navigate('/', { replace: true });
-    }
   };
+
+  // 리포트 화면에 들어오면 리워드 광고를 미리 불러 둔다 (정책: 재생 시점 실시간 로딩 금지)
+  useEffect(() => {
+    if (!unlockedRef.current) preloadReportAd();
+  }, []);
 
   if (!favorite) return null;
 
@@ -63,14 +71,7 @@ export default function TeamReportPage() {
   return (
     <div className="min-h-screen bg-toss-gray-50">
       {/* Header */}
-      <div className="px-5 pt-14 pb-4 bg-white flex items-center gap-2">
-        <button
-          onClick={() => navigate('/', { replace: true })}
-          className="p-1 -ml-1 rounded-full hover:bg-toss-gray-100"
-          aria-label="뒤로"
-        >
-          <ChevronLeft size={24} />
-        </button>
+      <div className="px-5 pt-5 pb-4 bg-white flex items-center gap-2">
         <div>
           <h1 className="toss-title text-[22px]">📊 상세 분석 리포트</h1>
           <p className="toss-caption mt-0.5">{info.fullName}</p>
@@ -328,12 +329,19 @@ export default function TeamReportPage() {
             <BannerAd />
           </div>
 
-          {/* 닫기 버튼 */}
+          {/* 📤 리포트 공유 (자체 뒤로가기 버튼 대신 — 뒤로가기는 토스 내비게이션 바 사용) */}
           <button
-            onClick={() => navigate('/', { replace: true })}
-            className="w-full py-3.5 bg-white rounded-xl font-semibold text-sm text-toss-gray-700 mt-2"
+            onClick={() => {
+              logEvent('share_report', { team: favorite });
+              void shareWithTossLink({
+                path: 'intoss://kleague-ranking',
+                message: `📊 ${info.fullName} 상세 분석 리포트 나왔어요!\n토스 'K리그 순위'에서 우리 팀 분석 보기 👇`,
+              });
+            }}
+            className="w-full py-3.5 rounded-xl font-bold text-sm text-white mt-2"
+            style={{ backgroundColor: info.color }}
           >
-            ← 순위로 돌아가기
+            📤 친구에게 우리 팀 리포트 공유하기
           </button>
         </div>
       )}

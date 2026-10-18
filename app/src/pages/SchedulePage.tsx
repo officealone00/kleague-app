@@ -42,7 +42,7 @@ export default function SchedulePage() {
   return (
     <div className="min-h-screen bg-toss-gray-50">
       {/* Header */}
-      <div className="px-5 pt-14 pb-4 flex items-end justify-between bg-white">
+      <div className="px-5 pt-5 pb-4 flex items-end justify-between bg-white">
         <div>
           <h1 className="toss-title text-[26px]">🗓️ K리그 일정</h1>
           <p className="toss-caption mt-1">
