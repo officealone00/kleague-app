@@ -177,8 +177,8 @@ function Group({ title, teams }: { title: string; teams: string[] }) {
 function caseText(c: TeamCase) {
   if (c.verdict === 'in') return { text: '진출 확정', color: '#3182F6' };
   if (c.verdict === 'out') return { text: '탈락', color: '#8B95A1' };
-  if (c.condition) return { text: c.condition.includes('다득점') ? c.condition : `${c.condition} 진출${c.tieBreak ? ', 아니면 다득점 비교 또는 탈락' : ''}`, color: '#F04452' };
-  return { text: c.tieBreak ? '다득점으로 가려져요' : '다른 경기 결과에 따라', color: '#F04452' };
+  if (c.condition) return { text: c.condition, color: '#F04452' };
+  return { text: c.tieBreak ? '다득점(→득실차)으로 가려져요' : '다른 경기 결과에 따라', color: '#F04452' };
 }
 
 function CaseTable({ t }: { t: TeamRace }) {
@@ -194,8 +194,11 @@ function CaseTable({ t }: { t: TeamRace }) {
         return (
           <div key={k} className="flex items-start gap-2 mt-1.5 text-[14px]">
             <span className="shrink-0 w-12 whitespace-nowrap text-toss-gray-600">{k === 'W' ? '이기면' : k === 'D' ? '비기면' : '지면'}</span>
-            <span className="font-semibold" style={{ color: c.color }}>
-              {c.text}
+            <span className="min-w-0">
+              <span className="font-semibold" style={{ color: c.color }}>
+                {c.text}
+              </span>
+              {t.cases![k].note && <span className="block text-[12px] text-toss-gray-500 mt-0.5">{t.cases![k].note}</span>}
             </span>
           </div>
         );

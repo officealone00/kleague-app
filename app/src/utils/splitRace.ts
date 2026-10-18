@@ -27,8 +27,10 @@ export interface RaceMatch {
 export interface TeamCase {
   /** 이 결과일 때: 언제나 진출 / 언제나 탈락 / 다른 경기·다득점에 따라 */
   verdict: 'in' | 'out' | 'depends';
-  /** 'depends'일 때 한 경기만 보면 되는 조건 (예: "제주가 지거나 비기면") */
+  /** 'depends'일 때 화면에 그대로 보여 줄 문장 (예: "대전이 지면 진출 · 대전이 이기면 다득점(→득실차) 비교") */
   condition?: string;
+  /** 승점이 같아질 때 맞대결 결과로 다득점 앞뒤가 정해지는 경우의 설명 */
+  note?: string;
   /** 승점이 같아 다득점으로 갈리는 경우가 있는지 */
   tieBreak?: boolean;
   inCount: number;
@@ -80,6 +82,12 @@ function fateOf(team: string, pts: Record<string, number>, gf: Record<string, nu
   return 'tie';
 }
 
+const hasJong = (w: string) => {
+  const c = w.charCodeAt(w.length - 1);
+  return c >= 0xac00 && c <= 0xd7a3 && (c - 0xac00) % 28 > 0;
+};
+/** 받침에 맞춰 과/와 */
+export const gwa = (w: string) => `${w}${hasJong(w) ? '과' : '와'}`;
 /** 받침에 맞춰 이/가 */
 export const iga = (w: string) => {
   const c = w.charCodeAt(w.length - 1);
@@ -155,8 +163,27 @@ export function computeSplitRace(standings: TeamStanding[], upcoming: ScheduleGa
     const ins = set.filter((o) => o.fate[team] === 'in').length;
     const outs = set.filter((o) => o.fate[team] === 'out').length;
     const ties = set.length - ins - outs;
-    if (ins === set.length) return { verdict: 'in', inCount: ins, total: set.length };
-    if (outs === set.length) return { verdict: 'out', inCount: 0, total: set.length };
+    // 맞대결 상대와 승점이 같아지는 경우: 이긴 팀이 그 경기에서 더 넣었으니, 지금 다득점이 같거나 많으면 다득점에서도 앞서요
+    const m0 = matches[oi];
+    const opp = m0.home === team ? m0.away : m0.home;
+    let note: string | undefined;
+    if (want === 'L' && base[opp] + 3 === base[team] && gf[opp] >= gf[team])
+      note = `${gwa(opp)} 승점이 같아져도, 맞대결에서 더 넣은 ${iga(opp)} 다득점에서 앞서요 (지금 ${opp} ${gf[opp]}골 · ${team} ${gf[team]}골)`;
+    if (want === 'W' && base[team] + 3 === base[opp] && gf[team] >= gf[opp])
+      note = `${gwa(opp)} 승점이 같아져도, 맞대결에서 더 넣은 만큼 다득점에서 앞서요`;
+    if (ins === set.length) return { verdict: 'in', note, inCount: ins, total: set.length };
+    if (outs === set.length) return { verdict: 'out', note, inCount: 0, total: set.length };
+    const TB = '다득점(→득실차) 비교';
+    const restWord = (rest: typeof set) =>
+      rest.every((o) => o.fate[team] === 'out')
+        ? '탈락'
+        : rest.every((o) => o.fate[team] === 'tie')
+          ? TB
+          : rest.some((o) => o.fate[team] === 'in')
+            ? '다른 경기 결과에 따라'
+            : `${TB} 또는 탈락`;
+    const ALL: R[] = ['H', 'D', 'A'];
+    const compl = (sub: R[]) => ALL.filter((r) => !sub.includes(r));
     // 다른 한 경기만 보면 확정되는 조건 찾기
     let condition: string | undefined;
     const label = (m: RaceMatch, rs: R[]) => {
@@ -175,7 +202,7 @@ export function computeSplitRace(standings: TeamStanding[], upcoming: ScheduleGa
         if (s2.length && s2.every((o) => o.fate[team] === 'in')) {
           const rest = set.filter((o) => !sub.includes(o.res[j]));
           if (rest.some((o) => o.fate[team] !== 'in')) {
-            condition = label(matches[j], sub);
+            condition = `${label(matches[j], sub)} 진출 · ${label(matches[j], compl(sub))} ${restWord(rest)}`;
             break outer;
           }
         }
@@ -189,13 +216,13 @@ export function computeSplitRace(standings: TeamStanding[], upcoming: ScheduleGa
           const outside = set.filter((o) => !sub.includes(o.res[j]));
           const inside = set.filter((o) => sub.includes(o.res[j]));
           if (inside.length && outside.every((o) => o.fate[team] === 'out') && inside.some((o) => o.fate[team] !== 'out')) {
-            condition = `${label(matches[j], sub)} 다득점으로 가려지고, 아니면 탈락`;
+            condition = `${label(matches[j], compl(sub))} 탈락 · ${label(matches[j], sub)} ${restWord(inside)}`;
             break outer2;
           }
         }
       }
     }
-    return { verdict: 'depends', condition, tieBreak: ties > 0, inCount: ins, total: set.length };
+    return { verdict: 'depends', condition, note, tieBreak: ties > 0, inCount: ins, total: set.length };
   };
 
   const teams: TeamRace[] = standings.map((t) => {
