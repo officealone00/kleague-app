@@ -11,7 +11,7 @@
     "goalsFor": 61,
     "goalsAgainst": 29,
     "goalDiff": 32,
-    "last5": "무승패승패"
+    "last5": "무무승패승"
   },
   {
     "rank": 2,
@@ -25,7 +25,7 @@
     "goalsFor": 52,
     "goalsAgainst": 47,
     "goalDiff": 5,
-    "last5": "승패패승승"
+    "last5": "무승패패승"
   },
   {
     "rank": 3,
@@ -39,7 +39,7 @@
     "goalsFor": 53,
     "goalsAgainst": 41,
     "goalDiff": 12,
-    "last5": "승승무무승"
+    "last5": "승승승무무"
   },
   {
     "rank": 4,
@@ -53,7 +53,7 @@
     "goalsFor": 43,
     "goalsAgainst": 33,
     "goalDiff": 10,
-    "last5": "승패무패무"
+    "last5": "무승패무패"
   },
   {
     "rank": 5,
@@ -67,7 +67,7 @@
     "goalsFor": 40,
     "goalsAgainst": 30,
     "goalDiff": 10,
-    "last5": "무승무패무"
+    "last5": "무무승무패"
   },
   {
     "rank": 6,
@@ -81,7 +81,7 @@
     "goalsFor": 43,
     "goalsAgainst": 35,
     "goalDiff": 8,
-    "last5": "무승무무패"
+    "last5": "승무승무무"
   },
   {
     "rank": 7,
@@ -95,7 +95,7 @@
     "goalsFor": 39,
     "goalsAgainst": 37,
     "goalDiff": 2,
-    "last5": "패패승무승"
+    "last5": "패패패승무"
   },
   {
     "rank": 8,
@@ -109,7 +109,7 @@
     "goalsFor": 40,
     "goalsAgainst": 48,
     "goalDiff": -8,
-    "last5": "무승승무패"
+    "last5": "무무승승무"
   },
   {
     "rank": 9,
@@ -123,7 +123,7 @@
     "goalsFor": 30,
     "goalsAgainst": 39,
     "goalDiff": -9,
-    "last5": "무패승무무"
+    "last5": "무무패승무"
   },
   {
     "rank": 10,
@@ -137,7 +137,7 @@
     "goalsFor": 33,
     "goalsAgainst": 41,
     "goalDiff": -8,
-    "last5": "무패승무무"
+    "last5": "패무패승무"
   },
   {
     "rank": 11,
@@ -151,7 +151,7 @@
     "goalsFor": 32,
     "goalsAgainst": 47,
     "goalDiff": -15,
-    "last5": "패패패무패"
+    "last5": "패패패패무"
   },
   {
     "rank": 12,
@@ -165,6 +165,6 @@
     "goalsFor": 30,
     "goalsAgainst": 69,
     "goalDiff": -39,
-    "last5": "패승무무패"
+    "last5": "승패승무무"
   }
 ]
