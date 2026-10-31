@@ -34,8 +34,8 @@
     "goals": 1,
     "assists": 8,
     "attackPoints": 9,
-    "games": 26,
-    "shots": 19,
+    "games": 27,
+    "shots": 20,
     "perGame": 0
   },
   {
@@ -60,8 +60,8 @@
     "goals": 0,
     "assists": 7,
     "attackPoints": 7,
-    "games": 25,
-    "shots": 23,
+    "games": 26,
+    "shots": 24,
     "perGame": 0
   },
   {
@@ -125,7 +125,7 @@
     "goals": 3,
     "assists": 5,
     "attackPoints": 8,
-    "games": 17,
+    "games": 18,
     "shots": 25,
     "perGame": 0
   },
@@ -164,7 +164,7 @@
     "goals": 7,
     "assists": 5,
     "attackPoints": 12,
-    "games": 28,
+    "games": 29,
     "shots": 40,
     "perGame": 0
   },
@@ -190,8 +190,8 @@
     "goals": 5,
     "assists": 5,
     "attackPoints": 10,
-    "games": 33,
-    "shots": 37,
+    "games": 34,
+    "shots": 38,
     "perGame": 0
   },
   {
@@ -261,19 +261,6 @@
   },
   {
     "rank": 21,
-    "name": "이승우",
-    "team": "전북",
-    "teamId": "K05",
-    "playerId": "20220042",
-    "goals": 8,
-    "assists": 4,
-    "attackPoints": 12,
-    "games": 32,
-    "shots": 52,
-    "perGame": 0
-  },
-  {
-    "rank": 22,
     "name": "이규성",
     "team": "울산",
     "teamId": "K01",
@@ -286,7 +273,7 @@
     "perGame": 0
   },
   {
-    "rank": 23,
+    "rank": 22,
     "name": "갈레고",
     "team": "부천",
     "teamId": "K26",
@@ -299,7 +286,7 @@
     "perGame": 0
   },
   {
-    "rank": 24,
+    "rank": 23,
     "name": "이주용",
     "team": "인천",
     "teamId": "K18",
@@ -309,6 +296,19 @@
     "attackPoints": 5,
     "games": 32,
     "shots": 14,
+    "perGame": 0
+  },
+  {
+    "rank": 24,
+    "name": "이승우",
+    "team": "전북",
+    "teamId": "K05",
+    "playerId": "20220042",
+    "goals": 8,
+    "assists": 4,
+    "attackPoints": 12,
+    "games": 33,
+    "shots": 54,
     "perGame": 0
   },
   {
@@ -339,19 +339,6 @@
   },
   {
     "rank": 27,
-    "name": "서진수",
-    "team": "대전",
-    "teamId": "K10",
-    "playerId": "20190130",
-    "goals": 6,
-    "assists": 3,
-    "attackPoints": 9,
-    "games": 28,
-    "shots": 33,
-    "perGame": 0
-  },
-  {
-    "rank": 28,
     "name": "이정택",
     "team": "대전",
     "teamId": "K10",
@@ -361,6 +348,19 @@
     "attackPoints": 4,
     "games": 28,
     "shots": 2,
+    "perGame": 0
+  },
+  {
+    "rank": 28,
+    "name": "서진수",
+    "team": "대전",
+    "teamId": "K10",
+    "playerId": "20190130",
+    "goals": 6,
+    "assists": 3,
+    "attackPoints": 9,
+    "games": 29,
+    "shots": 33,
     "perGame": 0
   }
 ]
