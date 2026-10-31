@@ -66,6 +66,19 @@
   },
   {
     "rank": 6,
+    "name": "아이데일",
+    "team": "광주",
+    "teamId": "K22",
+    "playerId": "20250193",
+    "goals": 11,
+    "assists": 2,
+    "attackPoints": 13,
+    "games": 18,
+    "shots": 42,
+    "perGame": 0
+  },
+  {
+    "rank": 7,
     "name": "티아고",
     "team": "전북",
     "teamId": "K05",
@@ -74,19 +87,6 @@
     "assists": 1,
     "attackPoints": 12,
     "games": 26,
-    "shots": 41,
-    "perGame": 0
-  },
-  {
-    "rank": 7,
-    "name": "아이데일",
-    "team": "광주",
-    "teamId": "K22",
-    "playerId": "20250193",
-    "goals": 10,
-    "assists": 2,
-    "attackPoints": 12,
-    "games": 18,
     "shots": 41,
     "perGame": 0
   },

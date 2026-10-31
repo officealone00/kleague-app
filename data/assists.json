@@ -79,6 +79,19 @@
   },
   {
     "rank": 7,
+    "name": "바 루아 ",
+    "team": "광주",
+    "teamId": "K22",
+    "playerId": "20260347",
+    "goals": 3,
+    "assists": 6,
+    "attackPoints": 9,
+    "games": 18,
+    "shots": 26,
+    "perGame": 0
+  },
+  {
+    "rank": 8,
     "name": "안데르손",
     "team": "서울",
     "teamId": "K09",
@@ -91,7 +104,7 @@
     "perGame": 0
   },
   {
-    "rank": 8,
+    "rank": 9,
     "name": "마테우스",
     "team": "안양",
     "teamId": "K27",
@@ -104,7 +117,7 @@
     "perGame": 0
   },
   {
-    "rank": 9,
+    "rank": 10,
     "name": "유키치",
     "team": "안양",
     "teamId": "K27",
@@ -114,19 +127,6 @@
     "attackPoints": 5,
     "games": 14,
     "shots": 24,
-    "perGame": 0
-  },
-  {
-    "rank": 10,
-    "name": "바 루아 ",
-    "team": "광주",
-    "teamId": "K22",
-    "playerId": "20260347",
-    "goals": 3,
-    "assists": 5,
-    "attackPoints": 8,
-    "games": 18,
-    "shots": 25,
     "perGame": 0
   },
   {

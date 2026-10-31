@@ -1,6 +1,30 @@
 {
   "recent": [
     {
+      "date": "2026.10.31",
+      "time": "16:30",
+      "homeId": "K22",
+      "awayId": "K35",
+      "home": "광주",
+      "away": "김천",
+      "homeScore": 1,
+      "awayScore": 1,
+      "stadium": "광주 월드컵",
+      "status": "finished"
+    },
+    {
+      "date": "2026.10.31",
+      "time": "14:00",
+      "homeId": "K05",
+      "awayId": "K10",
+      "home": "전북",
+      "away": "대전",
+      "homeScore": 0,
+      "awayScore": 0,
+      "stadium": "전주 월드컵",
+      "status": "finished"
+    },
+    {
       "date": "2026.10.24",
       "time": "14:00",
       "homeId": "K09",
@@ -95,57 +119,9 @@
       "awayScore": 1,
       "stadium": "강릉하이원아레나",
       "status": "finished"
-    },
-    {
-      "date": "2026.10.18",
-      "time": "16:30",
-      "homeId": "K09",
-      "awayId": "K35",
-      "home": "서울",
-      "away": "김천",
-      "homeScore": 2,
-      "awayScore": 2,
-      "stadium": "서울 월드컵",
-      "status": "finished"
-    },
-    {
-      "date": "2026.10.18",
-      "time": "14:00",
-      "homeId": "K05",
-      "awayId": "K04",
-      "home": "전북",
-      "away": "제주",
-      "homeScore": 3,
-      "awayScore": 2,
-      "stadium": "전주 월드컵",
-      "status": "finished"
     }
   ],
   "upcoming": [
-    {
-      "date": "2026.10.31",
-      "time": "14:00",
-      "homeId": "K05",
-      "awayId": "K10",
-      "home": "전북",
-      "away": "대전",
-      "homeScore": null,
-      "awayScore": null,
-      "stadium": "전주 월드컵",
-      "status": "scheduled"
-    },
-    {
-      "date": "2026.10.31",
-      "time": "16:30",
-      "homeId": "K22",
-      "awayId": "K35",
-      "home": "광주",
-      "away": "김천",
-      "homeScore": null,
-      "awayScore": null,
-      "stadium": "광주 월드컵",
-      "status": "scheduled"
-    },
     {
       "date": "2026.11.01",
       "time": "14:00",
@@ -240,6 +216,30 @@
       "homeScore": null,
       "awayScore": null,
       "stadium": "대전 월드컵",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026.11.08",
+      "time": "16:30",
+      "homeId": "K21",
+      "awayId": "K05",
+      "home": "강원",
+      "away": "전북",
+      "homeScore": null,
+      "awayScore": null,
+      "stadium": "강릉하이원아레나",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026.11.08",
+      "time": "16:30",
+      "homeId": "K26",
+      "awayId": "K03",
+      "home": "부천",
+      "away": "포항",
+      "homeScore": null,
+      "awayScore": null,
+      "stadium": "부천 종합",
       "status": "scheduled"
     }
   ]
