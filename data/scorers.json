@@ -8,8 +8,8 @@
     "goals": 16,
     "assists": 1,
     "attackPoints": 17,
-    "games": 26,
-    "shots": 75,
+    "games": 27,
+    "shots": 76,
     "perGame": 0
   },
   {
@@ -21,8 +21,8 @@
     "goals": 16,
     "assists": 1,
     "attackPoints": 17,
-    "games": 30,
-    "shots": 72,
+    "games": 31,
+    "shots": 73,
     "perGame": 0
   },
   {
@@ -34,8 +34,8 @@
     "goals": 14,
     "assists": 2,
     "attackPoints": 16,
-    "games": 30,
-    "shots": 64,
+    "games": 31,
+    "shots": 66,
     "perGame": 0
   },
   {
@@ -45,10 +45,10 @@
     "teamId": "K27",
     "playerId": "20240078",
     "goals": 12,
-    "assists": 6,
-    "attackPoints": 18,
-    "games": 31,
-    "shots": 74,
+    "assists": 7,
+    "attackPoints": 19,
+    "games": 32,
+    "shots": 77,
     "perGame": 0
   },
   {
@@ -60,8 +60,8 @@
     "goals": 12,
     "assists": 13,
     "attackPoints": 25,
-    "games": 32,
-    "shots": 81,
+    "games": 33,
+    "shots": 83,
     "perGame": 0
   },
   {
@@ -92,6 +92,19 @@
   },
   {
     "rank": 8,
+    "name": "네게바",
+    "team": "제주",
+    "teamId": "K04",
+    "playerId": "20260228",
+    "goals": 10,
+    "assists": 3,
+    "attackPoints": 13,
+    "games": 31,
+    "shots": 86,
+    "perGame": 0
+  },
+  {
+    "rank": 9,
     "name": "김대원",
     "team": "강원",
     "teamId": "K21",
@@ -99,12 +112,12 @@
     "goals": 10,
     "assists": 9,
     "attackPoints": 19,
-    "games": 31,
-    "shots": 68,
+    "games": 32,
+    "shots": 70,
     "perGame": 0
   },
   {
-    "rank": 9,
+    "rank": 10,
     "name": "갈레고",
     "team": "부천",
     "teamId": "K26",
@@ -112,21 +125,8 @@
     "goals": 10,
     "assists": 4,
     "attackPoints": 14,
-    "games": 32,
-    "shots": 80,
-    "perGame": 0
-  },
-  {
-    "rank": 10,
-    "name": "네게바",
-    "team": "제주",
-    "teamId": "K04",
-    "playerId": "20260228",
-    "goals": 9,
-    "assists": 3,
-    "attackPoints": 12,
-    "games": 30,
-    "shots": 84,
+    "games": 33,
+    "shots": 81,
     "perGame": 0
   },
   {
@@ -164,7 +164,7 @@
     "goals": 8,
     "assists": 0,
     "attackPoints": 8,
-    "games": 27,
+    "games": 28,
     "shots": 33,
     "perGame": 0
   },
@@ -190,8 +190,8 @@
     "goals": 8,
     "assists": 7,
     "attackPoints": 15,
-    "games": 33,
-    "shots": 51,
+    "games": 34,
+    "shots": 53,
     "perGame": 0
   },
   {
@@ -229,8 +229,8 @@
     "goals": 7,
     "assists": 2,
     "attackPoints": 9,
-    "games": 29,
-    "shots": 37,
+    "games": 30,
+    "shots": 38,
     "perGame": 0
   },
   {
@@ -365,15 +365,15 @@
   },
   {
     "rank": 29,
-    "name": "문선민",
-    "team": "서울",
-    "teamId": "K09",
-    "playerId": "20170229",
+    "name": "완델손",
+    "team": "포항",
+    "teamId": "K03",
+    "playerId": "20150253",
     "goals": 5,
-    "assists": 8,
-    "attackPoints": 13,
-    "games": 31,
-    "shots": 16,
+    "assists": 4,
+    "attackPoints": 9,
+    "games": 28,
+    "shots": 21,
     "perGame": 0
   }
 ]
