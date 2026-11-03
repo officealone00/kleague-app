@@ -352,6 +352,19 @@
   },
   {
     "rank": 28,
+    "name": "김륜성",
+    "team": "제주",
+    "teamId": "K04",
+    "playerId": "20210165",
+    "goals": 1,
+    "assists": 3,
+    "attackPoints": 4,
+    "games": 25,
+    "shots": 7,
+    "perGame": 0
+  },
+  {
+    "rank": 29,
     "name": "이정택",
     "team": "대전",
     "teamId": "K10",
@@ -361,19 +374,6 @@
     "attackPoints": 4,
     "games": 28,
     "shots": 2,
-    "perGame": 0
-  },
-  {
-    "rank": 29,
-    "name": "서진수",
-    "team": "대전",
-    "teamId": "K10",
-    "playerId": "20190130",
-    "goals": 6,
-    "assists": 3,
-    "attackPoints": 9,
-    "games": 29,
-    "shots": 33,
     "perGame": 0
   }
 ]
