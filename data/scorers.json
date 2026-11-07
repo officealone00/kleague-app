@@ -40,19 +40,6 @@
   },
   {
     "rank": 4,
-    "name": "마테우스",
-    "team": "안양",
-    "teamId": "K27",
-    "playerId": "20240078",
-    "goals": 12,
-    "assists": 7,
-    "attackPoints": 19,
-    "games": 32,
-    "shots": 77,
-    "perGame": 0
-  },
-  {
-    "rank": 5,
     "name": "이동경",
     "team": "울산",
     "teamId": "K01",
@@ -65,6 +52,19 @@
     "perGame": 0
   },
   {
+    "rank": 5,
+    "name": "마테우스",
+    "team": "안양",
+    "teamId": "K27",
+    "playerId": "20240078",
+    "goals": 12,
+    "assists": 7,
+    "attackPoints": 19,
+    "games": 33,
+    "shots": 77,
+    "perGame": 0
+  },
+  {
     "rank": 6,
     "name": "아이데일",
     "team": "광주",
@@ -73,8 +73,8 @@
     "goals": 11,
     "assists": 2,
     "attackPoints": 13,
-    "games": 18,
-    "shots": 42,
+    "games": 19,
+    "shots": 44,
     "perGame": 0
   },
   {
@@ -99,8 +99,8 @@
     "goals": 10,
     "assists": 3,
     "attackPoints": 13,
-    "games": 31,
-    "shots": 86,
+    "games": 32,
+    "shots": 90,
     "perGame": 0
   },
   {
@@ -294,8 +294,8 @@
     "goals": 6,
     "assists": 2,
     "attackPoints": 8,
-    "games": 31,
-    "shots": 50,
+    "games": 32,
+    "shots": 51,
     "perGame": 0
   },
   {
@@ -307,8 +307,8 @@
     "goals": 6,
     "assists": 1,
     "attackPoints": 7,
-    "games": 31,
-    "shots": 30,
+    "games": 32,
+    "shots": 31,
     "perGame": 0
   },
   {
@@ -331,10 +331,10 @@
     "teamId": "K22",
     "playerId": "20140134",
     "goals": 5,
-    "assists": 1,
-    "attackPoints": 6,
-    "games": 21,
-    "shots": 21,
+    "assists": 2,
+    "attackPoints": 7,
+    "games": 22,
+    "shots": 23,
     "perGame": 0
   },
   {
