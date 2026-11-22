@@ -70,11 +70,11 @@
     "team": "광주",
     "teamId": "K22",
     "playerId": "20250193",
-    "goals": 11,
+    "goals": 12,
     "assists": 2,
-    "attackPoints": 13,
-    "games": 19,
-    "shots": 44,
+    "attackPoints": 14,
+    "games": 20,
+    "shots": 46,
     "perGame": 0
   },
   {
@@ -99,8 +99,8 @@
     "goals": 11,
     "assists": 4,
     "attackPoints": 15,
-    "games": 34,
-    "shots": 84,
+    "games": 35,
+    "shots": 85,
     "perGame": 0
   },
   {
@@ -112,7 +112,7 @@
     "goals": 10,
     "assists": 3,
     "attackPoints": 13,
-    "games": 32,
+    "games": 33,
     "shots": 90,
     "perGame": 0
   },
@@ -313,19 +313,6 @@
   },
   {
     "rank": 25,
-    "name": "이건희",
-    "team": "제주",
-    "teamId": "K04",
-    "playerId": "20200164",
-    "goals": 6,
-    "assists": 2,
-    "attackPoints": 8,
-    "games": 32,
-    "shots": 51,
-    "perGame": 0
-  },
-  {
-    "rank": 26,
     "name": "문민서",
     "team": "광주",
     "teamId": "K22",
@@ -335,6 +322,19 @@
     "attackPoints": 7,
     "games": 32,
     "shots": 31,
+    "perGame": 0
+  },
+  {
+    "rank": 26,
+    "name": "이건희",
+    "team": "제주",
+    "teamId": "K04",
+    "playerId": "20200164",
+    "goals": 6,
+    "assists": 2,
+    "attackPoints": 8,
+    "games": 33,
+    "shots": 51,
     "perGame": 0
   },
   {

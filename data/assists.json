@@ -96,11 +96,11 @@
     "team": "광주",
     "teamId": "K22",
     "playerId": "20260347",
-    "goals": 3,
+    "goals": 4,
     "assists": 6,
-    "attackPoints": 9,
-    "games": 19,
-    "shots": 29,
+    "attackPoints": 10,
+    "games": 20,
+    "shots": 31,
     "perGame": 0
   },
   {
@@ -164,7 +164,7 @@
     "goals": 0,
     "assists": 5,
     "attackPoints": 5,
-    "games": 25,
+    "games": 26,
     "shots": 33,
     "perGame": 0
   },
@@ -242,7 +242,7 @@
     "goals": 1,
     "assists": 4,
     "attackPoints": 5,
-    "games": 28,
+    "games": 29,
     "shots": 16,
     "perGame": 0
   },
@@ -300,19 +300,6 @@
   },
   {
     "rank": 24,
-    "name": "갈레고",
-    "team": "부천",
-    "teamId": "K26",
-    "playerId": "20220353",
-    "goals": 11,
-    "assists": 4,
-    "attackPoints": 15,
-    "games": 34,
-    "shots": 84,
-    "perGame": 0
-  },
-  {
-    "rank": 25,
     "name": "이승우",
     "team": "전북",
     "teamId": "K05",
@@ -325,7 +312,7 @@
     "perGame": 0
   },
   {
-    "rank": 26,
+    "rank": 25,
     "name": "김동진",
     "team": "포항",
     "teamId": "K03",
@@ -335,6 +322,19 @@
     "attackPoints": 4,
     "games": 35,
     "shots": 14,
+    "perGame": 0
+  },
+  {
+    "rank": 26,
+    "name": "갈레고",
+    "team": "부천",
+    "teamId": "K26",
+    "playerId": "20220353",
+    "goals": 11,
+    "assists": 4,
+    "attackPoints": 15,
+    "games": 35,
+    "shots": 85,
     "perGame": 0
   },
   {
@@ -352,19 +352,6 @@
   },
   {
     "rank": 28,
-    "name": "이탈로",
-    "team": "제주",
-    "teamId": "K04",
-    "playerId": "20240126",
-    "goals": 3,
-    "assists": 3,
-    "attackPoints": 6,
-    "games": 23,
-    "shots": 16,
-    "perGame": 0
-  },
-  {
-    "rank": 29,
     "name": "엘쿠라노",
     "team": "안양",
     "teamId": "K27",
@@ -374,6 +361,19 @@
     "attackPoints": 6,
     "games": 24,
     "shots": 24,
+    "perGame": 0
+  },
+  {
+    "rank": 29,
+    "name": "이탈로",
+    "team": "제주",
+    "teamId": "K04",
+    "playerId": "20240126",
+    "goals": 3,
+    "assists": 3,
+    "attackPoints": 6,
+    "games": 24,
+    "shots": 17,
     "perGame": 0
   }
 ]
